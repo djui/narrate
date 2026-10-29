@@ -1,0 +1,383 @@
+Leaves of Grass — Walt Whitman
+  0 [ ] boilerplate    126 words    0.6 min  The Project Gutenberg eBook of Leaves of Grass
+  1 [✓] front           79 words    0.4 min  By Walt Whitman
+  2 [ ] toc           1472 words    7.4 min  Contents
+  3 [✓] part             0 words    0.0 min  Book One — Inscriptions
+  4 [✓] front           72 words    0.4 min  One’s-Self I Sing
+  5 [✓] front          163 words    0.8 min  As I Ponder’d in Silence
+  6 [✓] front          266 words    1.3 min  In Cabin’d Ships at Sea
+  7 [✓] front           35 words    0.2 min  To Foreign Lands
+  8 [✓] front           85 words    0.4 min  To a Historian
+  9 [✓] front          157 words    0.8 min  To Thee Old Cause
+ 10 [✓] front          502 words    2.5 min  Eidolons
+ 11 [✓] front           45 words    0.2 min  For Him I Sing
+ 12 [✓] front           81 words    0.4 min  When I Read the Book
+ 13 [✓] front           65 words    0.3 min  Beginning My Studies
+ 14 [✓] front           80 words    0.4 min  Beginners
+ 15 [✓] front           39 words    0.2 min  To the States
+ 16 [✓] front          158 words    0.8 min  On Journeys Through the States
+ 17 [✓] front           57 words    0.3 min  To a Certain Cantatrice
+ 18 [✓] front          109 words    0.5 min  Me Imperturbe
+ 19 [✓] front           60 words    0.3 min  Savantism
+ 20 [✓] front           44 words    0.2 min  The Ship Starting
+ 21 [✓] chapter        153 words    0.8 min  1 · Hear America Singing
+ 22 [✓] back            40 words    0.2 min  What Place Is Besieged?
+ 23 [✓] back            29 words    0.1 min  Still Though the One I Sing
+ 24 [✓] back            68 words    0.3 min  Shut Not Your Doors
+ 25 [✓] back           100 words    0.5 min  Poets to Come
+ 26 [✓] back            27 words    0.1 min  To You
+ 27 [✓] back            18 words    0.1 min  Thou Reader
+ 28 [✓] part          3103 words   15.5 min  Book Two
+ 29 [✓] part         15784 words   78.9 min  Book Three
+ 30 [✓] part           101 words    0.5 min  Book Four — Children of Adam
+ 31 [✓] back           610 words    3.0 min  From Pent-Up Aching Rivers
+ 32 [✓] chapter       2190 words   10.9 min  1 · Sing the Body Electric
+ 33 [✓] back           483 words    2.4 min  A Woman Waits for Me
+ 34 [✓] back           646 words    3.2 min  Spontaneous Me
+ 35 [✓] back           273 words    1.4 min  One Hour to Madness and Joy
+ 36 [✓] back           148 words    0.7 min  Out of the Rolling Ocean the Crowd
+ 37 [✓] back            54 words    0.3 min  Ages and Ages Returning at Intervals
+ 38 [✓] back           219 words    1.1 min  We Two, How Long We Were Fool’d
+ 39 [✓] back            46 words    0.2 min  O Hymen! O Hymenee!
+ 40 [✓] chapter         31 words    0.2 min  1 · Am He That Aches with Love
+ 41 [✓] back           147 words    0.7 min  Native Moments
+ 42 [✓] back           101 words    0.5 min  Once I Pass’d Through a Populous City
+ 43 [✓] chapter         92 words    0.5 min  1 · Heard You Solemn-Sweet Pipes of the Organ
+ 44 [✓] back           110 words    0.6 min  Facing West from California’s Shores
+ 45 [✓] back            43 words    0.2 min  As Adam Early in the Morning
+ 46 [✓] part           173 words    0.9 min  Book Five — Calamus
+ 47 [✓] back           525 words    2.6 min  Scented Herbage of My Breast
+ 48 [✓] back           451 words    2.3 min  Whoever You Are Holding Me Now in Hand
+ 49 [✓] back           106 words    0.5 min  For You, O Democracy
+ 50 [✓] back           367 words    1.8 min  These I Singing in Spring
+ 51 [✓] back           180 words    0.9 min  Not Heaving from My Ribb’d Breast Only
+ 52 [✓] back           251 words    1.3 min  Of the Terrible Doubt of Appearances
+ 53 [✓] back           141 words    0.7 min  The Base of All Metaphysics
+ 54 [✓] back           166 words    0.8 min  Recorders Ages Hence
+ 55 [✓] back           242 words    1.2 min  When I Heard at the Close of the Day
+ 56 [✓] back           104 words    0.5 min  Are You the New Person Drawn Toward Me?
+ 57 [✓] back           142 words    0.7 min  Roots and Leaves Themselves Alone
+ 58 [✓] back           120 words    0.6 min  Not Heat Flames Up and Consumes
+ 59 [✓] back           105 words    0.5 min  Trickle Drops
+ 60 [✓] back           107 words    0.5 min  City of Orgies
+ 61 [✓] back            81 words    0.4 min  Behold This Swarthy Face
+ 62 [✓] chapter        177 words    0.9 min  1 · Saw in Louisiana a Live-Oak Growing
+ 63 [✓] back           162 words    0.8 min  To a Stranger
+ 64 [✓] back            93 words    0.5 min  This Moment Yearning and Thoughtful
+ 65 [✓] chapter         88 words    0.4 min  1 · Hear It Was Charged Against Me
+ 66 [✓] back           100 words    0.5 min  The Prairie-Grass Dividing
+ 67 [✓] back            86 words    0.4 min  When I Peruse the Conquer’d Fame
+ 68 [✓] back            70 words    0.3 min  We Two Boys Together Clinging
+ 69 [✓] back            68 words    0.3 min  A Promise to California
+ 70 [✓] back            35 words    0.2 min  Here the Frailest Leaves of Me
+ 71 [✓] back            58 words    0.3 min  No Labor-Saving Machine
+ 72 [✓] back            86 words    0.4 min  A Glimpse
+ 73 [✓] back            61 words    0.3 min  A Leaf for Hand in Hand
+ 74 [✓] back            70 words    0.3 min  Earth, My Likeness
+ 75 [✓] chapter         66 words    0.3 min  1 · Dream’d in a Dream
+ 76 [✓] back           105 words    0.5 min  What Think You I Take My Pen in Hand?
+ 77 [✓] back            74 words    0.4 min  To the East and to the West
+ 78 [✓] back            54 words    0.3 min  Sometimes with One I Love
+ 79 [✓] back            50 words    0.2 min  To a Western Boy
+ 80 [✓] back            54 words    0.3 min  Fast Anchor’d Eternal O Love!
+ 81 [✓] back            74 words    0.4 min  Among the Multitude
+ 82 [✓] back            49 words    0.2 min  O You Whom I Often and Silently Come
+ 83 [✓] back            55 words    0.3 min  That Shadow My Likeness
+ 84 [✓] back            89 words    0.4 min  Full of Life Now
+ 85 [✓] part          2684 words   13.4 min  Book Six
+ 86 [✓] part          2694 words   13.5 min  Book Seven
+ 87 [✓] part          1772 words    8.9 min  Book Eight
+ 88 [✓] part          1185 words    5.9 min  Book Nine
+ 89 [✓] part          1500 words    7.5 min  Book Ten
+ 90 [✓] part          1942 words    9.7 min  Book Eleven
+ 91 [✓] part          2882 words   14.4 min  Book Twelve
+ 92 [✓] part          2358 words   11.8 min  Book Thirteen
+ 93 [✓] part          1065 words    5.3 min  Book Fourteen
+ 94 [✓] part          2136 words   10.7 min  Book Fifteen
+ 95 [✓] part          1482 words    7.4 min  Book Sixteen
+ 96 [✓] back            48 words    0.2 min  Youth, Day, Old Age and Night
+ 97 [✓] part           472 words    2.4 min  Book Seventeen — Birds of Passage
+ 98 [✓] back           814 words    4.1 min  Pioneers! O Pioneers!
+ 99 [✓] back           636 words    3.2 min  To You
+100 [✓] back           329 words    1.6 min  France [the 18th Year of these States
+101 [✓] back           414 words    2.1 min  Myself and Mine
+102 [✓] back           342 words    1.7 min  Year of Meteors [1859-60
+103 [✓] back           482 words    2.4 min  With Antecedents
+104 [✓] part           910 words    4.5 min  Book Eighteen
+105 [✓] part          1543 words    7.7 min  Book Nineteen — Sea-Drift
+106 [✓] back           754 words    3.8 min  As I Ebb’d with the Ocean of Life
+107 [✓] back           123 words    0.6 min  Tears
+108 [✓] back           174 words    0.9 min  To the Man-of-War-Bird
+109 [✓] back           111 words    0.6 min  Aboard at a Ship’s Helm
+110 [✓] back           264 words    1.3 min  On the Beach at Night
+111 [✓] back           153 words    0.8 min  The World below the Brine
+112 [✓] back           142 words    0.7 min  On the Beach at Night Alone
+113 [✓] back           243 words    1.2 min  Song for All Seas, All Ships
+114 [✓] back           123 words    0.6 min  Patroling Barnegat
+115 [✓] back           120 words    0.6 min  After the Sea-Ship
+116 [✓] part           486 words    2.4 min  Book Twenty — By the Roadside
+117 [✓] back           407 words    2.0 min  Europe [The 72d and 73d Years of These States]
+118 [✓] back           104 words    0.5 min  A Hand-Mirror
+119 [✓] back           127 words    0.6 min  Gods
+120 [✓] back            92 words    0.5 min  Germs
+121 [✓] back           180 words    0.9 min  Thoughts
+122 [ ] titlepage       14 words    0.1 min  Perfections
+123 [✓] back           119 words    0.6 min  O Me! O Life!
+124 [✓] back            59 words    0.3 min  To a President
+125 [✓] chapter        159 words    0.8 min  1 · Sit and Look Out
+126 [✓] back            77 words    0.4 min  To Rich Givers
+127 [✓] back            94 words    0.5 min  The Dalliance of the Eagles
+128 [✓] back            36 words    0.2 min  Roaming in Thought [After reading Hegel]
+129 [✓] back            29 words    0.1 min  A Farm Picture
+130 [✓] back            28 words    0.1 min  A Child’s Amaze
+131 [✓] back            34 words    0.2 min  The Runner
+132 [✓] back            23 words    0.1 min  Beautiful Women
+133 [✓] back            22 words    0.1 min  Mother and Babe
+134 [✓] back            33 words    0.2 min  Thought
+135 [✓] back            28 words    0.1 min  Visor’d
+136 [✓] back            31 words    0.2 min  Thought
+137 [✓] back            29 words    0.1 min  Gliding O’er all
+138 [✓] back            28 words    0.1 min  Hast Never Come to Thee an Hour
+139 [✓] back            29 words    0.1 min  Thought
+140 [✓] back            19 words    0.1 min  To Old Age
+141 [✓] back            31 words    0.2 min  Locations and Times
+142 [✓] back            21 words    0.1 min  Offerings
+143 [✓] back            93 words    0.5 min  To The States [To Identify the 16th, 17th, or 18th Presidentiad]
+144 [✓] part           649 words    3.2 min  Book Twenty-One — Drum-Taps
+145 [✓] back           202 words    1.0 min  Eighteen Sixty-One
+146 [✓] back           209 words    1.0 min  Beat! Beat! Drums!
+147 [✓] back           125 words    0.6 min  From Paumanok Starting I Fly Like a Bird
+148 [✓] back          1661 words    8.3 min  Song of the Banner at Daybreak
+149 [✓] back           594 words    3.0 min  Rise O Days from Your Fathomless Deeps
+150 [✓] back           118 words    0.6 min  Virginia—The West
+151 [✓] back           172 words    0.9 min  City of Ships
+152 [✓] back          1186 words    5.9 min  The Centenarian’s Story
+153 [✓] back            81 words    0.4 min  Cavalry Crossing a Ford
+154 [✓] back            84 words    0.4 min  Bivouac on a Mountain Side
+155 [✓] back           184 words    0.9 min  An Army Corps on the March
+156 [✓] back           395 words    2.0 min  Come Up from the Fields Father
+157 [✓] back           356 words    1.8 min  Vigil Strange I Kept on the Field One Night
+158 [✓] back           334 words    1.7 min  A March in the Ranks Hard-Prest, and the Road Unknown
+159 [✓] back           178 words    0.9 min  A Sight in Camp in the Daybreak Gray and Dim
+160 [✓] back           136 words    0.7 min  As Toilsome I Wander’d Virginia’s Woods
+161 [✓] back            67 words    0.3 min  Not the Pilot
+162 [✓] back            57 words    0.3 min  Year That Trembled and Reel’d Beneath Me
+163 [✓] back           733 words    3.7 min  The Wound-Dresser
+164 [✓] back            63 words    0.3 min  Long, Too Long America
+165 [✓] back           486 words    2.4 min  Give Me the Splendid Silent Sun
+166 [✓] back           239 words    1.2 min  Dirge for Two Veterans
+167 [✓] back           220 words    1.1 min  Over the Carnage Rose Prophetic a Voice
+168 [✓] chapter         86 words    0.4 min  1 · Saw Old General at Bay
+169 [✓] back           384 words    1.9 min  The Artilleryman’s Vision
+170 [✓] back           152 words    0.8 min  Ethiopia Saluting the Colors
+171 [✓] back            76 words    0.4 min  Not Youth Pertains to Me
+172 [✓] back            38 words    0.2 min  Race of Veterans
+173 [✓] back            31 words    0.2 min  World Take Good Notice
+174 [✓] back            51 words    0.3 min  O Tan-Faced Prairie-Boy
+175 [✓] back            36 words    0.2 min  Look Down Fair Moon
+176 [✓] back            80 words    0.4 min  Reconciliation
+177 [✓] back           124 words    0.6 min  How Solemn As One by One [Washington City, 1865]
+178 [✓] back           155 words    0.8 min  As I Lay with My Head in Your Lap Camerado
+179 [✓] back            68 words    0.3 min  Delicate Cluster
+180 [✓] back           116 words    0.6 min  To a Certain Civilian
+181 [✓] back            77 words    0.4 min  Lo, Victress on the Peaks
+182 [✓] back           221 words    1.1 min  Spirit Whose Work Is Done [Washington City, 1865]
+183 [✓] back           120 words    0.6 min  Adieu to a Soldier
+184 [✓] back           138 words    0.7 min  Turn O Libertad
+185 [✓] back           174 words    0.9 min  To the Leaven’d Soil They Trod
+186 [✓] part          2173 words   10.9 min  Book Twenty-Two — Memories of President Lincoln
+187 [✓] back           199 words    1.0 min  O Captain! My Captain!
+188 [✓] back            89 words    0.4 min  Hush’d Be the Camps To-Day [May 4, 1865
+189 [✓] back            34 words    0.2 min  This Dust Was Once the Man
+190 [✓] part          3938 words   19.7 min  Book Twenty-Three
+191 [✓] back            49 words    0.2 min  Reversals
+192 [✓] part           292 words    1.5 min  Book Twenty-Four — Autumn Rivulets
+193 [✓] back          1265 words    6.3 min  The Return of the Heroes
+194 [✓] back           544 words    2.7 min  There Was a Child Went Forth
+195 [✓] back           187 words    0.9 min  Old Ireland
+196 [✓] back           189 words    0.9 min  The City Dead-House
+197 [✓] back           539 words    2.7 min  This Compost
+198 [✓] back           405 words    2.0 min  To a Foil’d European Revolutionaire
+199 [✓] back           378 words    1.9 min  Unnamed Land
+200 [✓] back           734 words    3.7 min  Song of Prudence
+201 [✓] back           463 words    2.3 min  The Singer in the Prison
+202 [✓] back           284 words    1.4 min  Warble for Lilac-Time
+203 [✓] back           373 words    1.9 min  Outlines for a Tomb [G. P., Buried 1870]
+204 [✓] back           228 words    1.1 min  Out from Behind This Mask [To Confront a Portrait]
+205 [✓] back           275 words    1.4 min  Vocalism
+206 [✓] back           185 words    0.9 min  To Him That Was Crucified
+207 [✓] back           157 words    0.8 min  You Felons on Trial in Courts
+208 [✓] back           136 words    0.7 min  Laws for Creations
+209 [✓] back           100 words    0.5 min  To a Common Prostitute
+210 [✓] chapter        128 words    0.6 min  1 · Was Looking a Long While
+211 [✓] back           125 words    0.6 min  Thought
+212 [✓] back           242 words    1.2 min  Miracles
+213 [✓] back           163 words    0.8 min  Sparkles from the Wheel
+214 [✓] back           118 words    0.6 min  To a Pupil
+215 [✓] back           207 words    1.0 min  Unfolded out of the Folds
+216 [✓] back            51 words    0.3 min  What Am I After All
+217 [✓] back           181 words    0.9 min  Kosmos
+218 [✓] back            41 words    0.2 min  Others May Praise What They Like
+219 [✓] back           388 words    1.9 min  Who Learns My Lesson Complete?
+220 [✓] back            64 words    0.3 min  Tests
+221 [✓] back            45 words    0.2 min  The Torch
+222 [✓] back           323 words    1.6 min  O Star of France [1870-71]
+223 [✓] back           441 words    2.2 min  The Ox-Tamer
+224 [✓] back           274 words    1.4 min  Wandering at Morn
+225 [✓] back            70 words    0.3 min  With All Thy Gifts
+226 [✓] back            72 words    0.4 min  My Picture-Gallery
+227 [✓] back            48 words    0.2 min  The Prairie States
+228 [✓] part          1486 words    7.4 min  Book Twenty-Five
+229 [✓] part          2264 words   11.3 min  Book Twenty-Six
+230 [✓] part           576 words    2.9 min  Book Twenty-Seven
+231 [✓] part          2368 words   11.8 min  Book Twenty-Eight
+232 [✓] back            52 words    0.3 min  Transpositions
+233 [✓] part          1545 words    7.7 min  Book Twenty-Nine
+234 [✓] part           133 words    0.7 min  Book Thirty — Whispers of Heavenly Death
+235 [✓] back            90 words    0.5 min  Whispers of Heavenly Death
+236 [✓] back           520 words    2.6 min  Chanting the Square Deific
+237 [✓] back           202 words    1.0 min  Of Him I Love Day and Night
+238 [✓] back           133 words    0.7 min  Yet, Yet, Ye Downcast Hours
+239 [✓] back            64 words    0.3 min  As If a Phantom Caress’d Me
+240 [✓] back           297 words    1.5 min  Assurances
+241 [✓] back            67 words    0.3 min  Quicksand Years
+242 [✓] back           128 words    0.6 min  That Music Always Round Me
+243 [✓] back            48 words    0.2 min  What Ship Puzzled at Sea
+244 [✓] back            87 words    0.4 min  A Noiseless Patient Spider
+245 [✓] back            70 words    0.3 min  O Living Always, Always Dying
+246 [✓] back           169 words    0.8 min  To One Shortly to Die
+247 [✓] back           207 words    1.0 min  Night on the Prairies
+248 [✓] back           146 words    0.7 min  Thought
+249 [✓] back            67 words    0.3 min  The Last Invocation
+250 [✓] back            38 words    0.2 min  As I Watch the Ploughman Ploughing
+251 [✓] back            27 words    0.1 min  Pensive and Faltering
+252 [✓] part          1443 words    7.2 min  Book Thirty-One
+253 [✓] back           102 words    0.5 min  A Paumanok Picture
+254 [✓] part           252 words    1.3 min  Book Thirty-Two — From Noon to Starry Night
+255 [✓] back           900 words    4.5 min  Faces
+256 [✓] back           755 words    3.8 min  The Mystic Trumpeter
+257 [✓] back           245 words    1.2 min  To a Locomotive in Winter
+258 [✓] back           381 words    1.9 min  O Magnet-South
+259 [✓] back           255 words    1.3 min  Mannahatta
+260 [✓] back           230 words    1.1 min  All Is Truth
+261 [✓] back           327 words    1.6 min  A Riddle Song
+262 [✓] back           208 words    1.0 min  Excelsior
+263 [✓] back           117 words    0.6 min  Ah Poverties, Wincings, and Sulky Retreats
+264 [✓] back           143 words    0.7 min  Thoughts
+265 [✓] back           145 words    0.7 min  Mediums
+266 [✓] back           112 words    0.6 min  Weave in, My Hardy Life
+267 [✓] back           227 words    1.1 min  Spain, 1873-74
+268 [✓] back           231 words    1.2 min  From Far Dakota’s Canyons [June 25, 1876]
+269 [✓] back           121 words    0.6 min  Old War-Dreams
+270 [✓] back           309 words    1.5 min  Thick-Sprinkled Bunting
+271 [✓] back           206 words    1.0 min  As I Walk These Broad Majestic Days
+272 [✓] back            42 words    0.2 min  A Clear Midnight
+273 [✓] part            91 words    0.5 min  Book Thirty-Three — Songs of Parting
+274 [✓] back           375 words    1.9 min  Years of the Modern
+275 [✓] back           380 words    1.9 min  Ashes of Soldiers
+276 [✓] back           494 words    2.5 min  Thoughts
+277 [✓] back           553 words    2.8 min  Song at Sunset
+278 [✓] back           104 words    0.5 min  As at Thy Portals Also Death
+279 [✓] back           103 words    0.5 min  My Legacy
+280 [✓] back           223 words    1.1 min  Pensive on Her Dead Gazing
+281 [✓] back           272 words    1.4 min  Camps of Green
+282 [✓] back            56 words    0.3 min  The Sobbing of the Bells [Midnight, Sept. 19-20, 1881]
+283 [✓] back           139 words    0.7 min  As They Draw to a Close
+284 [✓] back            41 words    0.2 min  Joy, Shipmate, Joy!
+285 [✓] back            18 words    0.1 min  The Untold Want
+286 [✓] back            22 words    0.1 min  Portals
+287 [✓] back            20 words    0.1 min  These Carols
+288 [✓] back            73 words    0.4 min  Now Finale to the Shore
+289 [✓] back           700 words    3.5 min  So Long!
+290 [✓] part            29 words    0.1 min  Book Thirty-Four — Sands at Seventy
+291 [✓] back            48 words    0.2 min  Paumanok
+292 [✓] back            45 words    0.2 min  From Montauk Point
+293 [✓] back            61 words    0.3 min  To Those Who’ve Fail’d
+294 [✓] back            88 words    0.4 min  A Carol Closing Sixty-Nine
+295 [✓] back            24 words    0.1 min  The Bravest Soldiers
+296 [✓] back            46 words    0.2 min  A Font of Type
+297 [✓] back            33 words    0.2 min  As I Sit Writing Here
+298 [✓] back            51 words    0.3 min  My Canary Bird
+299 [✓] back            50 words    0.2 min  Queries to My Seventieth Year
+300 [✓] back            46 words    0.2 min  The Wallabout Martyrs
+301 [✓] back            41 words    0.2 min  The First Dandelion
+302 [✓] back            42 words    0.2 min  America
+303 [✓] back            21 words    0.1 min  Memories
+304 [✓] back            49 words    0.2 min  To-Day and Thee
+305 [✓] back            37 words    0.2 min  After the Dazzle of Day
+306 [✓] back            19 words    0.1 min  Abraham Lincoln, Born Feb. 12, 1809
+307 [✓] back            46 words    0.2 min  Out of May’s Shows Selected
+308 [✓] back           730 words    3.6 min  Halcyon Days
+309 [✓] back           170 words    0.8 min  Election Day, November, 1884
+310 [✓] back           207 words    1.0 min  With Husky-Haughty Lips, O Sea!
+311 [✓] back            83 words    0.4 min  Death of General Grant
+312 [✓] back            72 words    0.4 min  Red Jacket (From Aloft)
+313 [✓] back           148 words    0.7 min  Washington’s Monument February, 1885
+314 [✓] back            99 words    0.5 min  Of That Blithe Throat of Thine
+315 [✓] back            90 words    0.5 min  Broadway
+316 [✓] back            59 words    0.3 min  To Get the Final Lilt of Songs
+317 [✓] back           158 words    0.8 min  Old Salt Kossabone
+318 [✓] back           131 words    0.7 min  The Dead Tenor
+319 [✓] back            97 words    0.5 min  Continuities
+320 [✓] back           126 words    0.6 min  Yonnondio
+321 [✓] back            55 words    0.3 min  Life
+322 [✓] back            87 words    0.4 min  “Going Somewhere”
+323 [✓] back           131 words    0.7 min  Small the Theme of My Chant
+324 [✓] back            61 words    0.3 min  True Conquerors
+325 [✓] back            46 words    0.2 min  The United States to Old World Critics
+326 [✓] back            28 words    0.1 min  The Calming Thought of All
+327 [✓] back           161 words    0.8 min  Thanks in Old Age
+328 [✓] back            28 words    0.1 min  Life and Death
+329 [✓] back           116 words    0.6 min  The Voice of the Rain
+330 [✓] back           114 words    0.6 min  Soon Shall the Winter’s Foil Be Here
+331 [✓] back            47 words    0.2 min  While Not the Past Forgetting
+332 [✓] back           146 words    0.7 min  The Dying Veteran
+333 [✓] back            48 words    0.2 min  Stronger Lessons
+334 [✓] back            55 words    0.3 min  A Prairie Sunset
+335 [✓] back           151 words    0.8 min  Twenty Years
+336 [✓] back            65 words    0.3 min  Orange Buds by Mail from Florida
+337 [✓] back            23 words    0.1 min  Twilight
+338 [✓] back            53 words    0.3 min  You Lingering Sparse Leaves of Me
+339 [✓] back            55 words    0.3 min  Not Meagre, Latent Boughs Alone
+340 [✓] back            41 words    0.2 min  The Dead Emperor
+341 [✓] back            48 words    0.2 min  As the Greek’s Signal Flame
+342 [✓] back            43 words    0.2 min  The Dismantled Ship
+343 [✓] back           150 words    0.8 min  Now Precedent Songs, Farewell
+344 [✓] back            31 words    0.2 min  An Evening Lull
+345 [✓] back            76 words    0.4 min  Old Age’s Lambent Peaks
+346 [✓] back           122 words    0.6 min  After the Supper and Talk
+347 [✓] back            79 words    0.4 min  Bookxxxv. Good-Bye My Fancy
+348 [✓] back            43 words    0.2 min  Lingering Last Drops
+349 [✓] back            36 words    0.2 min  Good-Bye My Fancy
+350 [✓] back           172 words    0.9 min  On, on the Same, Ye Jocund Twain!
+351 [✓] back            66 words    0.3 min  MY 71st Year
+352 [✓] back            27 words    0.1 min  Apparitions
+353 [✓] back           113 words    0.6 min  The Pallid Wreath
+354 [✓] back            20 words    0.1 min  An Ended Day
+355 [✓] back            72 words    0.4 min  Old Age’s Ship & Crafty Death’s
+356 [✓] back            62 words    0.3 min  To the Pending Year
+357 [✓] back            47 words    0.2 min  Shakspere-Bacon’s Cipher
+358 [✓] back            38 words    0.2 min  Long, Long Hence
+359 [✓] back            56 words    0.3 min  Bravo, Paris Exposition!
+360 [✓] back            97 words    0.5 min  Interpolation Sounds
+361 [✓] back           182 words    0.9 min  To the Sun-Set Breeze
+362 [✓] back           191 words    1.0 min  Old Chants
+363 [✓] back            92 words    0.5 min  A Christmas Greeting
+364 [✓] back            65 words    0.3 min  Sounds of the Winter
+365 [✓] back           173 words    0.9 min  A Twilight Song
+366 [✓] back            84 words    0.4 min  When the Full-Grown Poet Came
+367 [✓] back           107 words    0.5 min  Osceola
+368 [✓] back           368 words    1.8 min  A Voice from Death
+369 [✓] back           155 words    0.8 min  A Persian Lesson
+370 [✓] back            57 words    0.3 min  The Commonplace
+371 [✓] back            70 words    0.3 min  “The Rounded Catalogue Divine Complete”
+372 [✓] back           163 words    0.8 min  Mirages
+373 [✓] chapter        115 words    0.6 min  50 · of G.’s Purport
+374 [✓] back            87 words    0.4 min  The Unexpress’d
+375 [✓] back            85 words    0.4 min  Grand Is the Seen
+376 [✓] back            69 words    0.3 min  Unseen Buds
+377 [✓] back           362 words    1.8 min  Good-Bye My Fancy!
+378 [ ] boilerplate   2688 words   13.4 min  THE FULL PROJECT GUTENBERG™ LICENSE
+included: ≈ 10.0 h at speed 1.00
+chunks 3408
+plan 447b101132c2ed2adc5a54c334e177d32a8e82c5a6f2da4ed4283508d194fb09

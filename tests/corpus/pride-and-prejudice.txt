@@ -1,0 +1,68 @@
+Pride and Prejudice — Jane Austen
+  0 [ ] boilerplate    208 words    1.0 min  The Project Gutenberg eBook of Pride and Prejudice
+  1 [✓] front         4890 words   24.4 min  Chiswick Press:—charles Whittingham and Co.
+  2 [✓] chapter        847 words    4.2 min  Chapter 1
+  3 [✓] chapter        797 words    4.0 min  1 · hope Mr. Bingley will like it. CHAPTER II.
+  4 [✓] back          1698 words    8.5 min  He rode a black horse. CHAPTER III.
+  5 [✓] chapter       1060 words    5.3 min  Chapter 4
+  6 [✓] chapter        952 words    4.8 min  Chapter 5
+  7 [✓] chapter       2340 words   11.7 min  Chapter 6
+  8 [✓] back          1984 words    9.9 min  A note for Miss Bennet. CHAPTER VII.
+  9 [✓] back          1925 words    9.6 min  Covering a screen. CHAPTER VIII.
+ 10 [✓] back          1727 words    8.6 min  Mrs Bennet and her two youngest girls. CHAPTER IX.
+ 11 [✓] chapter       2206 words   11.0 min  Chapter 10
+ 12 [✓] back          1595 words    8.0 min  Piling up the fire. CHAPTER XI.
+ 13 [✓] chapter        673 words    3.4 min  Chapter 12
+ 14 [✓] chapter       1686 words    8.4 min  Chapter 13
+ 15 [✓] chapter       1115 words    5.6 min  Chapter 14
+ 16 [✓] chapter       1688 words    8.4 min  Chapter 15
+ 17 [✓] chapter       3360 words   16.8 min  Chapter 16
+ 18 [✓] back          1274 words    6.4 min  delighted to see their dear friend again. CHAPTER XVII.
+ 19 [✓] chapter       5167 words   25.8 min  Chapter 18
+ 20 [✓] back          1909 words    9.5 min  “to assure you in the most animated language.” CHAPTER XIX.
+ 21 [✓] chapter       1643 words    8.2 min  Chapter 20
+ 22 [✓] chapter       1998 words   10.0 min  Chapter 21
+ 23 [✓] chapter       1730 words    8.7 min  Chapter 22
+ 24 [✓] back          1609 words    8.0 min  “Protested he must be entirely mistaken.” CHAPTER XXIII.
+ 25 [✓] chapter       1926 words    9.6 min  Chapter 24
+ 26 [✓] chapter       1514 words    7.6 min  Chapter 25
+ 27 [✓] back          2328 words   11.6 min  “Will you come and see me.” CHAPTER XXVI.
+ 28 [✓] back          1254 words    6.3 min  “On the Stairs.” CHAPTERXXVII.
+ 29 [✓] back          1448 words    7.2 min  “At the door.” CHAPTERXXVIII.
+ 30 [✓] back          2380 words   11.9 min  “Lady Catherine, said she, you have given me a treasure.” CHAPTER XXIX.
+ 31 [✓] chapter       1229 words    6.1 min  Chapter 30
+ 32 [✓] chapter       1552 words    7.8 min  Chapter 31
+ 33 [✓] chapter       1492 words    7.5 min  Chapter 32
+ 34 [✓] back          1854 words    9.3 min  “On looking up.” CHAPTER XXXIII.
+ 35 [✓] chapter       2097 words   10.5 min  Chapter 34
+ 36 [✓] back          2993 words   15.0 min  “Hearing herself called.” CHAPTER XXXV.
+ 37 [✓] chapter       1997 words   10.0 min  Chapter 36
+ 38 [✓] back          1368 words    6.8 min  “His parting obeisance.” CHAPTER XXXVII.
+ 39 [✓] back          1037 words    5.2 min  “The elevation of his feelings.” CHAPTER XXXVIII.
+ 40 [✓] back          1628 words    8.1 min  “How nicely we are crammed in.” CHAPTER XXXIX.
+ 41 [✓] chapter       1676 words    8.4 min  Chapter 40
+ 42 [✓] back          2263 words   11.3 min  “When Colonel Miller’s regiment went away.” CHAPTER XLI.
+ 43 [✓] back          1823 words    9.1 min  “The arrival of the Gardiners.” CHAPTER XLII.
+ 44 [✓] back          4844 words   24.2 min  “Conjecturing as to the date.” CHAPTER XLIII.
+ 45 [✓] chapter       2332 words   11.7 min  Chapter 44
+ 46 [✓] back          1728 words    8.6 min  “Engaged by the river.” CHAPTER XLV.
+ 47 [✓] chapter       3009 words   15.0 min  Chapter 46
+ 48 [✓] back          4074 words   20.4 min  “The first pleasing earnest of their welcome.” CHAPTER XLVII.
+ 49 [✓] back          2250 words   11.2 min  “The Post.” CHAPTER XLVIII.
+ 50 [✓] chapter       2237 words   11.2 min  Chapter 49
+ 51 [✓] back          2198 words   11.0 min  “The spiteful old ladies.” CHAPTER L.
+ 52 [✓] back          2068 words   10.3 min  “With an affectionate smile.” CHAPTER LI.
+ 53 [✓] back          3024 words   15.1 min  “I am sure she did not listen.” CHAPTER LII.
+ 54 [✓] back          2933 words   14.7 min  “Mr. Darcy with him.” CHAPTER LIII.
+ 55 [✓] back          1592 words    8.0 min  “Jane happened to look round.” CHAPTER LIV.
+ 56 [✓] back          2323 words   11.6 min  “Lizzy, my dear, I want to speak to you.” CHAPTER LV.
+ 57 [✓] chapter       2722 words   13.6 min  Chapter 56
+ 58 [✓] back          1650 words    8.2 min  “But now it comes out.” CHAPTER LVII.
+ 59 [✓] back          2431 words   12.2 min  “The efforts of his aunt.” CHAPTER LVIII.
+ 60 [✓] back          2468 words   12.3 min  “Unable to utter a syllable.” CHAPTER LIX.
+ 61 [✓] back          1584 words    7.9 min  “The obsequious civility.” CHAPTER LX.
+ 62 [✓] chapter       1459 words    7.3 min  Chapter 61
+ 63 [ ] boilerplate   2689 words   13.4 min  THE FULL PROJECT GUTENBERG™ LICENSE
+included: ≈ 10.6 h at speed 1.00
+chunks 4116
+plan 9a8e2c5414bfc555329d9cadc1bf4c1f6086b55fddb50d8515c96d80223dd0f9

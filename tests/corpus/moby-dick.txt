@@ -1,0 +1,146 @@
+Moby Dick; Or, The Whale — Herman Melville
+  0 [ ] boilerplate    131 words    0.7 min  The Project Gutenberg eBook of Moby Dick; Or, The Whale
+  1 [ ] toc            734 words    3.7 min  MOBY-DICK; or, THE WHALE.
+  2 [✓] front          179 words    0.9 min  (Supplied by a Late Consumptive Usher to a Grammar School.)
+  3 [✓] front          286 words    1.4 min  EXTRACTS. (Supplied by a Sub-Sub-Librarian).
+  4 [✓] front         3118 words   15.6 min  Extracts.
+  5 [✓] chapter       2190 words   10.9 min  1 · Loomings.
+  6 [✓] chapter       1416 words    7.1 min  2 · The Carpet-Bag.
+  7 [✓] chapter       5783 words   28.9 min  3 · The Spouter-Inn.
+  8 [✓] chapter       1640 words    8.2 min  4 · The Counterpane.
+  9 [✓] chapter        734 words    3.7 min  5 · Breakfast.
+ 10 [✓] chapter        807 words    4.0 min  6 · The Street.
+ 11 [✓] chapter        940 words    4.7 min  7 · The Chapel.
+ 12 [✓] chapter        943 words    4.7 min  8 · The Pulpit.
+ 13 [✓] chapter       3552 words   17.8 min  9 · The Sermon.
+ 14 [✓] chapter       1544 words    7.7 min  10 · A Bosom Friend.
+ 15 [✓] chapter        721 words    3.6 min  11 · Nightgown.
+ 16 [✓] chapter        875 words    4.4 min  12 · Biographical.
+ 17 [✓] chapter       1673 words    8.4 min  13 · Wheelbarrow.
+ 18 [✓] chapter        752 words    3.8 min  14 · Nantucket.
+ 19 [✓] chapter       1178 words    5.9 min  15 · Chowder.
+ 20 [✓] chapter       5418 words   27.1 min  16 · The Ship.
+ 21 [✓] chapter       2251 words   11.3 min  17 · The Ramadan.
+ 22 [✓] chapter       1344 words    6.7 min  18 · His Mark.
+ 23 [✓] chapter       1195 words    6.0 min  19 · The Prophet.
+ 24 [✓] chapter        917 words    4.6 min  20 · All Astir.
+ 25 [✓] chapter       1064 words    5.3 min  21 · Going Aboard.
+ 26 [✓] chapter       1610 words    8.1 min  22 · Merry Christmas.
+ 27 [✓] chapter        359 words    1.8 min  23 · The Lee Shore.
+ 28 [✓] chapter       1645 words    8.2 min  24 · The Advocate.
+ 29 [✓] chapter        277 words    1.4 min  25 · Postscript.
+ 30 [✓] chapter       1216 words    6.1 min  26 · Knights and Squires.
+ 31 [✓] chapter       1660 words    8.3 min  27 · Knights and Squires.
+ 32 [✓] chapter       1393 words    7.0 min  28 · Ahab.
+ 33 [✓] chapter       1180 words    5.9 min  29 · Enter Ahab; to Him, Stubb.
+ 34 [✓] chapter        287 words    1.4 min  30 · The Pipe.
+ 35 [✓] chapter        842 words    4.2 min  31 · Queen Mab.
+ 36 [✓] chapter       5101 words   25.5 min  32 · Cetology.
+ 37 [✓] chapter        962 words    4.8 min  33 · The Specksnyder.
+ 38 [✓] chapter       2189 words   10.9 min  34 · The Cabin-Table.
+ 39 [✓] chapter       2531 words   12.7 min  35 · The Mast-Head.
+ 40 [✓] chapter       2769 words   13.8 min  36 · The Quarter-Deck.
+ 41 [✓] chapter        498 words    2.5 min  37 · Sunset.
+ 42 [✓] chapter        388 words    1.9 min  38 · Dusk.
+ 43 [✓] chapter        254 words    1.3 min  39 · First Night-Watch.
+ 44 [✓] chapter       1509 words    7.5 min  40 · Midnight, Forecastle.
+ 45 [✓] chapter       3757 words   18.8 min  41 · Moby Dick.
+ 46 [✓] chapter       3601 words   18.0 min  42 · The Whiteness of the Whale.
+ 47 [✓] chapter        295 words    1.5 min  43 · Hark!
+ 48 [✓] chapter       2022 words   10.1 min  44 · The Chart.
+ 49 [✓] chapter       3536 words   17.7 min  45 · The Affidavit.
+ 50 [✓] chapter        989 words    4.9 min  46 · Surmises.
+ 51 [✓] chapter        914 words    4.6 min  47 · The Mat-Maker.
+ 52 [✓] chapter       3907 words   19.5 min  48 · The First Lowering.
+ 53 [✓] chapter        830 words    4.2 min  49 · The Hyena.
+ 54 [✓] chapter       1000 words    5.0 min  50 · Ahab’s Boat and Crew. Fedallah.
+ 55 [✓] chapter       1500 words    7.5 min  51 · The Spirit-Spout.
+ 56 [✓] chapter        711 words    3.6 min  52 · The Albatross.
+ 57 [✓] chapter       1601 words    8.0 min  53 · The Gam.
+ 58 [✓] chapter       7907 words   39.5 min  54 · The Town-Ho’s Story.
+ 59 [✓] chapter       1876 words    9.4 min  55 · Of the Monstrous Pictures of Whales.
+ 60 [✓] chapter       1290 words    6.5 min  56 · Of the Less Erroneous Pictures of Whales, and the True Pictures of Whaling Scenes.
+ 61 [✓] chapter        926 words    4.6 min  57 · Of Whales in Paint; in Teeth; in Wood; in Sheet-Iron; in Stone; in Mountains; in Stars.
+ 62 [✓] chapter       1006 words    5.0 min  58 · Brit.
+ 63 [✓] chapter        917 words    4.6 min  59 · Squid.
+ 64 [✓] chapter       1452 words    7.3 min  60 · The Line.
+ 65 [✓] chapter       1944 words    9.7 min  61 · Stubb Kills a Whale.
+ 66 [✓] chapter        564 words    2.8 min  62 · The Dart.
+ 67 [✓] chapter        472 words    2.4 min  63 · The Crotch.
+ 68 [✓] chapter       2963 words   14.8 min  64 · Stubb’s Supper.
+ 69 [✓] chapter        980 words    4.9 min  65 · The Whale as a Dish.
+ 70 [✓] chapter        625 words    3.1 min  66 · The Shark Massacre.
+ 71 [✓] chapter        727 words    3.6 min  67 · Cutting In.
+ 72 [✓] chapter       1191 words    6.0 min  68 · The Blanket.
+ 73 [✓] chapter        429 words    2.1 min  69 · The Funeral.
+ 74 [✓] chapter        863 words    4.3 min  70 · The Sphynx.
+ 75 [✓] chapter       2231 words   11.2 min  71 · The Jeroboam’s Story.
+ 76 [✓] chapter       1617 words    8.1 min  72 · The Monkey-Rope.
+ 77 [✓] chapter       2143 words   10.7 min  73 · Stubb and Flask kill a Right Whale; and Then Have a Talk over Him.
+ 78 [✓] chapter       1619 words    8.1 min  74 · The Sperm Whale’s Head—Contrasted View.
+ 79 [✓] chapter       1216 words    6.1 min  75 · The Right Whale’s Head—Contrasted View.
+ 80 [✓] chapter        863 words    4.3 min  76 · The Battering-Ram.
+ 81 [✓] chapter        630 words    3.1 min  77 · The Great Heidelburgh Tun.
+ 82 [✓] chapter       1628 words    8.1 min  78 · Cistern and Buckets.
+ 83 [✓] chapter        927 words    4.6 min  79 · The Prairie.
+ 84 [✓] chapter        892 words    4.5 min  80 · The Nut.
+ 85 [✓] chapter       4274 words   21.4 min  81 · The Pequod Meets The Virgin.
+ 86 [✓] chapter       1142 words    5.7 min  82 · The Honor and Glory of Whaling.
+ 87 [✓] chapter        766 words    3.8 min  83 · Jonah Historically Regarded.
+ 88 [✓] chapter        802 words    4.0 min  84 · Pitchpoling.
+ 89 [✓] chapter       2052 words   10.3 min  85 · The Fountain.
+ 90 [✓] chapter       1839 words    9.2 min  86 · The Tail.
+ 91 [✓] chapter       4720 words   23.6 min  87 · The Grand Armada.
+ 92 [✓] chapter       1180 words    5.9 min  88 · Schools and Schoolmasters.
+ 93 [✓] chapter       1390 words    7.0 min  89 · Fast-Fish and Loose-Fish.
+ 94 [✓] chapter       1041 words    5.2 min  90 · Heads or Tails.
+ 95 [✓] chapter       2477 words   12.4 min  91 · The Pequod Meets The Rose-Bud.
+ 96 [✓] chapter        966 words    4.8 min  92 · Ambergris.
+ 97 [✓] chapter       1596 words    8.0 min  93 · The Castaway.
+ 98 [✓] chapter       1255 words    6.3 min  94 · A Squeeze of the Hand.
+ 99 [✓] chapter        494 words    2.5 min  95 · The Cassock.
+100 [✓] chapter       1807 words    9.0 min  96 · The Try-Works.
+101 [✓] chapter        238 words    1.2 min  97 · The Lamp.
+102 [✓] chapter       1008 words    5.0 min  98 · Stowing Down and Clearing Up.
+103 [✓] chapter       2401 words   12.0 min  99 · The Doubloon.
+104 [✓] back          2637 words   13.2 min  The Pequod, of Nantucket, Meets the Samuel Enderby, of London.
+105 [✓] chapter       1747 words    8.7 min  101 · The Decanter.
+106 [✓] chapter       1524 words    7.6 min  102 · A Bower in the Arsacides.
+107 [✓] chapter        915 words    4.6 min  103 · Measurement of The Whale’s Skeleton.
+108 [✓] chapter       1411 words    7.1 min  104 · The Fossil Whale.
+109 [✓] chapter       1540 words    7.7 min  105 · Does the Whale’s Magnitude Diminish?—Will He Perish?
+110 [✓] chapter        918 words    4.6 min  106 · Ahab’s Leg.
+111 [✓] chapter       1030 words    5.2 min  107 · The Carpenter.
+112 [✓] back          1539 words    7.7 min  The Deck—First Night Watch.
+113 [✓] chapter        896 words    4.5 min  109 · Ahab and Starbuck in the Cabin.
+114 [✓] chapter       2225 words   11.1 min  110 · Queequeg in His Coffin.
+115 [✓] chapter        415 words    2.1 min  111 · The Pacific.
+116 [✓] chapter        922 words    4.6 min  112 · The Blacksmith.
+117 [✓] chapter       1206 words    6.0 min  113 · The Forge.
+118 [✓] chapter        632 words    3.2 min  114 · The Gilder.
+119 [✓] chapter        866 words    4.3 min  115 · The Pequod Meets The Bachelor.
+120 [✓] chapter        507 words    2.5 min  116 · The Dying Whale.
+121 [✓] chapter        462 words    2.3 min  117 · The Whale Watch.
+122 [✓] chapter        881 words    4.4 min  118 · The Quadrant.
+123 [✓] chapter       2511 words   12.6 min  119 · The Candles.
+124 [✓] chapter        167 words    0.8 min  120 · The Deck Towards the End of the First Night Watch.
+125 [✓] chapter        614 words    3.1 min  121 · Midnight.—The Forecastle Bulwarks.
+126 [✓] chapter         44 words    0.2 min  122 · Midnight Aloft.—Thunder and Lightning.
+127 [✓] chapter       1193 words    6.0 min  123 · The Musket.
+128 [✓] chapter       1191 words    6.0 min  124 · The Needle.
+129 [✓] chapter       1091 words    5.5 min  125 · The Log and Line.
+130 [✓] chapter       1349 words    6.7 min  126 · The Life-Buoy.
+131 [✓] chapter        692 words    3.5 min  127 · The Deck.
+132 [✓] chapter       1367 words    6.8 min  128 · The Pequod Meets The Rachel.
+133 [✓] chapter        570 words    2.9 min  129 · The Cabin.
+134 [✓] chapter       1668 words    8.3 min  130 · The Hat.
+135 [✓] chapter        414 words    2.1 min  131 · The Pequod Meets The Delight.
+136 [✓] chapter       1577 words    7.9 min  132 · The Symphony.
+137 [✓] chapter       3487 words   17.4 min  133 · The Chase—First Day.
+138 [✓] chapter       3231 words   16.2 min  134 · The Chase—Second Day.
+139 [✓] chapter       4446 words   22.2 min  135 · The Chase.—Third Day.
+140 [✓] back           471 words    2.4 min  “AND I ONLY AM ESCAPED ALONE TO TELL THEE” Job.
+141 [ ] boilerplate   2688 words   13.4 min  THE FULL PROJECT GUTENBERG™ LICENSE
+included: ≈ 17.6 h at speed 1.00
+chunks 6319
+plan a046abaf3687ed73bfa17f5e212a4b32d82b5a950d2ceed5195b1cc99c89f8eb

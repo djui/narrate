@@ -10,26 +10,20 @@ jobs:
     runs-on: macos-26
     steps:
       - uses: actions/checkout@v4
-      - name: Tools
-        run: brew install ffmpeg uv  # ffmpeg only for the Python reference's export test
       - uses: actions/cache@v4
         with:
           path: .build
           key: spm-${{ runner.os }}-${{ hashFiles('Package.resolved') }}
       - name: Swift tests
         run: swift test
-      - name: Python tests
-        run: uv sync && uv run pytest
       - name: App builds
         run: swift build -c release --product NarrateApp
 
   corpus:
-    # Swift ingest and chunk plan match the Python reference on real books (nothing is rendered).
+    # Ingest and chunk plan on real books match tests/corpus/ (nothing is rendered).
     runs-on: macos-26
     steps:
       - uses: actions/checkout@v4
-      - name: Tools
-        run: brew install uv
       - uses: actions/cache@v4
         with:
           path: .build/corpus
@@ -37,5 +31,4 @@ jobs:
       - name: Compare on the EPUB corpus
         run: |
           swift build -c release --product narrate
-          uv sync
-          uv run python scripts/corpus.py
+          scripts/corpus.sh

@@ -1,0 +1,22 @@
+The Adventures of Sherlock Holmes — Arthur Conan Doyle
+  0 [ ] boilerplate    150 words    0.8 min  The Project Gutenberg eBook of The Adventures of Sherlock Holmes
+  1 [ ] titlepage        4 words    0.0 min  The Adventures of Sherlock Holmes
+  2 [ ] toc             73 words    0.4 min  Contents
+  3 [✓] back          3433 words   17.2 min  I.
+  4 [✓] back          4004 words   20.0 min  Ii.
+  5 [✓] back          1081 words    5.4 min  Iii.
+  6 [✓] chapter       9105 words   45.5 min  2 · The Red-Headed League
+  7 [✓] chapter       6975 words   34.9 min  3 · A Case of Identity
+  8 [✓] chapter       9616 words   48.1 min  4 · The Boscombe Valley Mystery
+  9 [✓] chapter       7314 words   36.6 min  5 · The Five Orange Pips
+ 10 [✓] chapter       9199 words   46.0 min  6 · The Man With the Twisted Lip
+ 11 [✓] chapter       7808 words   39.0 min  7 · The Adventure of the Blue Carbuncle
+ 12 [✓] chapter       9805 words   49.0 min  8 · The Adventure of the Speckled Band
+ 13 [✓] chapter       8283 words   41.4 min  9 · The Adventure of the Engineer’s Thumb
+ 14 [✓] chapter       8102 words   40.5 min  10 · The Adventure of the Noble Bachelor
+ 15 [✓] chapter       9679 words   48.4 min  11 · The Adventure of the Beryl Coronet
+ 16 [✓] chapter      10159 words   50.8 min  12 · The Adventure of the Copper Beeches
+ 17 [ ] boilerplate   2688 words   13.4 min  THE FULL PROJECT GUTENBERG™ LICENSE
+included: ≈ 8.7 h at speed 1.00
+chunks 3731
+plan 8a6bbca33b0a68e44f51b9077090556ca0a3a363b218fb3ef929182caa64a652

@@ -108,20 +108,11 @@ and keep it somewhere safe.
 
 ## EPUB corpus
 
-`tests/corpus.txt` lists ten public-domain Gutenberg books; `scripts/corpus.py` ingests each with
-both implementations and compares `book.json` and the chunk plan (no rendering). CI runs it.
+`tests/corpus.txt` lists ten public-domain Gutenberg books; `scripts/corpus.sh` ingests each and
+compares its section list, chunk count and a hash of its chunk plan with `tests/corpus/NAME.txt`
+(no rendering). CI runs it. After a deliberate change to the reader or chunker, check the diff and
+rewrite the snapshots with `--update`.
 
 ```bash
-swift build -c release && uv run python scripts/corpus.py
-```
-
-## Python reference implementation
-
-`src/narrate` is the M1 implementation on mlx-audio. It produces the same `book.json` and the
-same chunk plan as the Swift core, and is kept as the reference for checking it.
-
-```bash
-uv sync
-uv run narrate build treasure-island.epub
-uv run pytest
+swift build -c release --product narrate && scripts/corpus.sh
 ```

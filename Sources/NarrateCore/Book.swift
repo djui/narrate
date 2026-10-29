@@ -1,6 +1,6 @@
 import Foundation
 
-/// The parsed book. Its JSON form (`book.json`) matches the Python reference implementation's.
+/// The parsed book, stored as `book.json` in the project folder.
 public struct Block: Codable, Equatable, Sendable {
     public enum Kind: String, Codable, Sendable { case para, verse, heading, note, sceneBreak = "scene_break" }
 

@@ -1,0 +1,41 @@
+Kidnapped — Robert Louis Stevenson
+  0 [ ] boilerplate    126 words    0.6 min  The Project Gutenberg eBook of Kidnapped
+  1 [ ] titlepage        4 words    0.0 min  KIDNAPPED
+  2 [ ] toc            219 words    1.1 min  BEING MEMOIRS OF THE ADVENTURES OF DAVID BALFOUR IN THE YEAR 1751 HOW HE WAS KIDNAPPED AND CAST AWAY; HIS SUFFERINGS IN A DESERT ISLE; HIS JOURNEY IN THE WILD HIGHLANDS; HIS ACQUAINTANCE WITH ALAN BRECK STEWART AND OTHER NOTORIOUS HIGHLAND JACOBITES; WITH ALL THAT HE SUFFERED AT THE HANDS OF HIS UNCLE, EBENEZER BALFOUR OF SHAWS, FALSELY SO CALLED WRITTEN BY HIMSELF AND NOW SET FORTH BY ROBERT LOUIS STEVENSON WITH A PREFACE BY MRS. STEVENSON
+  3 [✓] front          280 words    1.4 min  Preface to the Biographical Edition
+  4 [✓] front          814 words    4.1 min  THE, TRIAL OF JAMES STEWART in Aucharn in Duror of Appin FOR THE Murder of COLIN CAMPBELL of Glenure, Efq; Factor for His Majefty on the forfeited Estate of Ardfhiel.
+  5 [✓] front          491 words    2.5 min  My Dear Charles Baxter:
+  6 [✓] chapter       1719 words    8.6 min  1 · I Set Off Upon My Journey to the House of Shaws
+  7 [✓] chapter       1934 words    9.7 min  2 · I Come to My Journey’s End
+  8 [✓] chapter       2662 words   13.3 min  3 · I Make Acquaintance of My Uncle
+  9 [✓] chapter       2972 words   14.9 min  4 · I Run a Great Danger in the House of Shaws
+ 10 [✓] chapter       2402 words   12.0 min  5 · I Go to the Queen’s Ferry
+ 11 [✓] chapter       1872 words    9.4 min  6 · What Befell at the Queen’s Ferry
+ 12 [✓] chapter       2703 words   13.5 min  7 · I Go to Sea in the Brig Covenant of Dysart
+ 13 [✓] chapter       1930 words    9.7 min  8 · The Round-House
+ 14 [✓] chapter       3326 words   16.6 min  9 · The Man With the Belt of Gold
+ 15 [✓] chapter       2554 words   12.8 min  10 · The Siege of the Round-House
+ 16 [✓] chapter       1584 words    7.9 min  11 · The Captain Knuckles Under
+ 17 [✓] chapter       3265 words   16.3 min  12 · I Hear of the “red Fox”
+ 18 [✓] chapter       2140 words   10.7 min  13 · The Loss of the Brig
+ 19 [✓] chapter       3525 words   17.6 min  14 · The Islet
+ 20 [✓] chapter       3032 words   15.2 min  15 · The Lad With the Silver Button: Through the Isle of Mull
+ 21 [✓] chapter       2775 words   13.9 min  16 · The Lad With the Silver Button: Across Morven
+ 22 [✓] chapter       2121 words   10.6 min  17 · The Death of the Red Fox
+ 23 [✓] chapter       3016 words   15.1 min  18 · I Talk With Alan in the Wood of Lettermore
+ 24 [✓] chapter       2392 words   12.0 min  19 · The House of Fear
+ 25 [✓] chapter       3325 words   16.6 min  20 · The Flight in the Heather: the Rocks
+ 26 [✓] chapter       2740 words   13.7 min  21 · The Flight in the Heather: the Heugh of Corrynakiegh
+ 27 [✓] chapter       2944 words   14.7 min  22 · The Flight in the Heather: the Moor
+ 28 [✓] chapter       3133 words   15.7 min  23 · Cluny’s Cage
+ 29 [✓] chapter       3799 words   19.0 min  24 · The Flight in the Heather: the Quarrel
+ 30 [✓] chapter       2529 words   12.6 min  25 · In Balquhidder
+ 31 [✓] chapter       3964 words   19.8 min  26 · End of the Flight: We Pass the Forth
+ 32 [✓] chapter       2851 words   14.3 min  27 · I Come to Mr. Rankeillor
+ 33 [✓] chapter       2733 words   13.7 min  28 · I Go in Quest of My Inheritance
+ 34 [✓] chapter       2387 words   11.9 min  29 · I Come Into My Kingdom
+ 35 [✓] chapter       1616 words    8.1 min  30 · Good-Bye
+ 36 [ ] boilerplate   2688 words   13.4 min  THE FULL PROJECT GUTENBERG™ LICENSE
+included: ≈ 6.8 h at speed 1.00
+chunks 2518
+plan d77fee97a9a40512434c410f03707820641d84cb679368f92686638d55315e6d

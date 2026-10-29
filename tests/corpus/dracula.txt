@@ -1,0 +1,36 @@
+Dracula — Bram Stoker
+  0 [ ] boilerplate    125 words    0.6 min  The Project Gutenberg eBook of Dracula
+  1 [✓] chapter         46 words    0.2 min  500 · R a C U L a
+  2 [ ] toc            220 words    1.1 min  Contents
+  3 [✓] chapter       5690 words   28.4 min  1 · Jonathan Harker’s Journal
+  4 [✓] chapter       5472 words   27.4 min  2 · JONATHAN HARKER’S JOURNAL—continued
+  5 [✓] chapter       5698 words   28.5 min  3 · JONATHAN HARKER’S JOURNAL—continued
+  6 [✓] chapter       5824 words   29.1 min  4 · JONATHAN HARKER’S JOURNAL—continued
+  7 [✓] chapter       3544 words   17.7 min  Chapter 5
+  8 [✓] chapter       5650 words   28.2 min  6 · Mina Murray’s Journal
+  9 [✓] chapter       5564 words   27.8 min  7 · Cutting From “the Dailygraph,” 8 August
+ 10 [✓] chapter       6264 words   31.3 min  8 · Mina Murray’s Journal
+ 11 [✓] chapter       5909 words   29.5 min  Chapter 9
+ 12 [✓] chapter       5930 words   29.6 min  Chapter 10
+ 13 [✓] chapter       5125 words   25.6 min  Chapter 11
+ 14 [✓] chapter       7281 words   36.4 min  12 · Dr. Seward’s Diary
+ 15 [✓] chapter       6564 words   32.8 min  13 · DR. SEWARD’S DIARY—continued.
+ 16 [✓] chapter       6408 words   32.0 min  14 · Mina Harker’s Journal
+ 17 [✓] chapter       5799 words   29.0 min  15 · DR. SEWARD’S DIARY—continued.
+ 18 [✓] chapter       4555 words   22.8 min  16 · DR. SEWARD’S DIARY—continued
+ 19 [✓] chapter       5552 words   27.8 min  17 · DR. SEWARD’S DIARY—continued
+ 20 [✓] chapter       6907 words   34.5 min  18 · Dr. Seward’s Diary
+ 21 [✓] chapter       5666 words   28.3 min  19 · Jonathan Harker’s Journal
+ 22 [✓] chapter       5886 words   29.4 min  20 · Jonathan Harker’s Journal
+ 23 [✓] chapter       6172 words   30.9 min  21 · Dr. Seward’s Diary
+ 24 [✓] chapter       5446 words   27.2 min  22 · Jonathan Harker’s Journal
+ 25 [✓] chapter       5654 words   28.3 min  23 · Dr. Seward’s Diary
+ 26 [✓] chapter       6299 words   31.5 min  24 · Dr. Seward’s Phonograph Diary, Spoken by Van Helsing
+ 27 [✓] chapter       6245 words   31.2 min  25 · Dr. Seward’s Diary
+ 28 [✓] chapter       7120 words   35.6 min  26 · Dr. Seward’s Diary
+ 29 [✓] chapter       7572 words   37.9 min  27 · Mina Harker’s Journal
+ 30 [✓] back           788 words    3.9 min  Note
+ 31 [ ] boilerplate   2688 words   13.4 min  THE FULL PROJECT GUTENBERG™ LICENSE
+included: ≈ 13.4 h at speed 1.00
+chunks 4471
+plan d34e6bec9e4fc7e66002bdda9a46ea026a9fd6307103170cf913b8ee2605469d

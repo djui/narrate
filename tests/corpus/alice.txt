@@ -1,0 +1,20 @@
+Alice's Adventures in Wonderland — Lewis Carroll
+  0 [ ] boilerplate    128 words    0.6 min  The Project Gutenberg eBook of Alice's Adventures in Wonderland
+  1 [ ] titlepage        3 words    0.0 min  Alice’s Adventures in Wonderland
+  2 [ ] toc             70 words    0.3 min  Contents
+  3 [✓] chapter       2181 words   10.9 min  1 · Down the Rabbit-Hole
+  4 [✓] chapter       2093 words   10.5 min  2 · The Pool of Tears
+  5 [✓] chapter       1694 words    8.5 min  3 · A Caucus-Race and a Long Tale
+  6 [✓] chapter       2607 words   13.0 min  4 · The Rabbit Sends in a Little Bill
+  7 [✓] chapter       2180 words   10.9 min  5 · Advice from a Caterpillar
+  8 [✓] chapter       2588 words   12.9 min  6 · Pig and Pepper
+  9 [✓] chapter       2282 words   11.4 min  7 · A Mad Tea-Party
+ 10 [✓] chapter       2482 words   12.4 min  8 · The Queen’s Croquet-Ground
+ 11 [✓] chapter       2266 words   11.3 min  9 · The Mock Turtle’s Story
+ 12 [✓] chapter       2025 words   10.1 min  10 · The Lobster Quadrille
+ 13 [✓] chapter       1872 words    9.4 min  11 · Who Stole the Tarts?
+ 14 [✓] chapter       2315 words   11.6 min  12 · Alice’s Evidence
+ 15 [ ] boilerplate   2688 words   13.4 min  THE FULL PROJECT GUTENBERG™ LICENSE
+included: ≈ 2.2 h at speed 1.00
+chunks 1103
+plan 1cba89be89f7baf39df3bfdc8ac0694e9e76ba7dcf491a39cc601e7b10bbdc72

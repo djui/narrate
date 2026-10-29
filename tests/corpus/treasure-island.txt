@@ -1,0 +1,49 @@
+Treasure Island — Robert Louis Stevenson
+  0 [ ] boilerplate    122 words    0.6 min  The Project Gutenberg eBook of Treasure Island
+  1 [ ] titlepage        4 words    0.0 min  TREASURE ISLAND
+  2 [ ] toc            215 words    1.1 min  Illustrated by Louis Rhead
+  3 [✓] front          138 words    0.7 min  To the Hesitating Purchaser
+  4 [✓] part             0 words    0.0 min  Part One — The Old Buccaneer
+  5 [✓] chapter       2203 words   11.0 min  1 · The Old Sea-dog at the “Admiral Benbow”
+  6 [✓] chapter       2243 words   11.2 min  2 · Black Dog Appears and Disappears
+  7 [✓] chapter       2151 words   10.8 min  3 · The Black Spot
+  8 [✓] chapter       2134 words   10.7 min  4 · The Sea-chest
+  9 [✓] chapter       1849 words    9.2 min  5 · The Last of the Blind Man
+ 10 [✓] chapter       1949 words    9.7 min  6 · The Captain’s Papers
+ 11 [✓] part             0 words    0.0 min  Part Two — The Sea-cook
+ 12 [✓] chapter       1816 words    9.1 min  7 · I Go to Bristol
+ 13 [✓] chapter       1764 words    8.8 min  8 · At the Sign of the Spy-glass
+ 14 [✓] chapter       1711 words    8.6 min  9 · Powder and Arms
+ 15 [✓] chapter       1932 words    9.7 min  10 · The Voyage
+ 16 [✓] chapter       2062 words   10.3 min  11 · What I Heard in the Apple-Barrel
+ 17 [✓] chapter       1835 words    9.2 min  12 · Council of War
+ 18 [✓] part             0 words    0.0 min  Part Three — My Shore Adventure
+ 19 [✓] chapter       1788 words    8.9 min  13 · How I Began My Shore Adventure
+ 20 [✓] chapter       1912 words    9.6 min  14 · The First Blow
+ 21 [✓] chapter       2219 words   11.1 min  15 · The Man of the Island
+ 22 [✓] part             0 words    0.0 min  Part Four — The Stockade
+ 23 [✓] chapter       1634 words    8.2 min  16 · Narrative Continued by the Doctor: How the Ship Was Abandoned
+ 24 [✓] chapter       1470 words    7.3 min  17 · Narrative Continued by the Doctor: The Jolly-boat’s Last Trip
+ 25 [✓] chapter       1469 words    7.3 min  18 · Narrative Continued by the Doctor: End of the First Day’s Fighting
+ 26 [✓] chapter       1998 words   10.0 min  19 · Narrative Resumed by Jim Hawkins: The Garrison in the Stockade
+ 27 [✓] chapter       1884 words    9.4 min  20 · Silver’s Embassy
+ 28 [✓] chapter       2005 words   10.0 min  21 · The Attack
+ 29 [✓] part             0 words    0.0 min  Part Five — My Sea Adventure
+ 30 [✓] chapter       2073 words   10.4 min  22 · How I Began My Sea Adventure
+ 31 [✓] chapter       1578 words    7.9 min  23 · The Ebb-tide Runs
+ 32 [✓] chapter       1974 words    9.9 min  24 · The Cruise of the Coracle
+ 33 [✓] chapter       1703 words    8.5 min  25 · I Strike the Jolly Roger
+ 34 [✓] chapter       2933 words   14.7 min  26 · Israel Hands
+ 35 [✓] chapter       2156 words   10.8 min  27 · “Pieces of Eight”
+ 36 [✓] part             0 words    0.0 min  Part Six — Captain Silver
+ 37 [✓] chapter       2726 words   13.6 min  28 · In the Enemy’s Camp
+ 38 [✓] chapter       2107 words   10.5 min  29 · The Black Spot Again
+ 39 [✓] chapter       2306 words   11.5 min  30 · On Parole
+ 40 [✓] chapter       2253 words   11.3 min  31 · The Treasure-hunt—Flint’s Pointer
+ 41 [✓] chapter       1943 words    9.7 min  32 · The Treasure-hunt—The Voice Among the Trees
+ 42 [✓] chapter       1985 words    9.9 min  33 · The Fall of a Chieftain
+ 43 [✓] chapter       2102 words   10.5 min  34 · And Last
+ 44 [ ] boilerplate   2731 words   13.7 min  THE FULL PROJECT GUTENBERG™ LICENSE
+included: ≈ 5.7 h at speed 1.00
+chunks 2172
+plan 177ce341c9a1a7bc051370e603469389de31e235fbb732af475a9bff40c17705

@@ -66,7 +66,8 @@ final class EPUBReaderTests: XCTestCase {
         XCTAssertEqual(again, book)
     }
 
-    func testPythonBookJSONDecodes() throws {
+    /// Projects written by the earlier Python implementation have nulls and snake_case block kinds.
+    func testBookJSONWithNullsDecodes() throws {
         let json = #"{"title":"T","author":"A","language":"en","sections":[{"title":"I X","kind":"chapter","include":true,"blocks":[{"kind":"scene_break","text":""}],"number":null,"marker":"1 · X","spoken":"Chapter One. X."}]}"#
         let decoded = try JSONDecoder().decode(Book.self, from: Data(json.utf8))
         XCTAssertEqual(decoded.sections[0].blocks[0].kind, .sceneBreak)

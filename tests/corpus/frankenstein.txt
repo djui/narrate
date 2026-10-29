@@ -1,0 +1,36 @@
+Frankenstein; or, The modern Prometheus — Mary Wollstonecraft Shelley
+  0 [ ] boilerplate    146 words    0.7 min  The Project Gutenberg eBook of Frankenstein; or, The modern Prometheus
+  1 [ ] titlepage        5 words    0.0 min  or, the Modern Prometheus
+  2 [ ] toc             56 words    0.3 min  CONTENTS
+  3 [✓] front         1198 words    6.0 min  Letter 1
+  4 [✓] front         1309 words    6.5 min  Letter 2
+  5 [✓] front          298 words    1.5 min  Letter 3
+  6 [✓] front         2728 words   13.6 min  Letter 4
+  7 [✓] chapter       1764 words    8.8 min  Chapter 1
+  8 [✓] chapter       2204 words   11.0 min  Chapter 2
+  9 [✓] chapter       2673 words   13.4 min  Chapter 3
+ 10 [✓] chapter       2533 words   12.7 min  Chapter 4
+ 11 [✓] chapter       2355 words   11.8 min  Chapter 5
+ 12 [✓] chapter       2716 words   13.6 min  Chapter 6
+ 13 [✓] chapter       3558 words   17.8 min  Chapter 7
+ 14 [✓] chapter       3091 words   15.5 min  Chapter 8
+ 15 [✓] chapter       2210 words   11.1 min  Chapter 9
+ 16 [✓] chapter       2357 words   11.8 min  Chapter 10
+ 17 [✓] chapter       2905 words   14.5 min  Chapter 11
+ 18 [✓] chapter       2068 words   10.3 min  Chapter 12
+ 19 [✓] chapter       2030 words   10.2 min  Chapter 13
+ 20 [✓] chapter       1852 words    9.3 min  Chapter 14
+ 21 [✓] chapter       3011 words   15.1 min  Chapter 15
+ 22 [✓] chapter       3197 words   16.0 min  Chapter 16
+ 23 [✓] chapter       1915 words    9.6 min  Chapter 17
+ 24 [✓] chapter       2842 words   14.2 min  Chapter 18
+ 25 [✓] chapter       2609 words   13.0 min  Chapter 19
+ 26 [✓] chapter       3519 words   17.6 min  Chapter 20
+ 27 [✓] chapter       3736 words   18.7 min  Chapter 21
+ 28 [✓] chapter       3412 words   17.1 min  Chapter 22
+ 29 [✓] chapter       2592 words   13.0 min  Chapter 23
+ 30 [✓] chapter       8452 words   42.3 min  Chapter 24
+ 31 [ ] boilerplate   2688 words   13.4 min  THE FULL PROJECT GUTENBERG™ LICENSE
+included: ≈ 6.3 h at speed 1.00
+chunks 2092
+plan 6a73a47babef0eed4a3d40e89ee5e52e45c8147a6685b0397e02d89ecf7b59ed

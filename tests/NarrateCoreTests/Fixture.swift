@@ -1,7 +1,7 @@
 import Foundation
 import XCTest
 
-/// The same synthetic EPUB3 as the Python tests (tests/conftest.py): two chapters in one file split by
+/// A synthetic EPUB3: two chapters in one file split by
 /// TOC anchors, a copyright page, a figure, a poem, a scene break, a page number and a footnote.
 enum Fixture {
     static let files: [String: String] = [

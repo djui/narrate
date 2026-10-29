@@ -102,7 +102,7 @@ struct Plan: ParsableCommand {
     func run() throws {
         let chunks = Chunker.plan(try openProject(project).loadBook())
         let encoder = JSONEncoder()
-        encoder.outputFormatting = [.prettyPrinted, .withoutEscapingSlashes]
+        encoder.outputFormatting = [.prettyPrinted, .sortedKeys, .withoutEscapingSlashes]
         print(String(decoding: try encoder.encode(chunks), as: UTF8.self))
     }
 }

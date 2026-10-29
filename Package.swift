@@ -37,7 +37,6 @@ let package = Package(
             name: "NarrateApp",
             dependencies: ["NarrateCore", .product(name: "KokoroTTS", package: "kokoro-coreml"), .product(name: "Sparkle", package: "Sparkle")]
         ),
-        // Shares tests/ with the Python reference implementation's pytest suite.
         .testTarget(name: "NarrateCoreTests", dependencies: ["NarrateCore"], path: "tests/NarrateCoreTests"),
     ]
 )

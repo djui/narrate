@@ -1,7 +1,6 @@
 import Foundation
 
-/// A thin wrapper over NSRegularExpression (ICU), chosen over Swift Regex for lookbehind and
-/// for behaviour close to the Python reference implementation's `re`.
+/// A thin wrapper over NSRegularExpression (ICU), chosen over Swift Regex for lookbehind.
 struct Pattern: @unchecked Sendable {
     let regex: NSRegularExpression
 

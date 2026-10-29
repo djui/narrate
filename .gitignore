@@ -1,7 +1,3 @@
-.venv/
-__pycache__/
-*.pyc
-.pytest_cache/
 *.narrate/
 .DS_Store
 .build/

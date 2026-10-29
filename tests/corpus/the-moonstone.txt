@@ -1,0 +1,76 @@
+The Moonstone — Wilkie Collins
+  0 [ ] boilerplate    124 words    0.6 min  The Project Gutenberg eBook of The Moonstone
+  1 [ ] titlepage        3 words    0.0 min  A Romance
+  2 [ ] toc            120 words    0.6 min  Contents
+  3 [ ] titlepage        5 words    0.0 min  THE STORMING OF SERINGAPATAM (1799):
+  4 [✓] front          171 words    0.9 min  I
+  5 [✓] front          733 words    3.7 min  Ii
+  6 [✓] front          873 words    4.4 min  Iii
+  7 [✓] front          347 words    1.7 min  Iv
+  8 [✓] front           22 words    0.1 min  First Period the Loss of the Diamond (1848)
+  9 [✓] chapter        918 words    4.6 min  Chapter 1
+ 10 [✓] chapter       1871 words    9.4 min  Chapter 2
+ 11 [✓] chapter       2779 words   13.9 min  Chapter 3
+ 12 [✓] chapter       3338 words   16.7 min  Chapter 4
+ 13 [✓] chapter       3048 words   15.2 min  Chapter 5
+ 14 [✓] chapter       4548 words   22.7 min  Chapter 6
+ 15 [✓] chapter       1618 words    8.1 min  Chapter 7
+ 16 [✓] chapter       4408 words   22.0 min  Chapter 8
+ 17 [✓] chapter       2602 words   13.0 min  Chapter 9
+ 18 [✓] chapter       4801 words   24.0 min  Chapter 10
+ 19 [✓] chapter       8016 words   40.1 min  Chapter 11
+ 20 [✓] chapter       4498 words   22.5 min  Chapter 12
+ 21 [✓] chapter       2321 words   11.6 min  Chapter 13
+ 22 [✓] chapter       3339 words   16.7 min  Chapter 14
+ 23 [✓] chapter       5623 words   28.1 min  Chapter 15
+ 24 [✓] chapter       3712 words   18.6 min  Chapter 16
+ 25 [✓] chapter       2713 words   13.6 min  Chapter 17
+ 26 [✓] chapter       2647 words   13.2 min  Chapter 18
+ 27 [✓] chapter       2015 words   10.1 min  Chapter 19
+ 28 [✓] chapter       1341 words    6.7 min  Chapter 20
+ 29 [✓] chapter       4021 words   20.1 min  Chapter 21
+ 30 [✓] chapter       3604 words   18.0 min  Chapter 22
+ 31 [✓] chapter       4779 words   23.9 min  Chapter 23
+ 32 [ ] titlepage       14 words    0.1 min  SECOND PERIOD. THE DISCOVERY OF THE TRUTH. (1848-1849.)
+ 33 [ ] titlepage       11 words    0.1 min  FIRST NARRATIVE.
+ 34 [✓] chapter       4465 words   22.3 min  Chapter 1
+ 35 [✓] chapter       4210 words   21.1 min  Chapter 2
+ 36 [✓] chapter       4120 words   20.6 min  Chapter 3
+ 37 [✓] chapter       3416 words   17.1 min  Chapter 4
+ 38 [✓] chapter       3436 words   17.2 min  Chapter 5
+ 39 [✓] chapter        638 words    3.2 min  Chapter 6
+ 40 [✓] chapter       4182 words   20.9 min  Chapter 7
+ 41 [✓] chapter       5771 words   28.9 min  Chapter 8
+ 42 [ ] titlepage        9 words    0.0 min  SECOND NARRATIVE.
+ 43 [✓] chapter       4407 words   22.0 min  Chapter 1
+ 44 [✓] chapter       1859 words    9.3 min  Chapter 2
+ 45 [✓] chapter       4022 words   20.1 min  Chapter 3
+ 46 [ ] titlepage        4 words    0.0 min  THIRD NARRATIVE.
+ 47 [✓] chapter       1911 words    9.6 min  Chapter 1
+ 48 [✓] chapter       2745 words   13.7 min  Chapter 2
+ 49 [✓] chapter       3182 words   15.9 min  Chapter 3
+ 50 [✓] chapter       5917 words   29.6 min  Chapter 4
+ 51 [✓] chapter       3575 words   17.9 min  Chapter 5
+ 52 [✓] chapter       3772 words   18.9 min  Chapter 6
+ 53 [✓] chapter       5305 words   26.5 min  Chapter 7
+ 54 [✓] chapter       5308 words   26.5 min  Chapter 8
+ 55 [✓] chapter       6092 words   30.5 min  Chapter 9
+ 56 [✓] chapter       5687 words   28.4 min  Chapter 10
+ 57 [✓] back         14559 words   72.8 min  Fourth Narrative.
+ 58 [ ] titlepage        6 words    0.0 min  FIFTH NARRATIVE.
+ 59 [✓] chapter       7169 words   35.8 min  Chapter 1
+ 60 [ ] titlepage        4 words    0.0 min  SIXTH NARRATIVE.
+ 61 [✓] back           200 words    1.0 min  I
+ 62 [✓] back          1149 words    5.7 min  Ii
+ 63 [✓] back          1006 words    5.0 min  Iii
+ 64 [✓] back           826 words    4.1 min  Iv
+ 65 [✓] back          1192 words    6.0 min  V
+ 66 [✓] back           811 words    4.1 min  Seventh Narrative.
+ 67 [✓] back           768 words    3.8 min  Eighth Narrative.
+ 68 [✓] back           336 words    1.7 min  The Finding of the Diamond. I the Statement of Sergeant Cuff’s Man. (1849.)
+ 69 [✓] chapter        463 words    2.3 min  2 · The Statement of the Captain. (1849.)
+ 70 [✓] chapter       1597 words    8.0 min  3 · The Statement of Mr. Murthwaite. (1850.)
+ 71 [ ] boilerplate   2688 words   13.4 min  THE FULL PROJECT GUTENBERG™ LICENSE
+included: ≈ 16.2 h at speed 1.00
+chunks 6137
+plan 99243faf6a76a1d052b987212db54950ac7c057fbd662f9126d4d1f57c0704ae

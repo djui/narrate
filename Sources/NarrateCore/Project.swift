@@ -1,7 +1,6 @@
 import Foundation
 
 /// A book project is one folder: source EPUB, parsed structure, settings, audio cache, output.
-/// The layout matches the Python reference implementation.
 public struct Project: Sendable {
     public let root: URL
 
