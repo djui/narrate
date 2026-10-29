@@ -4,7 +4,7 @@ Turn a DRM-free EPUB into a chaptered M4B audiobook, rendered offline on Apple S
 [Kokoro-82M](https://huggingface.co/hexgrad/Kokoro-82M) on Core ML via
 [kokoro-coreml](https://github.com/mattmireles/kokoro-coreml) (Neural Engine, GPU and CPU; no Python).
 
-Status: M3, Swift command-line core with signal checks and a pronunciation list. Design, bake-offs and roadmap: [docs/report.html](docs/report.html).
+Status: M4, a SwiftUI app over the Swift core, which also has its own command-line tool. Design, bake-offs and roadmap: [docs/report.html](docs/report.html).
 
 Requires macOS 15+, Xcode 26+ and `ffmpeg` on `PATH` (Homebrew's build includes the AudioToolbox AAC
 encoder). The ~220 MB Kokoro model downloads on first render into `~/Library/Caches/narrate`.
@@ -62,6 +62,23 @@ for every book go in `~/Library/Application Support/narrate/lexicon.json` (`--gl
 own entry for the same word wins. They match
 whole words in any case and are spoken through Misaki's `[word](/phonemes/)` markup, so only
 chunks containing the word get a new cache key.
+
+## The app
+
+A SwiftUI Mac app with one sidebar of steps per book: **Contents** (pick sections, see time
+estimates), **Pronunciation** (the `words` list; type a sounds-like spelling and press Set),
+**Voice** (voice, speed, and a preview read from the book's opening), **Render** (progress per
+section; Stop keeps every finished chunk), **Review** (flagged chunks with Play, Play in Context,
+Re-render and Accept) and **Export** (build the M4B, then see its chapters and tags as ffprobe reads them).
+It works on the same project folder as the command-line tool.
+
+```bash
+swift run NarrateApp treasure-island.epub      # or a .narrate folder; or drop one on the window
+scripts/bundle-app.sh                          # -> .build/Narrate.app (unsigned), then: open .build/Narrate.app
+```
+
+`NARRATE_ENGINE=tone` swaps Kokoro for a test tone (its own cache keys) to try the app without the model.
+The app refuses to start a render, preview or export while a `narrate render`, `build` or `export` is running.
 
 ## Python reference implementation
 
