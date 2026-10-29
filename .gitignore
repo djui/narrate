@@ -6,3 +6,7 @@ __pycache__/
 bakeoff/source/
 bakeoff/out/*.wav
 bakeoff/out/*.m4a
+samples/
+bakeoff/coreml/src/
+bakeoff/coreml/bench/.build/
+bakeoff/coreml/out/*.wav
