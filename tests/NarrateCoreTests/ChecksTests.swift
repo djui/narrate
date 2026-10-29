@@ -131,6 +131,14 @@ final class ChecksTests: XCTestCase {
         let planned = try Renderer.planned(project, XCTUnwrap(project.loadSettings()))
         XCTAssertEqual(try Checks.scan(project, planned).flags.values.map(\.text), [flag.text])
 
+        // An accepted chunk stays unflagged through scans and rechecks.
+        try Checks.accept([key], in: project)
+        XCTAssertEqual(try Checks.loadFlags(project), [:])
+        XCTAssertEqual(try Checks.scan(project, planned).flags, [:])
+        _ = try await Renderer.render(project, engine: engine, voice: "af_heart", speed: 1, recheck: true, log: { _ in })
+        XCTAssertEqual(try Checks.loadFlags(project), [:])
+        try FileManager.default.removeItem(at: project.acceptedURL)
+
         // Once the chunk renders clean, its flag goes.
         try FileManager.default.removeItem(at: Renderer.cacheURL(project, key: key))
         _ = try await Renderer.render(project, engine: RateEngine(), voice: "af_heart", speed: 1, log: { _ in })

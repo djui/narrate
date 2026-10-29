@@ -38,9 +38,11 @@ recorded in `flags.json`. On Treasure Island none of the 2,172 chunks are flagge
 .build/release/narrate review treasure-island.narrate          # flagged chunks: section, reason, numbers, text, WAV
 .build/release/narrate review treasure-island.narrate --scan   # check the cached audio again
 .build/release/narrate render treasure-island.narrate --recheck  # check the cache and retry what fails
+.build/release/narrate review treasure-island.narrate --accept KEY  # keep a flagged chunk as it is
 ```
 
-To redo a chunk by hand, delete its WAV and run `render` again.
+To redo a chunk by hand, delete its WAV and run `render` again. Accepted chunks are listed in
+`accepted.json` and stay unflagged until their text, voice or speed changes.
 
 ### Words
 

@@ -106,10 +106,14 @@ extension BookModel {
         }
     }
 
-    /// Keep the chunk as it is. A later scan checks it again.
+    /// Keep the chunk as it is; scans and renders leave it unflagged until its text, voice or speed changes.
     func accept(_ item: Renderer.Planned) {
-        flags[item.key] = nil
-        saveFlags()
+        do {
+            try Checks.accept([item.key], in: project)
+            flags[item.key] = nil
+        } catch {
+            self.error = message(error)
+        }
     }
 
     /// Drop the chunk from the cache and render its section's missing chunks, which re-checks it.

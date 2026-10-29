@@ -66,8 +66,12 @@ public enum Renderer {
     /// version fails fewer checks. Records what still fails in `flags`.
     static func checked(
         _ item: Planned, audio first: [Float], engine: SpeechEngine, voice: String, speed: Double,
-        rates: inout Checks.Median, flags: inout [String: Checks.Flag]
+        rates: inout Checks.Median, flags: inout [String: Checks.Flag], accepted: Set<String> = []
     ) async throws -> (audio: [Float], retried: Bool) {
+        if accepted.contains(item.key) {
+            flags[item.key] = nil
+            return (first, false)
+        }
         let rate = engine.sampleRate
         let median = rates.value(prior: Checks.priorRate * speed)
         var audio = first
@@ -140,12 +144,13 @@ public enum Renderer {
         log("\(planned.count) chunks planned, \(planned.count - todo.count) cached, \(todo.count) to render")
 
         var flags = try Checks.loadFlags(project)
+        let accepted = try Checks.loadAccepted(project)
         var rates = Checks.Median(cachedRates(project, planned.filter(isCached)))
         var retries = 0
 
         if recheck {
             var flaggedBefore = 0
-            for item in inScope where isCached(item) && flags[item.key]?.retried != true {
+            for item in inScope where isCached(item) && flags[item.key]?.retried != true && !accepted.contains(item.key) {
                 let url = cacheURL(project, key: item.key)
                 let (audio, _) = try WAV.read(url)
                 let result = try await checked(item, audio: audio, engine: engine, voice: voice, speed: speed, rates: &rates, flags: &flags)
@@ -163,7 +168,7 @@ public enum Renderer {
         var audioSeconds = 0.0, doneChars = 0, lastLog = 0.0
         for (i, item) in todo.enumerated() {
             let raw = try await engine.synthesize(item.text, voice: voice, speed: speed)
-            let result = try await checked(item, audio: trimSilence(raw, sampleRate: engine.sampleRate), engine: engine, voice: voice, speed: speed, rates: &rates, flags: &flags)
+            let result = try await checked(item, audio: trimSilence(raw, sampleRate: engine.sampleRate), engine: engine, voice: voice, speed: speed, rates: &rates, flags: &flags, accepted: accepted)
             if result.retried {
                 retries += 1
                 try Checks.save(flags, to: project)

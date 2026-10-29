@@ -154,7 +154,8 @@ public enum Checks {
         }
         let median = Median(planned.compactMap { speechChars($0.text) >= minRateChars ? metrics[$0.key]?.charsPerSecond : nil }).value(prior: priorRate)
         var flags: [String: Flag] = [:]
-        for item in planned {
+        let accepted = try loadAccepted(project)
+        for item in planned where !accepted.contains(item.key) {
             guard let m = metrics[item.key] else { continue }
             let r = reasons(m, text: item.text, medianRate: median)
             if !r.isEmpty { flags[item.key] = Flag(section: item.chunk.section, text: item.chunk.text, reasons: r, metrics: m, medianRate: median, retried: false) }
@@ -169,5 +170,20 @@ public enum Checks {
 
     public static func save(_ flags: [String: Flag], to project: Project) throws {
         try writeJSON(flags, to: project.flagsURL)
+    }
+
+    /// Chunks kept as they are after listening. Keys are content addressed, so an accepted chunk
+    /// whose text, voice or speed changes is checked afresh.
+    public static func loadAccepted(_ project: Project) throws -> Set<String> {
+        guard FileManager.default.fileExists(atPath: project.acceptedURL.path) else { return [] }
+        return Set(try JSONDecoder().decode([String].self, from: Data(contentsOf: project.acceptedURL)))
+    }
+
+    /// Keep these chunks as they are: they drop out of `flags.json` and later scans and renders leave them unflagged.
+    public static func accept(_ keys: Set<String>, in project: Project) throws {
+        try writeJSON(try loadAccepted(project).union(keys).sorted(), to: project.acceptedURL)
+        var flags = try loadFlags(project)
+        for key in keys { flags[key] = nil }
+        try save(flags, to: project)
     }
 }

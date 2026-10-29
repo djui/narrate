@@ -10,6 +10,10 @@ struct NarrateApp: App {
             RootView(app: AppState.shared)
                 .frame(minWidth: 860, minHeight: 520)
         }
+        // Always open the window at launch. Without this, a launch that macOS treats as a
+        // restore (after a crash or kill, or from a background `open`) can come up with no window.
+        .defaultLaunchBehavior(.presented)
+        .restorationBehavior(.disabled)
         .commands {
             CommandGroup(replacing: .newItem) {
                 Button("Open EPUB or Project…") { AppState.shared.choose() }
