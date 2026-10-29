@@ -95,7 +95,7 @@ To cut a release (needs a Developer ID Application certificate and a notarytool 
 `xcrun notarytool store-credentials <name>`):
 
 ```bash
-NOTARY_PROFILE=<name> scripts/release.sh 0.5.0 --publish   # build, sign, notarize, staple, zip, GitHub release
+NOTARY_PROFILE=<name> scripts/release.sh 0.6.0 --publish   # build, sign, notarize, staple, zip, GitHub release
 swift scripts/make-icon.swift packaging/AppIcon.icns       # redraw the app icon
 ```
 

@@ -6,5 +6,14 @@
     <link>https://djui.github.io/narrate/appcast.xml</link>
     <language>en</language>
     <!-- items -->
+    <item>
+      <title>Narrate 0.6.0</title>
+      <pubDate>Thu, 29 Oct 2026 23:26:37 +0000</pubDate>
+      <sparkle:version>0.6.0</sparkle:version>
+      <sparkle:shortVersionString>0.6.0</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>15.0</sparkle:minimumSystemVersion>
+      <sparkle:releaseNotesLink>https://github.com/djui/narrate/releases/tag/v0.6.0</sparkle:releaseNotesLink>
+      <enclosure url="https://github.com/djui/narrate/releases/download/v0.6.0/Narrate-0.6.0.zip" type="application/octet-stream" sparkle:edSignature="mLB7mINnDya6P8dCWn2W+yRdEs2IKao7FQHg2w8t5IQJQKKEy/ROBbebQOLi44+ev6/wOz65k2YQFqpeAGOBDQ==" length="17326644"/>
+    </item>
   </channel>
 </rss>
