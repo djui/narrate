@@ -17,7 +17,7 @@ app=.build/Narrate.app
 zip=".build/Narrate-$version.zip"
 
 # Inner code first, then the app; hardened runtime and a secure timestamp are required for notarization.
-find "$app/Contents/MacOS" -name '*.dylib' -exec codesign --force --options runtime --timestamp --sign "$identity" {} \;
+find "$app/Contents/MacOS" -name '*.dylib' -exec codesign --force --options runtime --timestamp --sign "$identity" {} +
 # Sparkle's helpers one by one, as its docs prescribe for Developer ID (no --deep).
 sparkle="$app/Contents/Frameworks/Sparkle.framework/Versions/B"
 sign() { codesign --force --options runtime --timestamp --sign "$identity" "$@"; }
