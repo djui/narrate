@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Narrate</title>
+<meta name="description" content="Turn a DRM-free EPUB into a chaptered M4B audiobook, offline on your Mac, with Kokoro on Core ML.">
+<link rel="icon" href="img/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f7f4ee; --surface: #ffffff; --text: #1b1d26; --muted: #5d6170; --line: #e4dfd5;
+    --accent: #c9761f; --accent-soft: #fbead3; --night: #101632; --night-2: #0c3a4a; --code: #f0ece4;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0d1122; --surface: #151a30; --text: #eceef5; --muted: #a2a7ba; --line: #262c47;
+      --accent: #f2a54a; --accent-soft: #2c2416; --code: #1b2140;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1122; --surface: #151a30; --text: #eceef5; --muted: #a2a7ba; --line: #262c47;
+    --accent: #f2a54a; --accent-soft: #2c2416; --code: #1b2140;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 17px/1.6 Inter, -apple-system, "Helvetica Neue", Arial, sans-serif; }
+  a { color: var(--accent); }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 16px; }
+  header.hero { background: radial-gradient(ellipse at 50% 30%, rgba(255,170,80,.22), transparent 55%), linear-gradient(180deg, var(--night), var(--night-2)); color: #f4f1ea; padding: 72px 0 96px; text-align: center; }
+  .hero img.icon { width: 148px; height: 148px; filter: drop-shadow(0 18px 30px rgba(0,0,0,.45)); }
+  h1, h2 { font-family: Fraunces, Georgia, serif; font-weight: 700; letter-spacing: -0.01em; }
+  .hero h1 { font-size: clamp(40px, 7vw, 64px); margin: 18px 0 6px; }
+  .hero p.lede { font-size: clamp(18px, 2.4vw, 22px); max-width: 640px; margin: 0 auto; color: #d7d9e4; }
+  .cta { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 32px; }
+  .btn { display: inline-block; padding: 12px 22px; border-radius: 10px; font-weight: 600; text-decoration: none; }
+  .btn.primary { background: #f2a54a; color: #1b1208; }
+  .btn.ghost { border: 1px solid rgba(255,255,255,.35); color: #f4f1ea; }
+  .hero .small { margin-top: 14px; font-size: 14px; color: #aeb3c6; }
+  .shot { margin: -64px auto 0; max-width: 900px; border-radius: 12px; overflow: hidden; box-shadow: 0 30px 70px rgba(10,14,30,.35); border: 1px solid var(--line); background: var(--surface); }
+  .shot img { display: block; width: 100%; height: auto; }
+  section { padding: 72px 0 0; }
+  h2 { font-size: clamp(28px, 4vw, 38px); margin: 0 0 12px; }
+  .intro { color: var(--muted); max-width: 680px; }
+  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-top: 28px; }
+  .step { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px 18px 16px; }
+  .step b { display: block; font-size: 15px; color: var(--accent); letter-spacing: .02em; }
+  .step h3 { margin: 4px 0 6px; font-size: 19px; }
+  .step p { margin: 0; color: var(--muted); font-size: 15px; }
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: center; }
+  .split img { width: 100%; border-radius: 12px; border: 1px solid var(--line); box-shadow: 0 14px 40px rgba(10,14,30,.18); }
+  .facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-top: 24px; }
+  .fact { border-left: 3px solid var(--accent); padding-left: 14px; }
+  .fact strong { display: block; font-size: 28px; font-family: Fraunces, Georgia, serif; }
+  .fact span { color: var(--muted); font-size: 15px; }
+  pre { background: var(--code); border: 1px solid var(--line); border-radius: 10px; padding: 16px; overflow-x: auto; font: 14px/1.6 ui-monospace, "SF Mono", Menlo, monospace; }
+  footer { margin-top: 88px; padding: 28px 0 40px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+  footer .wrap { display: flex; gap: 16px; justify-content: space-between; flex-wrap: wrap; }
+  @media (max-width: 760px) { .split { grid-template-columns: 1fr; } header.hero { padding-bottom: 80px; } }
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="wrap">
+    <img class="icon" src="img/icon.png" alt="Narrate app icon: an open book with sound rising from it">
+    <h1>Narrate</h1>
+    <p class="lede">Turn a DRM-free EPUB into a chaptered M4B audiobook, entirely offline on your Mac. It checks its own work before you press play.</p>
+    <div class="cta">
+      <a class="btn primary" href="https://github.com/djui/narrate/releases/latest">Download for macOS</a>
+      <a class="btn ghost" href="https://github.com/djui/narrate">Source on GitHub</a>
+    </div>
+    <p class="small">Free and open source (Apache-2.0). Apple silicon, macOS 15 or later.</p>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="shot"><img src="img/contents.jpg" alt="Narrate's Contents screen listing the chapters of Treasure Island with word counts and time estimates"></div>
+
+  <section>
+    <h2>A novel, read aloud overnight</h2>
+    <p class="intro">Narrate uses Kokoro-82M, a small open speech model, running on Core ML on the Neural Engine. Nothing leaves your Mac, and there's no account, no subscription and no Python to install. A whole novel renders in a night on a base 16&nbsp;GB MacBook Air.</p>
+    <div class="facts">
+      <div class="fact"><strong>~0.34 GB</strong><span>memory while rendering</span></div>
+      <div class="fact"><strong>6.2 h</strong><span>Treasure Island, 41 chapters, one night</span></div>
+      <div class="fact"><strong>0 of 2,172</strong><span>chunks flagged by its signal checks</span></div>
+      <div class="fact"><strong>M4B</strong><span>with chapters and cover, for Apple Books and BookPlayer</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Six steps, one sidebar</h2>
+    <div class="steps">
+      <div class="step"><b>1</b><h3>Contents</h3><p>Chapters, parts and front matter come from the table of contents. Untick what you don't want read.</p></div>
+      <div class="step"><b>2</b><h3>Pronunciation</h3><p>Names the speech model would guess at, ranked by how often they occur. Type “Liv-see” once and it applies to the whole book.</p></div>
+      <div class="step"><b>3</b><h3>Voice</h3><p>Pick the voice and speed, and preview them on the book's own opening.</p></div>
+      <div class="step"><b>4</b><h3>Render</h3><p>Resumable and cached per sentence, so a chunk is never rendered twice. Stop any time; the Mac stays awake while it works.</p></div>
+      <div class="step"><b>5</b><h3>Review</h3><p>Every chunk's audio is checked for odd pacing, long silences, clipping and cut-off endings. Listen only to the few it flags.</p></div>
+      <div class="step"><b>6</b><h3>Export</h3><p>One encode to AAC with QuickTime chapter markers, cover art and tags that say the voice is synthetic.</p></div>
+    </div>
+  </section>
+
+  <section class="split">
+    <div>
+      <h2>Fiction sounds right</h2>
+      <p class="intro">Unusual names are what give synthetic narration away. Narrate lists every word Kokoro has no entry for, so “Livesey”, “Trelawney” and “Hispaniola” get fixed once, before the render, not after eight hours of audio. Changing a word re-renders only the sentences that contain it.</p>
+    </div>
+    <img src="img/pronunciation.jpg" alt="The Pronunciation screen listing Livesey, Gunn, Smollett and Trelawney with counts and the model's guesses">
+  </section>
+
+  <section>
+    <h2>Install</h2>
+    <p class="intro">Download the notarized app from the <a href="https://github.com/djui/narrate/releases/latest">latest release</a>, or install it with Homebrew. Narrate needs <code>ffmpeg</code> to build the M4B. The voice model (~220&nbsp;MB) downloads once, the first time you render.</p>
+<pre>brew install --cask https://raw.githubusercontent.com/djui/narrate/main/packaging/narrate.rb</pre>
+    <p class="intro">Prefer the terminal? The same core ships as a command-line tool:</p>
+<pre>swift build -c release
+.build/release/narrate build treasure-island.epub</pre>
+  </section>
+</div>
+
+<footer>
+  <div class="wrap">
+    <span>Narrate · Apache-2.0 · Works only with DRM-free books you own.</span>
+    <span><a href="report.html">Design and bake-off report</a> · <a href="https://github.com/djui/narrate">GitHub</a></span>
+  </div>
+</footer>
+</body>
+</html>

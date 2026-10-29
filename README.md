@@ -4,7 +4,7 @@ Turn a DRM-free EPUB into a chaptered M4B audiobook, rendered offline on Apple S
 [Kokoro-82M](https://huggingface.co/hexgrad/Kokoro-82M) on Core ML via
 [kokoro-coreml](https://github.com/mattmireles/kokoro-coreml) (Neural Engine, GPU and CPU; no Python).
 
-Status: M4, a SwiftUI app over the Swift core, which also has its own command-line tool. Design, bake-offs and roadmap: [docs/report.html](docs/report.html).
+Status: M5, a notarized Mac app with its own command-line tool. Website: [djui.github.io/narrate](https://djui.github.io/narrate/). Design, bake-offs and roadmap: [docs/report.html](docs/report.html).
 
 Requires macOS 15+, Xcode 26+ and `ffmpeg` on `PATH` (Homebrew's build includes the AudioToolbox AAC
 encoder). The ~220 MB Kokoro model downloads on first render into `~/Library/Caches/narrate`.
@@ -81,6 +81,33 @@ scripts/bundle-app.sh                          # -> .build/Narrate.app (unsigned
 
 `NARRATE_ENGINE=tone` swaps Kokoro for a test tone (its own cache keys) to try the app without the model.
 The app refuses to start a render, preview or export while a `narrate render`, `build` or `export` is running.
+
+## Releases
+
+Download the notarized app from [Releases](https://github.com/djui/narrate/releases/latest), or:
+
+```bash
+brew install --cask https://raw.githubusercontent.com/djui/narrate/main/packaging/narrate.rb
+```
+
+To cut a release (needs a Developer ID Application certificate and a notarytool keychain profile,
+`xcrun notarytool store-credentials <name>`):
+
+```bash
+NOTARY_PROFILE=<name> scripts/release.sh 0.5.0 --publish   # build, sign, notarize, staple, zip, GitHub release
+swift scripts/make-icon.swift packaging/AppIcon.icns       # redraw the app icon
+```
+
+Then update `version` and `sha256` in `packaging/narrate.rb` from the script's output.
+
+## EPUB corpus
+
+`tests/corpus.txt` lists ten public-domain Gutenberg books; `scripts/corpus.py` ingests each with
+both implementations and compares `book.json` and the chunk plan (no rendering). CI runs it.
+
+```bash
+swift build -c release && uv run python scripts/corpus.py
+```
 
 ## Python reference implementation
 
