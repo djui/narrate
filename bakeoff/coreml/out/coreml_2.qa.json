@@ -1,0 +1,100 @@
+{
+  "wav": "coreml_2.wav",
+  "audio_s": 272.1,
+  "asr_s": 76.0,
+  "asr_rtf": 0.2795,
+  "wer": 0.0294,
+  "diffs": [
+    {
+      "op": "replace",
+      "book": "he",
+      "heard": "we"
+    },
+    {
+      "op": "replace",
+      "book": "i",
+      "heard": "i've"
+    },
+    {
+      "op": "replace",
+      "book": "em",
+      "heard": "him"
+    },
+    {
+      "op": "replace",
+      "book": "em",
+      "heard": "m"
+    },
+    {
+      "op": "replace",
+      "book": "hisself",
+      "heard": "his self"
+    },
+    {
+      "op": "replace",
+      "book": "matey",
+      "heard": "mighty"
+    },
+    {
+      "op": "replace",
+      "book": "lubbers",
+      "heard": "lubers"
+    },
+    {
+      "op": "replace",
+      "book": "seamanly behaviour",
+      "heard": "seemingly behavior"
+    },
+    {
+      "op": "replace",
+      "book": "em",
+      "heard": "him"
+    },
+    {
+      "op": "replace",
+      "book": "em",
+      "heard": "m"
+    },
+    {
+      "op": "replace",
+      "book": "matey",
+      "heard": "mighty"
+    },
+    {
+      "op": "replace",
+      "book": "em",
+      "heard": "m"
+    },
+    {
+      "op": "replace",
+      "book": "nohow",
+      "heard": "no how"
+    },
+    {
+      "op": "replace",
+      "book": "chest they're after",
+      "heard": "chess thereafter"
+    },
+    {
+      "op": "replace",
+      "book": "sich",
+      "heard": "sitch"
+    },
+    {
+      "op": "replace",
+      "book": "em",
+      "heard": "m"
+    },
+    {
+      "op": "replace",
+      "book": "em",
+      "heard": "m"
+    },
+    {
+      "op": "replace",
+      "book": "on'y",
+      "heard": "on why"
+    }
+  ],
+  "transcript": "About noon, I stopped at the captain's door, with some cooling drinks and medicines. He was lying very much as we had left him, only a little higher, and he seemed both weak and excited. Jim, he said, you're the only one here that's worth anything, and you know I've been always good to you. Never a month, but I've given you a silver fourpenny for yourself. And now you see, mate, I'm pretty low and deserted by all, and. Jim, you'll bring me one noggin of rum, now, won't you, Matey? The doctor, I began. But he broke in cursing the doctor, in a feeble voice but heartily. Doctors is all swabs, he said. And that doctor there, why, what do we know about seafaring men? I've been in places hot as pitch, and mates dropping round with yellow jack. And the blessed land a-heaving like the sea with earthquakes. What? Do the doctor know of lands like that? And I lived on rum, I tell you. It's been meat and drink and man and wife to me, and if I'm not to have my rum now. I'm a poor old hulk on a lee shore. My blood'll be on you, Jim, and that doctor swab. And he ran on again for a while with curses. Look, Jim, how my fingers fidges, he continued in the pleading tone. I can't keep him still, not I I haven't had a drop this blessed day. That doctor's a fool, I tell you. If I don't have a dram o rum, Jim, I'll have the horrors. I seen some on M already. I seen old Flint in the corner there, behind you, as plain as print, I seen him. And if I get the horrors, I'm a man that has lived rough, and I'll raise Cain. Your doctor his self said one glass wouldn't hurt me. I'll give you a golden guinea for a noggin, Jim. He was growing more and more excited, and this alarmed me for my father, who was very low. That day and needed quiet, besides, I was reassured by the doctor's words, now quoted to me. And rather offended by the offer of a bribe. I want none of your money, said I, but what you owe my father. I'll get you one glass and no more. When I brought it to him, he seized it greedily and drank it out. Aye aye, said he, that's some better, sure enough. And now, Mighty, did that doctor say how long I was to lie here in this old berth. A week at least, said I. Thunder, he cried. A week. I can't do that, they'd have the black spot on me by then. The lubbers is going about to get the wind of me, this blessed moment. Lubers, as couldn't keep what they got. And want to nail what is another's. Is that seemingly behavior, now, I want to know, but I'm a saving soul. I never wasted good money of mine, nor lost it neither, and I'll trick him again. I'm not afraid on M. I'll shake out another reef, Mighty, and daddle M again. As he was thus speaking, he had risen from bed with great difficulty, holding to my shoulder with a grip that almost made me cry out, and moving. His legs like so much dead weight. His words, spirited as they were in meaning, contrasted sadly with the weakness of the voice in which they were uttered. He paused when he had got into a sitting position on the edge. That doctor's done me, he murmured. My ears is singing. Lay me back. Before I could do much to help him, he had fallen back again to his former place, where he lay for a while silent. Jim, he said at length, you saw that seafaring man today. Black dog. I asked. Ah. Black dog, says he. He's a bad un, but there's worse that put him on. Now, if I can't get away no how, and they tip me the black spot, mind you. It's my old sea, chess thereafter, you get. On a horse, you can, can't you? Well then, you get on a horse and go to well, yes, I will. To that eternal doctor swab. And tell him to pipe all hands, magistrates and sitch, and he'll lay M aboard. At the Admiral Benbow, all old Flint's crew, man and boy, all on M that's left. I was first mate, I was, old Flint's first mate, and I'm the on why one as knows the place. He gave it me at Savannah, when he lay a dying, like as if I was to now, you see. But you won't peach unless they get the black spot on me, or unless you see. That black dog again, or a seafaring man with one leg, Jim, him above all."
+}

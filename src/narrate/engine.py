@@ -8,7 +8,7 @@ from typing import Protocol
 import numpy as np
 
 DEFAULT_VOICE = "af_heart"
-DEFAULT_SPEED = 0.94
+DEFAULT_SPEED = 1.0
 
 
 class Engine(Protocol):

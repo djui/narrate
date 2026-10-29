@@ -15,7 +15,7 @@ Or step by step, with a chance to pick chapters:
 ```bash
 uv run narrate ingest treasure-island.epub         # -> treasure-island.narrate/
 uv run narrate contents treasure-island.narrate    # list sections, --include/--exclude to toggle
-uv run narrate render treasure-island.narrate --voice af_heart --speed 0.94
+uv run narrate render treasure-island.narrate --voice af_heart --speed 1.0
 uv run narrate export treasure-island.narrate      # -> treasure-island.narrate/out/*.m4b
 ```
 

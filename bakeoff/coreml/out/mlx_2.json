@@ -1,0 +1,12 @@
+{
+ "engine": "mlx-audio (GPU)",
+ "voice": "af_heart",
+ "speed": 0.94,
+ "chunks": 26,
+ "load_s": 29.2,
+ "synth_s": 40.3,
+ "speech_s": 261.0,
+ "rtf": 0.154,
+ "peak_rss_gb": 0.51,
+ "peak_mlx_gb": 2.47
+}
