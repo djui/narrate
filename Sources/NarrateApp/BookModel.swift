@@ -84,15 +84,29 @@ final class SharedPhonemizer: Phonemizer, @unchecked Sendable {
     func unknownWords(_ text: String) -> [(word: String, guess: String)] { lock.withLock { base.unknownWords(text) } }
 }
 
-/// Lets a render stop between chunks and reports each synthesized chunk.
+/// Holds a render between chunks while paused.
+final class PauseGate: @unchecked Sendable {
+    private let lock = NSLock()
+    private var paused = false
+
+    func set(_ value: Bool) { lock.withLock { paused = value } }
+
+    func wait() async throws {
+        while lock.withLock({ paused }) { try await Task.sleep(for: .milliseconds(200)) }
+    }
+}
+
+/// Lets a render pause or stop between chunks and reports each synthesized chunk.
 struct ObservedEngine: SpeechEngine {
     let base: SpeechEngine
+    let pause: PauseGate
     let onChunk: @Sendable () -> Void
 
     var engineID: String { base.engineID }
     var sampleRate: Int { base.sampleRate }
 
     func synthesize(_ text: String, voice: String, speed: Double) async throws -> [Float] {
+        try await pause.wait()
         try Task.checkCancellation()
         let audio = try await base.synthesize(text, voice: voice, speed: speed)
         onChunk()
@@ -205,6 +219,10 @@ struct ObservedEngine: SpeechEngine {
     var renderDone = 0
     var renderTodo = 0
     var renderStart: Date?
+    /// Paused between chunks; the paused time is left out of the estimate.
+    let pause = PauseGate()
+    var paused = false
+    private var pausedSince: Date?
     @ObservationIgnored private var lastRefresh = Date.distantPast
 
     var exporting = false
@@ -240,12 +258,31 @@ struct ObservedEngine: SpeechEngine {
         save()
     }
 
-    /// Leave out everything that isn't a chapter or part (front and back matter, notes, TOC…).
-    func onlyStory() {
-        guard !isBusy else { return }
-        for i in book.sections.indices {
-            book.sections[i].include = ["chapter", "part"].contains(book.sections[i].kind)
+    enum Selection: String, CaseIterable {
+        case standard = "Default", all = "All", none = "None", story = "Chapters and Parts"
+
+        var help: String {
+            switch self {
+            case .standard: "As detected: leave out the title page, contents, copyright and index"
+            case .all: "Every section"
+            case .none: "No section, to tick the few you want"
+            case .story: "Only chapters and parts: no front matter, back matter or notes"
+            }
         }
+
+        func includes(_ section: NarrateCore.Section) -> Bool {
+            switch self {
+            case .standard: ["chapter", "part", "front", "back"].contains(section.kind)
+            case .all: true
+            case .none: false
+            case .story: ["chapter", "part"].contains(section.kind)
+            }
+        }
+    }
+
+    func select(_ selection: Selection) {
+        guard !isBusy else { return }
+        for i in book.sections.indices { book.sections[i].include = selection.includes(book.sections[i]) }
         save()
     }
 
@@ -342,7 +379,9 @@ struct ObservedEngine: SpeechEngine {
             (sections?.contains($0.chunk.section) ?? true) && !fm.fileExists(atPath: Renderer.cacheURL(project, key: $0.key).path)
         }.count
         renderStart = Date()
-        let engine = ObservedEngine(base: engine) { [weak self] in Task { @MainActor in self?.chunkFinished() } }
+        (paused, pausedSince) = (false, nil)
+        pause.set(false)
+        let engine = ObservedEngine(base: engine, pause: pause) { [weak self] in Task { @MainActor in self?.chunkFinished() } }
         let (project, voice, speed, phonemizer) = (project, voice, speed, phonemizer)
         let log: @Sendable (String) -> Void = { [weak self] line in Task { @MainActor in self?.renderLog.append(line) } }
         renderTask = Task {
@@ -372,7 +411,28 @@ struct ObservedEngine: SpeechEngine {
                                   phonemizer: phonemizer, log: log)
     }
 
-    func cancelRender() { renderTask?.cancel() }
+    func cancelRender() {
+        if paused { togglePause() }
+        renderTask?.cancel()
+    }
+
+    func togglePause() {
+        paused.toggle()
+        pause.set(paused)
+        if paused {
+            pausedSince = Date()
+        } else if let since = pausedSince, let start = renderStart {
+            renderStart = start + Date().timeIntervalSince(since)
+            pausedSince = nil
+        }
+    }
+
+    /// Seconds of rendering left at the rate so far, once a chunk is done.
+    var renderSecondsLeft: Double? {
+        guard let start = renderStart, renderDone > 0 else { return nil }
+        let elapsed = (pausedSince ?? Date()).timeIntervalSince(start)
+        return elapsed / Double(renderDone) * Double(renderTodo - renderDone)
+    }
 
     private func chunkFinished() {
         // A retried chunk is synthesized again in two halves; keep the count within the plan.

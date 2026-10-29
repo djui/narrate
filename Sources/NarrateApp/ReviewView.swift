@@ -28,7 +28,8 @@ struct ReviewView: View {
             } else {
                 HSplitView {
                     List(flagged, id: \.key, selection: $selection) { item in
-                        FlagRow(book: book, item: item, flag: book.flags[item.key]!)
+                        // Re-render and Accept drop the flag while SwiftUI may still lay out the old row.
+                        if let flag = book.flags[item.key] { FlagRow(book: book, item: item, flag: flag) }
                     }
                     .frame(minWidth: 280)
                     Group {

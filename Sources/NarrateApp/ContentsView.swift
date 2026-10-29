@@ -19,8 +19,15 @@ struct ContentsView: View {
                 Text("\(included.count) of \(sections.count) sections · \(included.reduce(0) { $0 + $1.words }.formatted()) words · ≈ \(hoursMinutes(book.includedMinutes))")
                     .foregroundStyle(.secondary)
                 Spacer()
-                Button("Only Chapters and Parts") { book.onlyStory() }
-                    .help("Leave out front matter, back matter, notes and the table of contents")
+                ControlGroup {
+                    ForEach(BookModel.Selection.allCases, id: \.self) { selection in
+                        Button(selection.rawValue) { book.select(selection) }.help(selection.help)
+                    }
+                } label: {
+                    Text("Select")
+                }
+                .fixedSize()
+                .disabled(book.isBusy)
             }
             .padding(12)
 

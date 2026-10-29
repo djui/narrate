@@ -16,6 +16,19 @@ final class EPUBReaderTests: XCTestCase {
         XCTAssertEqual(EPUBReader.clean(p.stringValue ?? ""), "even the appearance of this one")
     }
 
+    func testUntitledChapterIsAChapterButABareNumberIsNot() {
+        func classify(_ title: String) -> Section {
+            var s = Section(title: title, blocks: [Block(.para, String(repeating: "word ", count: 40))])
+            EPUBReader.classify(&s, types: [], text: "", bookTitle: "Book", seenChapter: false, tocTitles: [])
+            return s
+        }
+        let untitled = classify("Chapter 12")
+        XCTAssertEqual([untitled.kind, untitled.marker, untitled.spoken], ["chapter", "Chapter 12", "Chapter Twelve."])
+        XCTAssertEqual(untitled.number, 12)
+        XCTAssertEqual(classify("12. The Storm").marker, "12 · The Storm")
+        XCTAssertEqual(classify("12").kind, "front")
+    }
+
     func testMetadataAndCover() {
         XCTAssertEqual([book.title, book.author, book.language], ["The Test Voyage", "Ann Author", "en"])
         XCTAssertEqual(cover?.fileExtension, "jpg")

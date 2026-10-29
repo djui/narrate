@@ -354,7 +354,7 @@ public enum EPUBReader {
 
     // MARK: - Classification
 
-    static let chapterRe = Pattern("^(?:chapter\\s+)?(?<num>[IVXLCDM]+|\\d+)\\b[.:]?\\s*(?<rest>.*)$", ignoreCase: true)
+    static let chapterRe = Pattern("^(?<label>chapter\\s+)?(?<num>[IVXLCDM]+|\\d+)\\b[.:]?\\s*(?<rest>.*)$", ignoreCase: true)
     static let partRe = Pattern("^(?<label>part|book|volume)\\s+(?<num>[\\w-]+)\\b\\s*[—–:.\\-]*\\s*(?<rest>.*)$", ignoreCase: true)
     static let namedRe = Pattern("^(prologue|epilogue|preface|foreword|introduction|afterword|interlude|postscript)\\b", ignoreCase: true)
     static let skipSectionTypes: Set<String> = [
@@ -402,11 +402,12 @@ public enum EPUBReader {
             (section.kind, section.include, section.number) = ("part", true, n)
             section.marker = "\(label) \(num)" + (rest.isEmpty ? "" : " — \(rest)")
             section.spoken = "\(label) \(num)." + (rest.isEmpty ? "" : " \(rest).")
-        } else if let m = chapterRe.prefixMatch(title), let n = parseNumber(m["num"]!), let rawRest = m["rest"], !rawRest.isEmpty {
-            let rest = titlecase(rawRest)
+        } else if let m = chapterRe.prefixMatch(title), let n = parseNumber(m["num"]!), !(m["rest"] ?? "").isEmpty || m["label"] != nil {
+            // A bare number needs a title after it; "Chapter 12" on its own is a chapter too.
+            let rest = titlecase(m["rest"] ?? "")
             (section.kind, section.include, section.number) = ("chapter", true, n)
-            section.marker = "\(n) · \(rest)"
-            section.spoken = "Chapter \(NumberWords.words(n).capitalized). " + withPeriod(rest)
+            section.marker = rest.isEmpty ? "Chapter \(n)" : "\(n) · \(rest)"
+            section.spoken = "Chapter \(NumberWords.words(n).capitalized)." + (rest.isEmpty ? "" : " " + withPeriod(rest))
         } else if section.words <= 15 {
             (section.kind, section.include) = ("titlepage", false)
         } else if namedRe.prefixMatch(title) != nil {

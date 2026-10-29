@@ -1,4 +1,4 @@
-from narrate.epub import Book, read_epub
+from narrate.epub import Block, Book, Section, _classify, read_epub
 
 
 def test_metadata_and_cover(epub_path):
@@ -43,3 +43,15 @@ def test_json_round_trip(epub_path):
     book = read_epub(str(epub_path))
     again = Book.from_json(book.to_json())
     assert again.sections == book.sections
+
+
+def test_untitled_chapter_is_a_chapter_but_a_bare_number_is_not():
+    def classify(title):
+        s = Section(title=title, kind="", include=True, blocks=[Block("para", "word " * 40)])
+        _classify(s, set(), "", "Book", False, set())
+        return s
+
+    untitled = classify("Chapter 12")
+    assert (untitled.kind, untitled.marker, untitled.spoken, untitled.number) == ("chapter", "Chapter 12", "Chapter Twelve.", 12)
+    assert classify("12. The Storm").marker == "12 · The Storm"
+    assert classify("12").kind == "front"

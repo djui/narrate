@@ -356,7 +356,7 @@ class _Linearizer:
         out.append(el.tail or "")
 
 
-_CHAPTER = re.compile(r"^(?:chapter\s+)?(?P<num>[IVXLCDM]+|\d+)\b[.:]?\s*(?P<rest>.*)$", re.IGNORECASE)
+_CHAPTER = re.compile(r"^(?P<label>chapter\s+)?(?P<num>[IVXLCDM]+|\d+)\b[.:]?\s*(?P<rest>.*)$", re.IGNORECASE)
 _PART = re.compile(r"^(?P<label>part|book|volume)\s+(?P<num>[\w-]+)\b\s*[—–:.\-]*\s*(?P<rest>.*)$", re.IGNORECASE)
 _NAMED = re.compile(r"^(prologue|epilogue|preface|foreword|introduction|afterword|interlude|postscript)\b", re.IGNORECASE)
 
@@ -398,11 +398,12 @@ def _classify(section: Section, types: set[str], text: str, book_title: str, see
         num = number_to_words(n).title() if n is not None else m["num"].title()
         section.marker = f"{label} {num}" + (f" — {rest}" if rest else "")
         section.spoken = f"{label} {num}." + (f" {rest}." if rest else "")
-    elif (m := _CHAPTER.match(title)) and (n := _parse_number(m["num"])) is not None and m["rest"]:
+    elif (m := _CHAPTER.match(title)) and (n := _parse_number(m["num"])) is not None and (m["rest"] or m["label"]):
+        # A bare number needs a title after it; "Chapter 12" on its own is a chapter too.
         rest = titlecase(m["rest"])
         section.kind, section.include, section.number = "chapter", True, n
-        section.marker = f"{n} · {rest}"
-        section.spoken = f"Chapter {number_to_words(n).title()}. {rest}" + ("" if rest[-1] in ".!?" else ".")
+        section.marker = f"{n} · {rest}" if rest else f"Chapter {n}"
+        section.spoken = f"Chapter {number_to_words(n).title()}." + (f" {rest}" + ("" if rest[-1] in ".!?" else ".") if rest else "")
     elif section.words <= 15:
         section.kind, section.include = "titlepage", False
     elif _NAMED.match(title):
