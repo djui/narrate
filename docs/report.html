@@ -208,8 +208,9 @@ ol.ms li .wk{font:500 12px/1 var(--mono);color:var(--accent)}
 
   <div class="verdict">
     <div class="eyebrow">Recommendation</div>
-    <div class="big">Build v1 on Kokoro-82M running on MLX, not on Qwen3-TTS. Spend the hours that saves on listening back to every sentence automatically.</div>
+    <div class="big">Build Narrate as a Swift-only app around one model: Kokoro-82M running on Core ML. No bundled Python and no second model.</div>
     <ul>
+      <li><b>Updated after M1:</b> on this M2, Core ML Kokoro rendered 1.6–2.9× faster than MLX, used 0.34&nbsp;GB of memory instead of about 3&nbsp;GB, and was just as accurate. It's a native Swift package, so the whole app can be Swift. The speech-to-text check and the LLM pass are dropped; cheap signal checks and a dictionary-based pronunciation list take their place.</li>
       <li><b>Measured on this M2:</b> Kokoro renders an 11-hour novel in about 2.2 hours. Qwen3-TTS 0.6B would take about 19 hours, filled all 16&nbsp;GB of memory, and got 30% of the words wrong. Qwen3-TTS is out on this machine.</li>
       <li>For fiction, the biggest quality lever isn't the model but <b>getting the names right</b>. A per-book pronunciation list, confirmed before rendering, fixes hundreds of sentences at once.</li>
       <li>No existing tool (abogen, audiblez, ebook2audiobook) checks the audio it produced or can re-render a single sentence. That gap is the reason to build Narrate.</li>
@@ -288,6 +289,24 @@ ol.ms li .wk{font:500 12px/1 var(--mono);color:var(--accent)}
 </section>
 
 <section class="col">
+  <h2>Core ML vs MLX (after M1)</h2>
+  <p>The same Kokoro model, two runtimes. Both read the same 26 chunks, produced by Narrate's own chunker, with voice af_heart at speed 0.94. Timing covers raw text in to audio out, including the conversion to phonemes, and each run had the Mac to itself. Core ML used <a href="https://huggingface.co/mattmireles/kokoro-coreml">kokoro-coreml</a>'s 218&nbsp;MB starter bundle (Apache-2.0).</p>
+</section>
+<div class="wide scroll">
+  <table class="t">
+    <thead><tr><th>Runtime</th><th>Render time ÷ audio length (2 runs)</th><th>11 h novel</th><th>Peak memory</th><th>Word error rate</th><th>Warm load</th></tr></thead>
+    <tbody>
+      <tr><td><span class="name">mlx-audio 0.6.3</span><span class="sub">GPU, Python</span></td><td class="num">0.136 · 0.154</td><td class="num">≈ 1.5–1.7 h</td><td class="num">2.5 GB GPU + 0.5 GB</td><td class="num">3.3%</td><td class="num">20–29 s</td></tr>
+      <tr class="pick"><td><span class="name">kokoro-coreml</span><span class="sub">Neural Engine + GPU + CPU, Swift</span></td><td class="num"><b>0.053 · 0.093</b></td><td class="num"><b>≈ 35–60 min</b></td><td class="num"><b>0.34 GB</b></td><td class="num">2.9%</td><td class="num">2–14 s</td></tr>
+    </tbody>
+  </table>
+</div>
+<section class="col">
+  <p>That's a 1.6–2.9× speed-up, not the 7.6–19.9× the port's README claims for an M2 Air. The port times from phoneme IDs onward and compares against an older mlx-audio. The memory saving matters more on a 16&nbsp;GB machine. At the same speed setting, Core ML's audio runs about 7% longer, so the speed default is re-tuned by ear; it's now 1.0. Most of the remaining word mismatches for both engines were the transcriber misreading dialect, not the voice getting a word wrong.</p>
+  <p><b>Decision:</b> Kokoro on Core ML becomes the only engine, and the app becomes Swift-only. The speech-to-text check (Parakeet) and the LLM pass are left out. Kokoro dropped no words in any test, and the mismatches the check flagged were mostly its own misreadings, so it added little and would have kept Python in the app.</p>
+</section>
+
+<section class="col">
   <h2>Your pipeline, revised</h2>
   <p>The shape you proposed is right: chapters, chunks, per-chunk files, then ffmpeg to M4B. Most of my changes make each chunk addressable, checkable and cheap to redo.</p>
   <div class="diff">
@@ -297,9 +316,9 @@ ol.ms li .wk{font:500 12px/1 var(--mono);color:var(--accent)}
     <div class="row"><div class="tag change">Change</div><div><b>Insert silence; don't crossfade.</b><p>Crossfading speech smears consonants and shifts timing. Instead, trim each chunk's own leading and trailing silence and insert exact pauses based on the text's structure. Roughly 0.25&nbsp;s between sentences, 0.6&nbsp;s between paragraphs, 1.4&nbsp;s at a scene break (<code>* * *</code>), and 2&nbsp;s after a chapter title. The gaps then sound like a narrator breathing, not like seams.</p></div></div>
     <div class="row"><div class="tag change">Change</div><div><b>Name chunk files by their content, not by number.</b><p><code>037.wav</code> breaks as soon as you edit chapter 7 and every later chunk shifts by one. Instead, name each file by a hash of the normalized text, voice, speed and engine version. An edit then re-renders only the chunk that changed, and an engine upgrade automatically invalidates the old audio.</p></div></div>
     <div class="row"><div class="tag add">Add</div><div><b>Pronunciation pre-flight.</b><p>Before rendering, list every word that isn't in the speech model's pronunciation dictionary (Livesey, Trelawney, Hispaniola), plus words with well-known traps (boatswain, forecastle, gunwale), ranked by how often they occur. You confirm a “sounds like” spelling once, and it applies throughout the book.</p></div></div>
-    <div class="row"><div class="tag add">Add</div><div><b>Listen back to every chunk.</b><p>Parakeet transcribes each rendered chunk. The app compares the transcript with the source text and checks speaking rate, silences and clipping. Only the outliers are flagged for you. This is what makes “review flags only” trustworthy.</p></div></div>
+    <div class="row"><div class="tag add">Add</div><div><b>Check every chunk's signal, without a second model.</b><p>For each rendered chunk the app checks characters per second, internal silences, clipping and empty or truncated audio. Only outliers are flagged for you. A speech-to-text listen-back was tested and dropped: Kokoro dropped no words, and the check mostly flagged its own misreadings of dialect.</p></div></div>
     <div class="row"><div class="tag add">Add</div><div><b>Encode once, after a loudness pass.</b><p>Concatenate all the audio uncompressed first, then run two-pass <code>loudnorm</code> to −18 LUFS with a true peak of −1.5 dB. Encode to AAC only once, with the macOS <code>aac_at</code> encoder at 64&nbsp;kb/s mono. Encoding once also avoids AAC's start-up silence at every join.</p></div></div>
-    <div class="row"><div class="tag change">Change</div><div><b>The LLM never rewrites prose.</b><p>A small local model may classify sections (front matter or story?) and suggest pronunciations, and you approve each suggestion. It never paraphrases the text: an LLM that quietly “fixes” a sentence in chapter 19 is a bug you'd never find.</p></div></div>
+    <div class="row"><div class="tag change">Change</div><div><b>No LLM.</b><p>Sections are classified by EPUB tags plus heuristics: on <i>Treasure Island</i>, which has no tags, the heuristics alone sorted all 45 sections correctly. Pronunciations are typed by you, from a list of unknown words ranked by frequency. Nothing ever paraphrases the text.</p></div></div>
   </div>
 </section>
 
@@ -310,10 +329,10 @@ ol.ms li .wk{font:500 12px/1 var(--mono);color:var(--accent)}
     <div class="stage"><span class="n">1 · ingest</span><h4>Unpack the EPUB</h4><p>Reads metadata, cover, spine and table of contents. Splits chapters at TOC anchors and tags front matter, notes and scene breaks.</p><span class="out">book.json</span></div>
     <div class="stage new"><span class="badge">new</span><span class="n">2 · contents</span><h4>Pick chapters</h4><p>Shows the detected structure. Copyright, TOC, index and ads are skipped by default; you can toggle anything.</p><span class="out">book.json · include[]</span></div>
     <div class="stage"><span class="n">3 · normalize</span><h4>Make text speakable</h4><p>Expands numbers, dates, Roman numerals in headings and abbreviations (Dr., Capt.). Handles dialect apostrophes (’em, o’, Cap’n). Turns dashes and ellipses into pauses.</p><span class="out">speech.json</span></div>
-    <div class="stage new"><span class="badge">new</span><span class="n">4 · lexicon</span><h4>Pronunciations</h4><p>Lists unknown words by frequency. The local LLM can pre-fill “sounds like” spellings, which you confirm. Spellings are converted to phonemes.</p><span class="out">lexicon.toml</span></div>
+    <div class="stage new"><span class="badge">new</span><span class="n">4 · lexicon</span><h4>Pronunciations</h4><p>Lists words Kokoro's dictionary doesn't know, by frequency. You type a “sounds like” spelling once; it's converted to phonemes.</p><span class="out">lexicon.toml</span></div>
     <div class="stage"><span class="n">5 · chunk</span><h4>Sentence chunks</h4><p>One to three sentences, under 510 phoneme tokens. Each chunk records the pause that follows it: sentence, paragraph, scene or chapter.</p><span class="out">chunks.sqlite</span></div>
-    <div class="stage"><span class="n">6 · synth</span><h4>Render audio</h4><p>Kokoro on MLX, 24&nbsp;kHz mono. Each chunk is cached by content hash and never rendered twice.</p><span class="out">cache/ab/ab31…f2.wav</span></div>
-    <div class="stage new"><span class="badge">new</span><span class="n">7 · check</span><h4>Listen back</h4><p>Parakeet transcribes each chunk. Checks word errors against the text, characters per second, silence and clipping. Retries once with a different split; anything still failing is flagged.</p><span class="out">qa table · chunks.sqlite</span></div>
+    <div class="stage"><span class="n">6 · synth</span><h4>Render audio</h4><p>Kokoro on Core ML (Neural Engine, GPU, CPU), 24&nbsp;kHz mono. Each chunk is cached by content hash and never rendered twice.</p><span class="out">cache/ab/ab31…f2.wav</span></div>
+    <div class="stage new"><span class="badge">new</span><span class="n">7 · check</span><h4>Check signal</h4><p>Characters per second, internal silences, clipping, empty or cut-off audio. Retries once with a different split; anything still failing is flagged.</p><span class="out">qa table · chunks.sqlite</span></div>
     <div class="stage"><span class="n">8 · assemble</span><h4>Chapters → M4B</h4><p>Trims, inserts gaps, normalizes loudness, then encodes once to AAC. Adds QuickTime chapter markers, cover and tags.</p><span class="out">Treasure Island.m4b</span></div>
   </div>
   <div class="loop"><b>The fix loop.</b> Editing a chunk's text or adding a pronunciation in Review re-runs stages 3–7 for only the chunks it touches. Fixing “Livesey” re-renders the 212 chunks that contain the name, about 40 seconds of work, then stage 8 rebuilds the M4B in about a minute.</div>
@@ -347,6 +366,7 @@ ol.ms li .wk{font:500 12px/1 var(--mono);color:var(--accent)}
 
 <section class="wide">
   <div class="col"><h2>The app, sketched</h2>
+  <p class="note">Since the sketches were drawn, the app has gone Swift-only on Core ML and dropped the speech-to-text check and the LLM. In Review, flags now come from signal checks (rate, silence, clipping), and the “Heard” panel is gone. In Pronunciation, the “sounds like” column starts empty. Default speed is 1.0.</p>
   <p>Six screens, presented as steps in one sidebar per book. These are SwiftUI layout sketches filled with real data from <i>Treasure Island</i> (Stevenson, 1883, public domain). It's a good stress test: heavy dialect dialogue, nautical vocabulary, and names English speakers get wrong.</p></div>
 
   <figure class="sketch">
@@ -583,6 +603,7 @@ ol.ms li .wk{font:500 12px/1 var(--mono);color:var(--accent)}
 
 <section class="col">
   <h2>How it's built</h2>
+  <p class="note"><b>Superseded after M1:</b> the app is now Swift-only. The speech engine is kokoro-coreml as a Swift package inside the app, and the core is a Swift library with its own command-line tool. The two-process layout below described the original plan; the per-book folder layout and the engine contract still apply.</p>
   <p>Two processes and one folder per book. The Swift app owns the interface, playback and files. A bundled Python worker owns everything that touches a model. They talk JSON-RPC over stdin/stdout, which means the worker doubles as a command-line tool at no extra cost.</p>
 <pre class="block"><span class="c">Narrate.app/Contents/</span>
   MacOS/Narrate              <span class="c"># SwiftUI shell, AVFoundation playback</span>
@@ -619,8 +640,9 @@ ol.ms li .wk{font:500 12px/1 var(--mono);color:var(--accent)}
     <div class="risk"><b>One voice for eight hours</b><span>Decided: a female narrator, so the default is af_heart, the best-rated Kokoro voice, with af_bella as the alternative. Kokoro's weaker male voices no longer matter. What's left is listener fatigue: confirm in M0 that af_heart at about 0.94× speed is still pleasant after an hour, not just after a minute.</span></div>
     <div class="risk"><b>Prosody across ~3,800 separate chunks</b><span>Each chunk is spoken without hearing the one before it, so intonation can reset every sentence or two. To soften this, fill chunks up to the token limit within a paragraph, and keep a quote together with its tag (“…,” said he). Judge it by ear in M0, not on paper.</span></div>
     <div class="risk"><b>False alarms from the listen-back check</b><span>Dialect and archaic spellings (’em, fo’c’sle, ye) won't match the transcript even when the audio is right. Normalize both sides before comparing, ignore punctuation, and remember accepted flags per word. Tune thresholds on one real book until under 0.5% of chunks get flagged.</span></div>
-    <div class="risk"><b>Shipping Python inside a Mac app</b><span>Every <code>.so</code> file in the bundle has to be signed, the app needs notarizing, and it's about 400&nbsp;MB before models. Ship the worker as a signed helper, download models on first run, and keep the CLI installable separately with <code>uv tool install</code>.</span></div>
-    <div class="risk"><b>Licenses in the bundle</b><span>espeak-ng is GPL-3.0, Parakeet's weights are CC-BY-4.0, and Supertonic's are OpenRAIL-M. Bundle none of them; download each on first use with its license shown. Use an LGPL ffmpeg build, without <code>--enable-gpl</code>.</span></div>
+    <div class="risk"><b>Shipping Python inside a Mac app</b><span>Resolved by going Swift-only. The Python M1 command-line tool remains the reference and test harness until the Swift port matches its output.</span></div>
+    <div class="risk"><b>Depending on a young third-party port</b><span>kokoro-coreml is one author's project, updated days ago, and needs macOS 15 or later. Pin its manifest commit, keep the Python/MLX path as a fallback during the port, and re-run the benchmark on each upgrade.</span></div>
+    <div class="risk"><b>Licenses in the bundle</b><span>Kokoro, kokoro-coreml and its pronunciation assets are all Apache-2.0. Use an LGPL ffmpeg build without <code>--enable-gpl</code>, or AVFoundation for the AAC encoding.</span></div>
     <div class="risk"><b>The variety of EPUBs out there</b><span>Broken tables of contents, chapter titles as images, footnotes as bare superscript links. Keep 20 real public-domain EPUBs from Standard Ebooks and Project Gutenberg as ingest test fixtures from day one.</span></div>
     <div class="risk"><b>Apple Books quirks</b><span>Whether Apple Books needs the audiobook media-type tag, and how it handles <code>faststart</code>, couldn't be confirmed. Import a test M4B into Apple Books and BookPlayer in M1 instead of trusting <code>ffprobe</code> alone.</span></div>
   </div>
@@ -630,11 +652,11 @@ ol.ms li .wk{font:500 12px/1 var(--mono);color:var(--accent)}
   <h2>Build order</h2>
   <ol class="ms">
     <li><span class="wk">M0 · done 29 Oct, except the 1-hour listen</span><b>Bake-off on this Mac</b>The same 5 minutes of <i>Treasure Island</i> chapter 3 read by Kokoro af_heart and af_bella, Supertonic 3's female voices, and Qwen3-TTS 0.6B at 4-bit on MLX as a quality reference. Listen on headphones, then play the winner for a full hour. Measure real-time factor and peak memory. This confirms or overturns the engine choice, so nothing else gets built first.</li>
-    <li><span class="wk">M1 · 1–2 weeks</span><b>Command-line core, from ingest to M4B</b>No checking and no UI. Done when <i>Treasure Island</i> plays in Apple Books and BookPlayer with correct chapters and cover.</li>
-    <li><span class="wk">M2 · 1 week</span><b>Listen-back check and flags</b>Parakeet queue, word-error comparison, speaking-rate and silence checks, and one automatic retry. Tune the thresholds on two complete books.</li>
-    <li><span class="wk">M3 · 1 week</span><b>Pronunciation lexicon and the LLM pass</b>Unknown-word detection, converting sounds-like spellings to phonemes, per-book and global lexicons, and targeted re-rendering.</li>
-    <li><span class="wk">M4 · 2–3 weeks</span><b>The SwiftUI app</b>Six screens over the same worker. Build Contents, Review and Export first; Voice and Render are thin.</li>
-    <li><span class="wk">M5 · 1 week</span><b>Packaging</b>A signed, notarized app, model downloads on first run, a Homebrew cask, and the EPUB test corpus running in CI.</li>
+    <li><span class="wk">M1 · done 29 Oct</span><b>Command-line core, from ingest to M4B</b>Python reference implementation. <i>Treasure Island</i>: 41 chapters, 6.2&nbsp;h, cover and tags; confirmed in Apple Books.</li>
+    <li><span class="wk">M2 · 1–2 weeks</span><b>Swift core on Core ML</b>Port ingest, normalization, chunking, rendering and assembly to a Swift package with a command-line tool, with Kokoro via kokoro-coreml. Done when it produces the same chapters and timings as the Python M1 for <i>Treasure Island</i>.</li>
+    <li><span class="wk">M3 · 1 week</span><b>Signal checks and pronunciation list</b>Rate, silence and clipping flags with one automatic retry; unknown-word detection; sounds-like spellings; per-book and global lexicons; targeted re-rendering.</li>
+    <li><span class="wk">M4 · 2–3 weeks</span><b>The SwiftUI app</b>Six screens over the Swift core. Build Contents, Review and Export first; Voice and Render are thin.</li>
+    <li><span class="wk">M5 · 1 week</span><b>Packaging</b>A signed, notarized app, model download on first run, a Homebrew cask, and the EPUB test corpus running in CI.</li>
   </ol>
 </section>
 
@@ -645,6 +667,7 @@ ol.ms li .wk{font:500 12px/1 var(--mono);color:var(--accent)}
     <li><b>Narrator: female, Kokoro af_heart</b>af_bella is the alternative. Kokoro's weaker male voices are no longer a factor.</li>
     <li><b>Chapter titles: number plus title, spoken</b>“Chapter One. The Old Sea-dog at the Admiral Benbow.” Part titles are spoken the same way (“Part One. The Old Buccaneer.”). Numbers are spelled out from the TOC, not read off the heading text.</li>
     <li><b>Longest book in one night: about 150,000 words</b>That's roughly 16.5 hours of audio and 4.5–6.5 hours of work on this M2, by the bake-off measurements. Longer books still work, because a render that runs past morning picks up where it stopped.</li>
+    <li><b>Engine: Kokoro on Core ML, Swift only</b>No bundled Python. No speech-to-text check, no LLM. Default speed 1.0, with no deliberate slowdown.</li>
     <li><b>License: Apache-2.0. Disclosure: metadata only</b>Apache-2.0 matches Kokoro and Qwen3-TTS. GPL components such as espeak-ng are downloaded separately and never bundled. The narrator tag reads “Synthetic voice (Kokoro af_heart)”, and the audio has no spoken credit.</li>
   </ul>
   <div class="src">
