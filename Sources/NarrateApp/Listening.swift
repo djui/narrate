@@ -40,6 +40,7 @@ extension BookModel {
         Task {
             defer { speaking = false }
             do {
+                try await AppState.shared.prepareModel()
                 let audio = Renderer.trimSilence(try await engine.synthesize(spoken, voice: voice, speed: speed), sampleRate: engine.sampleRate)
                 let url = FileManager.default.temporaryDirectory.appendingPathComponent("narrate-preview.wav")
                 try WAV.write(audio, sampleRate: engine.sampleRate, to: url)
@@ -106,10 +107,14 @@ extension BookModel {
         }
     }
 
-    /// Keep the chunk as it is. A later scan checks it again.
+    /// Keep the chunk as it is; scans and renders leave it unflagged until its text, voice or speed changes.
     func accept(_ item: Renderer.Planned) {
-        flags[item.key] = nil
-        saveFlags()
+        do {
+            try Checks.accept([item.key], in: project)
+            flags[item.key] = nil
+        } catch {
+            self.error = message(error)
+        }
     }
 
     /// Drop the chunk from the cache and render its section's missing chunks, which re-checks it.
@@ -129,11 +134,15 @@ extension BookModel {
     // MARK: Words
 
     /// List the words Kokoro's G2P has to guess, most frequent first (`narrate words`).
+    /// Waits for a render to finish: Kokoro runs its own copy of Misaki while it renders.
     func listWords() {
-        let (planned, voice) = (planned, voice)
+        guard !isRendering, !listingWords else { return }
+        listingWords = true
+        let (planned, phonemizer) = (planned, phonemizer)
         Task {
+            defer { listingWords = false }
             unknownWords = await Task.detached {
-                Lexicon.unknownWords(planned, phonemizer: MisakiPhonemizer(voice: voice))
+                Lexicon.unknownWords(planned, phonemizer: phonemizer)
             }.value
         }
     }

@@ -133,12 +133,19 @@ struct Review: ParsableCommand {
     static let configuration = CommandConfiguration(abstract: "List chunks that failed a signal check, to listen to.")
     @Argument var project: String
     @Flag(help: "Check the cached audio again without re-rendering (`render --recheck` also retries)") var scan = false
+    @Option(help: "Keep a flagged chunk as it is, by key or WAV path (repeatable)") var accept: [String] = []
     @Option(help: .hidden) var metrics: String?
 
     func run() throws {
         let p = try openProject(project)
         let planned = try plannedChunks(p)
         var flags = try Checks.loadFlags(p)
+        if !accept.isEmpty {
+            let keys = Set(accept.map { URL(fileURLWithPath: $0).deletingPathExtension().lastPathComponent })
+            for key in keys where flags[key] == nil { throw ValidationError("\(key) is not flagged") }
+            try Checks.accept(keys, in: p)
+            flags = try Checks.loadFlags(p)
+        }
         if scan || metrics != nil {
             let result = try Checks.scan(p, planned)
             if let metrics {
@@ -169,7 +176,8 @@ struct Review: ParsableCommand {
             print("    \(f.text)")
             print("    \(Renderer.cacheURL(p, key: item.key).path)")
         }
-        print(String(format: "%d of %d chunks flagged (%.2f%%)", flagged.count, planned.count, 100 * Double(flagged.count) / Double(max(1, planned.count))))
+        print(String(format: "%d of %d chunks flagged (%.2f%%)", flagged.count, planned.count, 100 * Double(flagged.count) / Double(max(1, planned.count)))
+              + " · \(try Checks.loadAccepted(p).count) accepted")
     }
 }
 

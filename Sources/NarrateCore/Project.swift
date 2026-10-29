@@ -11,6 +11,8 @@ public struct Project: Sendable {
     public var settingsURL: URL { root.appendingPathComponent("settings.json") }
     /// Chunks that failed a signal check after their retry (`narrate review`).
     public var flagsURL: URL { root.appendingPathComponent("flags.json") }
+    /// Cache keys of flagged chunks you listened to and kept (`narrate review --accept`).
+    public var acceptedURL: URL { root.appendingPathComponent("accepted.json") }
     /// Per-book pronunciations (`narrate words`).
     public var lexiconURL: URL { root.appendingPathComponent("lexicon.json") }
     public var cacheDir: URL { root.appendingPathComponent("cache") }

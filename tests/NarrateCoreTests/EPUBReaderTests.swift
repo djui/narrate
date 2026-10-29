@@ -9,6 +9,13 @@ final class EPUBReaderTests: XCTestCase {
         (book, cover) = try EPUBReader.read(Fixture.epub(in: Fixture.tempDir()))
     }
 
+    func testSpaceBetweenTwoInlineElementsIsKept() throws {
+        // Gutenberg page markers: "the<span …><a …/></span> <i>appearance</i>"; Foundation alone reads "theappearance".
+        let xml = #"<html xmlns="http://www.w3.org/1999/xhtml"><body><p>even the<span class="x"><a id="p"></a></span> <i>appearance</i> of <b>this</b>\#n<i>one</i></p></body></html>"#
+        let p = try EPUBReader.Package.parse(Data(xml.utf8))
+        XCTAssertEqual(EPUBReader.clean(p.stringValue ?? ""), "even the appearance of this one")
+    }
+
     func testMetadataAndCover() {
         XCTAssertEqual([book.title, book.author, book.language], ["The Test Voyage", "Ann Author", "en"])
         XCTAssertEqual(cover?.fileExtension, "jpg")

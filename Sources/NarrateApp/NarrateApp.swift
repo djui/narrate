@@ -10,11 +10,20 @@ struct NarrateApp: App {
             RootView(app: AppState.shared)
                 .frame(minWidth: 860, minHeight: 520)
         }
-        .commands {
-            CommandGroup(replacing: .newItem) {
-                Button("Open EPUB or Project…") { AppState.shared.choose() }
-                    .keyboardShortcut("o")
-            }
+        .restorationBehavior(.disabled)
+        .commands { FileCommands() }
+    }
+}
+
+struct FileCommands: Commands {
+    @Environment(\.openWindow) private var openWindow
+
+    var body: some Commands {
+        // Commands exist from launch, before any window: the delegate opens the window through this.
+        let _ = AppState.shared.showWindow = { openWindow(id: "main") }
+        CommandGroup(replacing: .newItem) {
+            Button("Open EPUB or Project…") { AppState.shared.choose() }
+                .keyboardShortcut("o")
         }
     }
 }
@@ -24,9 +33,25 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         // Run from `swift run` (no bundle), the process starts as a background tool; make it a normal app.
         NSApp.setActivationPolicy(.regular)
         NSApp.activate()
-        // `NarrateApp path/to/book.epub` (or a .narrate folder) opens it straight away.
-        if let path = CommandLine.arguments.dropFirst().first(where: { !$0.hasPrefix("-") }) {
-            MainActor.assumeIsolated { AppState.shared.open(URL(fileURLWithPath: path)) }
+        // A book to open at launch (`NarrateApp book.epub`, Finder, the Dock icon) arrives through
+        // application(_:open:), and SwiftUI then skips its own window, so make sure there is one.
+        DispatchQueue.main.async {
+            MainActor.assumeIsolated {
+                // AppKit hands file arguments to application(_:open:), but not folders such as BOOK.narrate.
+                let app = AppState.shared
+                if app.book == nil, !app.opening, let path = CommandLine.arguments.dropFirst().first(where: { !$0.hasPrefix("-") }) {
+                    app.open(URL(fileURLWithPath: path))
+                }
+                if !NSApp.windows.contains(where: { $0.isVisible && $0.canBecomeMain }) { AppState.shared.showWindow?() }
+            }
+        }
+    }
+
+    func application(_ application: NSApplication, open urls: [URL]) {
+        guard let url = urls.first else { return }
+        MainActor.assumeIsolated {
+            AppState.shared.open(url)
+            AppState.shared.showWindow?()
         }
     }
 
@@ -64,6 +89,22 @@ struct RootView: View {
 
     @ViewBuilder private func detail(_ book: BookModel) -> some View {
         VStack(spacing: 0) {
+            if !app.modelReady {
+                HStack {
+                    Image(systemName: "arrow.down.circle")
+                    if let p = app.modelProgress {
+                        Text(p.phase == .downloading ? "Downloading the Kokoro voice model" : "Checking the Kokoro voice model")
+                        ProgressView(value: p.fraction).frame(maxWidth: 200)
+                    } else {
+                        Text("The Kokoro voice model (~220 MB) downloads once, the first time you render or preview.")
+                        Spacer()
+                        Button("Download Now") { app.downloadModel() }.disabled(app.preparingModel)
+                    }
+                    Spacer()
+                }
+                .padding(10)
+                .background(.blue.opacity(0.08))
+            }
             if let error = book.error {
                 HStack(alignment: .top) {
                     Image(systemName: "exclamationmark.triangle.fill").foregroundStyle(.orange)
