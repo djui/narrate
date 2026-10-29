@@ -9,6 +9,10 @@ public struct Project: Sendable {
 
     public var bookURL: URL { root.appendingPathComponent("book.json") }
     public var settingsURL: URL { root.appendingPathComponent("settings.json") }
+    /// Chunks that failed a signal check after their retry (`narrate review`).
+    public var flagsURL: URL { root.appendingPathComponent("flags.json") }
+    /// Per-book pronunciations (`narrate words`).
+    public var lexiconURL: URL { root.appendingPathComponent("lexicon.json") }
     public var cacheDir: URL { root.appendingPathComponent("cache") }
     public var outDir: URL { root.appendingPathComponent("out") }
     public var workDir: URL { root.appendingPathComponent("work") }
@@ -19,6 +23,13 @@ public struct Project: Sendable {
         public var speed: Double
         public var engineID: String
         public var sampleRate: Int
+
+        public init(voice: String, speed: Double, engineID: String, sampleRate: Int) {
+            self.voice = voice
+            self.speed = speed
+            self.engineID = engineID
+            self.sampleRate = sampleRate
+        }
 
         enum CodingKeys: String, CodingKey {
             case voice, speed
