@@ -25,6 +25,7 @@ let package = Package(
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),
             ]
         ),
-        .testTarget(name: "NarrateCoreTests", dependencies: ["NarrateCore"]),
+        // Shares tests/ with the Python reference implementation's pytest suite.
+        .testTarget(name: "NarrateCoreTests", dependencies: ["NarrateCore"], path: "tests/NarrateCoreTests"),
     ]
 )
