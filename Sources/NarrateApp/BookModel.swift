@@ -1,6 +1,7 @@
 import AVFoundation
 import AppKit
 import Foundation
+import KokoroTTS
 import NarrateCore
 import Observation
 
@@ -109,6 +110,34 @@ struct ObservedEngine: SpeechEngine {
     @ObservationIgnored var showWindow: (() -> Void)?
     var error: String?
     let engine = makeEngine()
+
+    /// The Kokoro model (~220 MB) downloads once, on first use; nil progress when not downloading.
+    var modelReady = true
+    var modelProgress: KokoroHydrationProgress?
+    var preparingModel = false
+
+    static func kokoro(_ engine: SpeechEngine) -> KokoroCoreMLEngine? { engine as? KokoroCoreMLEngine }
+
+    init() { modelReady = Self.kokoro(engine)?.isDownloaded ?? true }
+
+    /// Download (first run), verify and load the model, reporting progress.
+    func prepareModel() async throws {
+        guard let kokoro = Self.kokoro(engine), !preparingModel else { return }
+        preparingModel = true
+        defer { preparingModel = false; modelProgress = nil }
+        try await kokoro.prepare { progress in Task { @MainActor in AppState.shared.modelProgress = progress } }
+        modelReady = true
+    }
+
+    func downloadModel() {
+        if let other = otherHeavyJob() {
+            error = "Another heavy job is running; wait for it to finish first:\n\(other)"
+            return
+        }
+        Task {
+            do { try await prepareModel() } catch { self.error = message(error) }
+        }
+    }
 
     func choose() {
         let panel = NSOpenPanel()
@@ -321,6 +350,8 @@ struct ObservedEngine: SpeechEngine {
             let activity = ProcessInfo.processInfo.beginActivity(options: [.idleSystemSleepDisabled, .userInitiated], reason: "Rendering audiobook")
             defer { ProcessInfo.processInfo.endActivity(activity) }
             do {
+                if !AppState.shared.modelReady { renderLog.append("Downloading the Kokoro model (~220 MB, first run only)") }
+                try await AppState.shared.prepareModel()
                 let stats = try await Self.render(project, engine: engine, voice: voice, speed: speed, sections: sections, phonemizer: phonemizer, log: log)
                 renderLog.append(String(format: "Done: %d chunks rendered, %.1f min of audio in %.1f min; %d flagged for Review.",
                                         stats.rendered, stats.audioSeconds / 60, stats.elapsedSeconds / 60, stats.flagged))

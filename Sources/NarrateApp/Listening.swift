@@ -40,6 +40,7 @@ extension BookModel {
         Task {
             defer { speaking = false }
             do {
+                try await AppState.shared.prepareModel()
                 let audio = Renderer.trimSilence(try await engine.synthesize(spoken, voice: voice, speed: speed), sampleRate: engine.sampleRate)
                 let url = FileManager.default.temporaryDirectory.appendingPathComponent("narrate-preview.wav")
                 try WAV.write(audio, sampleRate: engine.sampleRate, to: url)

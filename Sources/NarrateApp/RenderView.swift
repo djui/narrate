@@ -71,6 +71,9 @@ struct RenderView: View {
         guard book.isRendering else {
             return book.cachedChunks == book.totalChunks ? "Everything is rendered" : "\((book.totalChunks - book.cachedChunks).formatted()) chunks to render"
         }
+        if let p = AppState.shared.modelProgress {
+            return p.phase == .downloading ? "Downloading the voice model… \(Int(p.fraction * 100))%" : "Checking the voice model… \(Int(p.fraction * 100))%"
+        }
         guard let start = book.renderStart, book.renderDone > 0 else { return "Starting… (the model loads on first use)" }
         let elapsed = Date().timeIntervalSince(start)
         let left = elapsed / Double(book.renderDone) * Double(book.renderTodo - book.renderDone)

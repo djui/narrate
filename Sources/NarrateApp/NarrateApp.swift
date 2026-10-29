@@ -89,6 +89,22 @@ struct RootView: View {
 
     @ViewBuilder private func detail(_ book: BookModel) -> some View {
         VStack(spacing: 0) {
+            if !app.modelReady {
+                HStack {
+                    Image(systemName: "arrow.down.circle")
+                    if let p = app.modelProgress {
+                        Text(p.phase == .downloading ? "Downloading the Kokoro voice model" : "Checking the Kokoro voice model")
+                        ProgressView(value: p.fraction).frame(maxWidth: 200)
+                    } else {
+                        Text("The Kokoro voice model (~220 MB) downloads once, the first time you render or preview.")
+                        Spacer()
+                        Button("Download Now") { app.downloadModel() }.disabled(app.preparingModel)
+                    }
+                    Spacer()
+                }
+                .padding(10)
+                .background(.blue.opacity(0.08))
+            }
             if let error = book.error {
                 HStack(alignment: .top) {
                     Image(systemName: "exclamationmark.triangle.fill").foregroundStyle(.orange)
