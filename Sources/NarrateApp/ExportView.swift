@@ -2,7 +2,7 @@ import AppKit
 import NarrateCore
 import SwiftUI
 
-/// Step 6: assemble the cached chunks into a chaptered M4B and show what ffprobe sees in it.
+/// Step 6: assemble the cached chunks into a chaptered M4B and show what AVFoundation reads back from it.
 struct ExportView: View {
     let book: BookModel
 

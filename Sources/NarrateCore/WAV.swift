@@ -50,6 +50,39 @@ public enum WAV {
         throw Failure.notPCM16Mono(url)
     }
 
+    /// Streams samples out of a WAV this module wrote, a block at a time (the joined book).
+    public final class Reader {
+        private let handle: FileHandle
+        public let sampleRate: Int
+        public let count: Int
+        private var remaining: Int
+
+        public init(url: URL) throws {
+            handle = try FileHandle(forReadingFrom: url)
+            let d = try handle.read(upToCount: 4096) ?? Data()
+            func u32(_ o: Int) -> Int { Int(d[o]) | Int(d[o + 1]) << 8 | Int(d[o + 2]) << 16 | Int(d[o + 3]) << 24 }
+            func u16(_ o: Int) -> Int { Int(d[o]) | Int(d[o + 1]) << 8 }
+            guard d.count >= 44, u16(20) == 1, u16(22) == 1, u16(34) == 16 else { throw Failure.notPCM16Mono(url) }
+            sampleRate = u32(24)
+            var offset = 12
+            while offset + 8 <= d.count, !d[offset..<offset + 4].elementsEqual("data".utf8) { offset += 8 + u32(offset + 4) }
+            guard offset + 8 <= d.count else { throw Failure.notPCM16Mono(url) }
+            count = u32(offset + 4) / 2
+            remaining = count
+            try handle.seek(toOffset: UInt64(offset + 8))
+        }
+
+        /// Up to `max` samples; empty at the end.
+        public func read(max: Int) throws -> [Float] {
+            let n = min(max, remaining)
+            guard n > 0, let d = try handle.read(upToCount: n * 2), !d.isEmpty else { return [] }
+            remaining -= d.count / 2
+            return d.withUnsafeBytes { raw in raw.bindMemory(to: Int16.self).map { Float(Int16(littleEndian: $0)) / 32767 } }
+        }
+
+        public func close() throws { try handle.close() }
+    }
+
     /// Streams samples into a WAV file whose size isn't known up front (the joined book).
     public final class Writer {
         private let handle: FileHandle

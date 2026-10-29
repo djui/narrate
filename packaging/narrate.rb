@@ -11,7 +11,6 @@ cask "narrate" do
 
   depends_on arch: :arm64
   depends_on macos: ">= :sequoia"
-  depends_on formula: "ffmpeg"
 
   app "Narrate.app"
 

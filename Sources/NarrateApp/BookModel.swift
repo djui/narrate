@@ -388,7 +388,7 @@ struct ObservedEngine: SpeechEngine {
         guard let existing = files.first(where: { $0.pathExtension == "m4b" && !$0.lastPathComponent.hasSuffix(".part.m4b") }) else { return }
         output = existing
         Task {
-            probe = try? await Task.detached { try Assembler.probe(existing) }.value
+            probe = try? await Assembler.probe(existing)
         }
     }
 
@@ -406,10 +406,8 @@ struct ObservedEngine: SpeechEngine {
         Task {
             defer { exporting = false }
             do {
-                let (url, info) = try await Task.detached {
-                    let url = try Assembler.export(project, log: log)
-                    return (url, try Assembler.probe(url))
-                }.value
+                let url = try await Task.detached { try Assembler.export(project, log: log) }.value
+                let info = try await Assembler.probe(url)
                 output = url
                 probe = info
             } catch {

@@ -6,8 +6,9 @@ Turn a DRM-free EPUB into a chaptered M4B audiobook, rendered offline on Apple S
 
 Status: M5, a notarized Mac app with its own command-line tool. Website: [djui.github.io/narrate](https://djui.github.io/narrate/). Design, bake-offs and roadmap: [docs/report.html](docs/report.html).
 
-Requires macOS 15+, Xcode 26+ and `ffmpeg` on `PATH` (Homebrew's build includes the AudioToolbox AAC
-encoder). The ~220 MB Kokoro model downloads on first render into `~/Library/Caches/narrate`.
+Requires macOS 15+ and Xcode 26+; nothing else. Loudness normalisation, AAC encoding and the
+chaptered M4B are done natively (AVFoundation). The ~220 MB Kokoro model downloads on first render
+into `~/Library/Caches/narrate`.
 
 ```bash
 swift build -c release
@@ -71,7 +72,7 @@ A SwiftUI Mac app with one sidebar of steps per book: **Contents** (pick section
 estimates), **Pronunciation** (the `words` list; type a sounds-like spelling and press Set),
 **Voice** (voice, speed, and a preview read from the book's opening), **Render** (progress per
 section; Stop keeps every finished chunk), **Review** (flagged chunks with Play, Play in Context,
-Re-render and Accept) and **Export** (build the M4B, then see its chapters and tags as ffprobe reads them).
+Re-render and Accept) and **Export** (build the M4B, then see its chapters and tags as AVFoundation reads them).
 It works on the same project folder as the command-line tool.
 
 ```bash
