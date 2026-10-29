@@ -99,7 +99,12 @@ NOTARY_PROFILE=<name> scripts/release.sh 0.5.0 --publish   # build, sign, notari
 swift scripts/make-icon.swift packaging/AppIcon.icns       # redraw the app icon
 ```
 
-Then update `version` and `sha256` in `packaging/narrate.rb` from the script's output.
+Then update `version` and `sha256` in `packaging/narrate.rb` from the script's output, and commit
+`docs/appcast.xml`: the script signs the zip with the Sparkle EdDSA key in your keychain (account
+`narrate`, made once with `.build/artifacts/sparkle/Sparkle/bin/generate_keys --account narrate`) and
+adds the release to the feed the app checks daily (Narrate → Check for Updates…). Losing that key
+means existing installs can't verify updates; export it with `generate_keys --account narrate -x key.txt`
+and keep it somewhere safe.
 
 ## EPUB corpus
 

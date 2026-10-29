@@ -10,8 +10,12 @@ swift build -c "$config" --product NarrateApp
 bin="$(swift build -c "$config" --show-bin-path)"
 app=.build/Narrate.app
 rm -rf "$app"
-mkdir -p "$app/Contents/MacOS" "$app/Contents/Resources"
+mkdir -p "$app/Contents/MacOS" "$app/Contents/Resources" "$app/Contents/Frameworks"
 cp "$bin/NarrateApp" "$app/Contents/MacOS/Narrate"
+# Sparkle (update checks) is a framework; it goes in Contents/Frameworks, on the executable's rpath.
+ditto "$bin/Sparkle.framework" "$app/Contents/Frameworks/Sparkle.framework"
+otool -l "$app/Contents/MacOS/Narrate" | grep -q '@executable_path/../Frameworks' ||
+  install_name_tool -add_rpath @executable_path/../Frameworks "$app/Contents/MacOS/Narrate" 2>/dev/null
 # Dynamic library products (MisakiSwift) load from @rpath, which includes the executable's folder.
 find "$bin" -maxdepth 1 -name '*.dylib' -exec cp {} "$app/Contents/MacOS/" \;
 # SwiftPM's generated Bundle.module finds dependency resource bundles (KokoroTTS, MisakiSwift, MLX's
@@ -35,6 +39,9 @@ cat > "$app/Contents/Info.plist" <<PLIST
   <key>NSHumanReadableCopyright</key><string>Apache-2.0</string>
   <key>NSHighResolutionCapable</key><true/>
   <key>NSPrincipalClass</key><string>NSApplication</string>
+  <key>SUFeedURL</key><string>https://djui.github.io/narrate/appcast.xml</string>
+  <key>SUPublicEDKey</key><string>k7nRdZvDYJyXfrxrezwGrLeSTOaimRm/uxrWh6wqitw=</string>
+  <key>SUEnableAutomaticChecks</key><true/>
   <key>CFBundleDocumentTypes</key><array>
     <dict>
       <key>CFBundleTypeName</key><string>EPUB book</string>
@@ -45,4 +52,7 @@ cat > "$app/Contents/Info.plist" <<PLIST
   </array>
 </dict></plist>
 PLIST
+# install_name_tool voids the linker's ad-hoc signature; sign again so the local build launches.
+# (scripts/release.sh replaces this with the Developer ID signature.)
+codesign --force --deep --sign - "$app" >/dev/null 2>&1
 echo "$app"

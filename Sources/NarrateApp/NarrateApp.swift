@@ -1,9 +1,14 @@
 import AppKit
+import Sparkle
 import SwiftUI
 
 @main
 struct NarrateApp: App {
     @NSApplicationDelegateAdaptor private var delegate: AppDelegate
+    /// Sparkle checks docs/appcast.xml daily. Only a bundle built by scripts/bundle-app.sh has a feed;
+    /// `swift run` has none, and the updater stays off.
+    private let updater = SPUStandardUpdaterController(
+        startingUpdater: Bundle.main.object(forInfoDictionaryKey: "SUFeedURL") != nil, updaterDelegate: nil, userDriverDelegate: nil)
 
     var body: some Scene {
         Window("Narrate", id: "main") {
@@ -13,7 +18,13 @@ struct NarrateApp: App {
         .windowStyle(.hiddenTitleBar)
         .defaultSize(width: 980, height: 760)
         .restorationBehavior(.disabled)
-        .commands { FileCommands() }
+        .commands {
+            FileCommands()
+            CommandGroup(after: .appInfo) {
+                Button("Check for Updates…") { updater.checkForUpdates(nil) }
+                    .disabled(Bundle.main.object(forInfoDictionaryKey: "SUFeedURL") == nil)
+            }
+        }
     }
 }
 
