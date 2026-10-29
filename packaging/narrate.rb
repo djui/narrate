@@ -2,7 +2,7 @@
 # into a tap. scripts/release.sh prints the sha256 of the zip it builds.
 cask "narrate" do
   version "0.5.0"
-  sha256 "SHA256"
+  sha256 "f4fc24263e65124abf743bd061b90a32de9f58b2302356b6867648c305da8f24"
 
   url "https://github.com/djui/narrate/releases/download/v#{version}/Narrate-#{version}.zip"
   name "Narrate"
