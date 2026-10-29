@@ -57,9 +57,6 @@ struct RenderView: View {
                 .frame(height: 90)
                 .defaultScrollAnchor(.bottom)
             }
-
-            Text("The Mac stays awake while rendering. Pause holds before the next chunk; Stop keeps every finished chunk, and a cached chunk is never rendered twice.")
-                .font(.callout).foregroundStyle(.secondary)
         }
         .padding(16)
         .onAppear { if !book.isRendering { book.refreshCache() } }
