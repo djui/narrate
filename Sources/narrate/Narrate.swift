@@ -6,7 +6,7 @@ import NarrateCore
 struct Narrate: AsyncParsableCommand {
     static let configuration = CommandConfiguration(
         abstract: "Turn a DRM-free EPUB into an M4B audiobook, offline, with Kokoro on Core ML.",
-        subcommands: [Ingest.self, Contents.self, Plan.self, Render.self, Export.self, Build.self]
+        subcommands: [Ingest.self, Contents.self, Plan.self, Render.self, Review.self, Words.self, Export.self, Build.self]
     )
 }
 
@@ -45,11 +45,12 @@ func printContents(_ project: Project, speed: Double) throws {
     print(String(format: "included: ≈ %.1f h at speed %.2f", total / 60, speed))
 }
 
-func render(_ project: Project, voice: VoiceOptions, sections: Set<Int>?) async throws {
+func render(_ project: Project, voice: VoiceOptions, sections: Set<Int>?, recheck: Bool = false) async throws {
     // Keep the Mac awake while rendering; the assertion ends with the activity.
     let activity = ProcessInfo.processInfo.beginActivity(options: [.idleSystemSleepDisabled, .userInitiated], reason: "Rendering audiobook")
     defer { ProcessInfo.processInfo.endActivity(activity) }
-    _ = try await Renderer.render(project, engine: KokoroCoreMLEngine(), voice: voice.voice, speed: voice.speed, sections: sections)
+    _ = try await Renderer.render(project, engine: KokoroCoreMLEngine(), voice: voice.voice, speed: voice.speed, sections: sections,
+                                  phonemizer: MisakiPhonemizer(voice: voice.voice), recheck: recheck)
 }
 
 func export(_ project: Project) throws {
@@ -110,10 +111,114 @@ struct Render: AsyncParsableCommand {
     static let configuration = CommandConfiguration(abstract: "Render missing chunks (resumable).")
     @Argument var project: String
     @Option(help: "Only render these section numbers, e.g. 5-7") var sections: String?
+    @Flag(help: "Also check chunks already in the cache and retry flagged ones") var recheck = false
     @OptionGroup var voice: VoiceOptions
 
     func run() async throws {
-        try await render(try openProject(project), voice: voice, sections: sections == nil ? nil : try indices(sections))
+        try await render(try openProject(project), voice: voice, sections: sections == nil ? nil : try indices(sections), recheck: recheck)
+    }
+}
+
+func sectionLabel(_ book: Book, _ i: Int) -> String {
+    let s = book.sections[i]
+    return s.marker.isEmpty ? (s.title.isEmpty ? "section \(i)" : s.title) : s.marker
+}
+
+func plannedChunks(_ project: Project) throws -> [Renderer.Planned] {
+    guard let settings = try project.loadSettings() else { throw ValidationError("nothing rendered yet; run `narrate render` first") }
+    return try Renderer.planned(project, settings)
+}
+
+struct Review: ParsableCommand {
+    static let configuration = CommandConfiguration(abstract: "List chunks that failed a signal check, to listen to.")
+    @Argument var project: String
+    @Flag(help: "Check the cached audio again without re-rendering (`render --recheck` also retries)") var scan = false
+    @Option(help: .hidden) var metrics: String?
+
+    func run() throws {
+        let p = try openProject(project)
+        let planned = try plannedChunks(p)
+        var flags = try Checks.loadFlags(p)
+        if scan || metrics != nil {
+            let result = try Checks.scan(p, planned)
+            if let metrics {
+                struct Row: Encodable { let key: String; let section: Int; let text: String; let speech_chars: Int; let metrics: Checks.Metrics }
+                let rows = planned.compactMap { item in result.metrics[item.key].map { Row(key: item.key, section: item.chunk.section, text: item.chunk.text, speech_chars: Checks.speechChars(item.text), metrics: $0) } }
+                try JSONEncoder().encode(rows).write(to: URL(fileURLWithPath: metrics))
+            }
+            if scan {
+                // Keep the record of earlier retries for chunks that still fail.
+                flags = result.flags.mapValues { flag in
+                    var flag = flag
+                    flag.retried = flags.values.contains { $0.text == flag.text && $0.retried }
+                    return flag
+                }
+                try Checks.save(flags, to: p)
+            }
+        }
+        let book = try p.loadBook()
+        let flagged = planned.filter { flags[$0.key] != nil }
+        for item in flagged {
+            let f = flags[item.key]!
+            let m = f.metrics
+            var numbers = [String(format: "%.1f s", m.seconds), String(format: "%.1f chars/s (median %.1f)", m.charsPerSecond, f.medianRate)]
+            if m.longestSilence > 0.5 { numbers.append(String(format: "silence %.1f s", m.longestSilence)) }
+            if m.clipped > 0 { numbers.append(String(format: "%.2f%% clipped", m.clipped * 100)) }
+            if f.reasons.contains("cut off") { numbers.append(String(format: "ends at %.2f", m.tailLevel)) }
+            print("\(String(format: "%3d", f.section)) \(sectionLabel(book, f.section)) · \(f.reasons.joined(separator: ", ")) · \(numbers.joined(separator: " · "))\(f.retried ? " · retried" : "")")
+            print("    \(f.text)")
+            print("    \(Renderer.cacheURL(p, key: item.key).path)")
+        }
+        print(String(format: "%d of %d chunks flagged (%.2f%%)", flagged.count, planned.count, 100 * Double(flagged.count) / Double(max(1, planned.count))))
+    }
+}
+
+/// About `width` characters of `text` around the first `word`.
+func excerpt(_ text: String, around word: String, width: Int = 90) -> String {
+    guard text.count > width, let r = text.range(of: word) else { return text }
+    let at = text.distance(from: text.startIndex, to: r.lowerBound)
+    let start = max(0, min(at - width / 3, text.count - width))
+    let piece = String(Array(text)[start..<min(text.count, start + width)])
+    return (start > 0 ? "…" : "") + piece + (start + width < text.count ? "…" : "")
+}
+
+struct Words: ParsableCommand {
+    static let configuration = CommandConfiguration(
+        abstract: "List words Kokoro's G2P has to guess, and set how they sound.",
+        discussion: "Entries live in PROJECT/lexicon.json as word → sounds-like spelling (\"Liv-see\") or IPA between slashes (\"/lˈɪvsi/\"). Changing one re-renders only the chunks that contain the word."
+    )
+    @Argument var project: String
+    @Option(help: "How many words to list") var limit = 50
+    @Option(name: .customLong("set"), help: "WORD=SOUNDS-LIKE, e.g. Livesey=Liv-see (repeatable)") var entries: [String] = []
+    @Option(help: "Remove a lexicon entry (repeatable)") var remove: [String] = []
+
+    func run() throws {
+        let p = try openProject(project)
+        let voice = try p.loadSettings()?.voice ?? EngineDefaults.voice
+        let g2p = MisakiPhonemizer(voice: voice)
+        var lexicon = try Lexicon.load(p)
+        for word in remove { lexicon.entries[word] = nil }
+        for entry in entries {
+            let parts = entry.split(separator: "=", maxSplits: 1).map { $0.trimmingCharacters(in: .whitespaces) }
+            guard parts.count == 2, !parts[0].isEmpty, !parts[1].isEmpty else { throw ValidationError("expected WORD=SOUNDS-LIKE, got \(entry)") }
+            lexicon.entries[parts[0]] = Lexicon.Entry(say: parts[1])
+        }
+        if lexicon.resolve(with: g2p) || !remove.isEmpty || !entries.isEmpty { try lexicon.save(p) }
+        for word in remove + entries.map({ String($0.split(separator: "=")[0]) }) {
+            let one = Lexicon(lexicon.entries.filter { $0.key == word })
+            let affected = try Chunker.plan(p.loadBook()).filter { try one.apply($0.text) != $0.text }.count
+            let phonemes = lexicon.entries[word]?.phonemes.map { "/\($0)/" } ?? "removed"
+            print("\(word) → \(phonemes) · \(affected) chunks to re-render")
+        }
+        if !remove.isEmpty || !entries.isEmpty { return }
+
+        let book = try p.loadBook()
+        let settings = try p.loadSettings() ?? Project.Settings(voice: voice, speed: EngineDefaults.speed, engineID: "", sampleRate: 24000)
+        let words = Lexicon.unknownWords(try Renderer.planned(p, settings, lexicon: lexicon), phonemizer: g2p)
+        for w in words.prefix(limit) {
+            print("\(String(format: "%4d", w.count))  \(w.word.padding(toLength: 16, withPad: " ", startingAt: 0)) /\(w.guess)/  § \(w.section): \(excerpt(w.example, around: w.word))")
+        }
+        print("\(words.count) words guessed; \(lexicon.entries.count) in lexicon.json")
     }
 }
 
