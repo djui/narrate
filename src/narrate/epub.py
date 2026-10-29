@@ -120,7 +120,7 @@ def _clean(text: str, keep_newlines: bool = False) -> str:
     return " ".join(text.replace(BR, " ").split())
 
 
-def _titlecase(text: str) -> str:
+def titlecase(text: str) -> str:
     """Title-case an ALL-CAPS heading; leave mixed-case text alone."""
     if not text.isupper():
         return text
@@ -392,14 +392,14 @@ def _classify(section: Section, types: set[str], text: str, book_title: str, see
         section.kind, section.include = "index", False
     elif m := _PART.match(title):
         n = _parse_number(m["num"])
-        rest = _titlecase(m["rest"])
+        rest = titlecase(m["rest"])
         section.kind, section.include, section.number = "part", True, n
         label = m["label"].capitalize()
         num = number_to_words(n).title() if n is not None else m["num"].title()
         section.marker = f"{label} {num}" + (f" — {rest}" if rest else "")
         section.spoken = f"{label} {num}." + (f" {rest}." if rest else "")
     elif (m := _CHAPTER.match(title)) and (n := _parse_number(m["num"])) is not None and m["rest"]:
-        rest = _titlecase(m["rest"])
+        rest = titlecase(m["rest"])
         section.kind, section.include, section.number = "chapter", True, n
         section.marker = f"{n} · {rest}"
         section.spoken = f"Chapter {number_to_words(n).title()}. {rest}" + ("" if rest[-1] in ".!?" else ".")
@@ -407,17 +407,17 @@ def _classify(section: Section, types: set[str], text: str, book_title: str, see
         section.kind, section.include = "titlepage", False
     elif _NAMED.match(title):
         section.kind, section.include = ("back" if seen_chapter else "front"), True
-        section.marker = _titlecase(title)
+        section.marker = titlecase(title)
         section.spoken = section.marker + ("" if section.marker[-1] in ".!?" else ".")
     else:
         section.kind = "back" if seen_chapter else "front"
         section.include = True
         if _norm(title) and _norm(title) != _norm(book_title):
-            section.marker = _titlecase(title)
+            section.marker = titlecase(title)
             section.spoken = section.marker + ("" if section.marker[-1] in ".!?" else ".")
         else:
             heading = next((b.text for b in section.blocks if b.kind == "heading" and _norm(b.text) != _norm(book_title)), "")
-            section.marker = _titlecase(heading) if heading else ("Afterword" if seen_chapter else "Opening")
+            section.marker = titlecase(heading) if heading else ("Afterword" if seen_chapter else "Opening")
 
 
 def _drop_title_headings(section: Section, book_title: str) -> None:
@@ -430,7 +430,7 @@ def _drop_title_headings(section: Section, book_title: str) -> None:
     dupes.discard("")
     blocks = []
     for i, b in enumerate(section.blocks):
-        if b.kind == "heading" and (_norm(b.text) in dupes or (i < 3 and roman_to_int(b.text.strip(" ."))) is not None):
+        if b.kind == "heading" and (_norm(b.text) in dupes or (i < 3 and roman_to_int(b.text.strip(" .")) is not None)):
             continue
         blocks.append(b)
     while blocks and blocks[0].kind == "scene_break":

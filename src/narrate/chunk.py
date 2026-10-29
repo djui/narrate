@@ -9,7 +9,7 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass
 
-from .epub import Book
+from .epub import Book, titlecase
 from .normalize import normalize
 
 MAX_CHARS = 300  # Kokoro truncates past ~510 phoneme tokens; 300 characters stays well under.
@@ -105,7 +105,7 @@ def plan(book: Book, max_chars: int = MAX_CHARS) -> list[Chunk]:
             if block.kind == "scene_break":
                 bump(PAUSE_SCENE)
             elif block.kind == "heading":
-                add(idx, block.text, PAUSE_HEADING)
+                add(idx, titlecase(block.text), PAUSE_HEADING)  # all-caps would be read as shouting
             elif block.kind == "verse":
                 for line in block.text.split("\n"):
                     for piece in pack(line, max_chars):
