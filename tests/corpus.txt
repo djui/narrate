@@ -1,0 +1,13 @@
+# EPUB test corpus: public-domain books from Project Gutenberg, chosen for structure that trips
+# up EPUB readers (parts, poems, letters, footnotes, dialect, odd tables of contents).
+# name  url
+treasure-island      https://www.gutenberg.org/ebooks/120.epub3.images
+alice                https://www.gutenberg.org/ebooks/11.epub3.images
+pride-and-prejudice  https://www.gutenberg.org/ebooks/1342.epub3.images
+frankenstein         https://www.gutenberg.org/ebooks/84.epub3.images
+sherlock-holmes      https://www.gutenberg.org/ebooks/1661.epub3.images
+moby-dick            https://www.gutenberg.org/ebooks/2701.epub3.images
+dracula              https://www.gutenberg.org/ebooks/345.epub3.images
+kidnapped            https://www.gutenberg.org/ebooks/421.epub3.images
+the-moonstone        https://www.gutenberg.org/ebooks/155.epub3.images
+leaves-of-grass      https://www.gutenberg.org/ebooks/1322.epub3.images

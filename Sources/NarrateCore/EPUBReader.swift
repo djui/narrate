@@ -103,8 +103,19 @@ public enum EPUBReader {
             return data
         }
 
+        /// Foundation's XMLDocument drops a whitespace-only text node between two elements, even with
+        /// `.nodePreserveWhitespace`: `<b>to</b> <i>be</i>` reads "tobe". Inside `<body>` such gaps
+        /// become a no-break space, which `clean` reads as a space.
+        static let elementGap = Pattern("(?<=>)[ \\t\\r\\n]+(?=<)")
+
+        static func protectingGaps(_ data: Data) -> Data {
+            guard let text = String(data: data, encoding: .utf8), let body = text.range(of: "<body") else { return data }
+            return Data((text[..<body.lowerBound] + elementGap.replacing(in: String(text[body.lowerBound...]), with: "\u{00A0}")).utf8)
+        }
+
         static func parse(_ data: Data) throws -> XMLElement {
             let options: XMLNode.Options = [.nodePreserveWhitespace, .nodeLoadExternalEntitiesNever]
+            let data = protectingGaps(data)
             let doc = try (try? XMLDocument(data: data, options: options)) ?? XMLDocument(data: data, options: options.union(.documentTidyXML))
             guard let root = doc.rootElement() else { throw Failure.invalid("empty XML document") }
             return root
