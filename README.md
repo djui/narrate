@@ -68,12 +68,12 @@ chunks containing the word get a new cache key.
 
 ## The app
 
-A SwiftUI Mac app with one sidebar of steps per book: **Contents** (pick sections, see time
-estimates), **Pronunciation** (the `words` list; type a sounds-like spelling and press Set),
-**Voice** (voice, speed, and a preview read from the book's opening), **Render** (progress per
-section; Stop keeps every finished chunk), **Review** (flagged chunks with Play, Play in Context,
-Re-render and Accept) and **Export** (build the M4B, then see its chapters and tags as AVFoundation reads them).
-It works on the same project folder as the command-line tool.
+A SwiftUI Mac app with one window per book: the cover, every section with its render progress, and
+one button for the next step (Render, Pause/Resume, Export M4B, Show in Finder). Buttons under the
+title open **Sections** (pick what's read: Default, All, None, Chapters and Parts), **Pronunciation**
+(the `words` list; type a sounds-like spelling and press Set), **Review** (flagged chunks with Play,
+Play in Context, Re-render and Accept) and **Voice** (speed, and a preview read from the book's
+opening). It works on the same project folder as the command-line tool.
 
 ```bash
 swift run NarrateApp treasure-island.epub      # or a .narrate folder; or drop one on the window

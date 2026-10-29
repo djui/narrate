@@ -1,7 +1,7 @@
 import NarrateCore
 import SwiftUI
 
-/// Step 5: the chunks that still failed a signal check after their retry. The only screen where you have to listen.
+/// The Review sheet: the chunks that still failed a signal check after their retry. The only screen where you have to listen.
 struct ReviewView: View {
     let book: BookModel
     var addPronunciation: () -> Void

@@ -1,7 +1,7 @@
 import NarrateCore
 import SwiftUI
 
-/// Step 1: what the EPUB contains and which sections go into the audiobook.
+/// The Sections sheet: what the EPUB contains and which sections go into the audiobook.
 struct ContentsView: View {
     let book: BookModel
     @State private var selection: Int?

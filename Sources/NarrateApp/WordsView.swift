@@ -1,7 +1,7 @@
 import NarrateCore
 import SwiftUI
 
-/// Step 2: words Kokoro's G2P has to guess, ranked by count, and the sounds-like spellings that fix them.
+/// The Pronunciation sheet: words Kokoro's G2P has to guess, ranked by count, and the sounds-like spellings that fix them.
 struct WordsView: View {
     let book: BookModel
     @State private var global = false

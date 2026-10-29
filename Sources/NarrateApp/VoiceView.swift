@@ -2,7 +2,7 @@ import KokoroTTS
 import NarrateCore
 import SwiftUI
 
-/// Step 3: voice and speed, auditioned on the book's own opening.
+/// The Voice popover: voice and speed, auditioned on the book's own opening.
 struct VoiceView: View {
     @Bindable var book: BookModel
 

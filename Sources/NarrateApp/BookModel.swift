@@ -8,24 +8,6 @@ import Observation
 /// Speaking rate used for time estimates: Kokoro af_heart at 1.0×, measured in the bake-off.
 let wordsPerMinute = 200.0
 
-/// The six steps in the sidebar, in the order a book goes through them.
-enum Step: String, CaseIterable, Identifiable, Hashable {
-    case contents, pronunciation, voice, render, review, export
-
-    var id: Self { self }
-    var title: String { rawValue.capitalized }
-    var symbol: String {
-        switch self {
-        case .contents: "list.bullet.rectangle"
-        case .pronunciation: "character.bubble"
-        case .voice: "waveform"
-        case .render: "gearshape.2"
-        case .review: "checklist"
-        case .export: "square.and.arrow.up"
-        }
-    }
-}
-
 struct AppError: Error, CustomStringConvertible {
     let description: String
     init(_ description: String) { self.description = description }

@@ -8,8 +8,10 @@ struct NarrateApp: App {
     var body: some Scene {
         Window("Narrate", id: "main") {
             RootView(app: AppState.shared)
-                .frame(minWidth: 860, minHeight: 520)
+                .frame(minWidth: 720, minHeight: 520)
         }
+        .windowStyle(.hiddenTitleBar)
+        .defaultSize(width: 980, height: 760)
         .restorationBehavior(.disabled)
         .commands { FileCommands() }
     }
@@ -60,19 +62,16 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
 struct RootView: View {
     @Bindable var app: AppState
-    /// `NARRATE_STEP=review` (any step's name) opens on that step, for trying a screen quickly.
-    @State private var step: Step = Step(rawValue: ProcessInfo.processInfo.environment["NARRATE_STEP"] ?? "") ?? .contents
 
     var body: some View {
         Group {
             if let book = app.book {
-                NavigationSplitView {
-                    Sidebar(book: book, step: $step)
-                } detail: {
-                    detail(book)
-                        .navigationTitle(book.book.title)
-                        .navigationSubtitle(book.book.author)
+                VStack(spacing: 0) {
+                    banners(book)
+                    BookView(book: book)
                 }
+                .navigationTitle(book.book.title)
+                .navigationSubtitle(book.book.author)
             } else {
                 Welcome(app: app)
             }
@@ -87,73 +86,32 @@ struct RootView: View {
         } message: { Text($0) }
     }
 
-    @ViewBuilder private func detail(_ book: BookModel) -> some View {
-        VStack(spacing: 0) {
-            if !app.modelReady {
-                HStack {
-                    Image(systemName: "arrow.down.circle")
-                    if let p = app.modelProgress {
-                        Text(p.phase == .downloading ? "Downloading the Kokoro voice model" : "Checking the Kokoro voice model")
-                        ProgressView(value: p.fraction).frame(maxWidth: 200)
-                    } else {
-                        Text("The Kokoro voice model (~220 MB) downloads once, the first time you render or preview.")
-                        Spacer()
-                        Button("Download Now") { app.downloadModel() }.disabled(app.preparingModel)
-                    }
+    @ViewBuilder private func banners(_ book: BookModel) -> some View {
+        if !app.modelReady {
+            HStack {
+                Image(systemName: "arrow.down.circle")
+                if let p = app.modelProgress {
+                    Text(p.phase == .downloading ? "Downloading the Kokoro voice model" : "Checking the Kokoro voice model")
+                    ProgressView(value: p.fraction).frame(maxWidth: 200)
+                } else {
+                    Text("The Kokoro voice model (~220 MB) downloads once, the first time you render or preview.")
                     Spacer()
+                    Button("Download Now") { app.downloadModel() }.disabled(app.preparingModel)
                 }
-                .padding(10)
-                .background(.blue.opacity(0.08))
+                Spacer()
             }
-            if let error = book.error {
-                HStack(alignment: .top) {
-                    Image(systemName: "exclamationmark.triangle.fill").foregroundStyle(.orange)
-                    Text(error).textSelection(.enabled)
-                    Spacer()
-                    Button("Dismiss") { book.error = nil }
-                }
-                .padding(10)
-                .background(.orange.opacity(0.12))
-            }
-            switch step {
-            case .contents: ContentsView(book: book)
-            case .pronunciation: WordsView(book: book)
-            case .voice: VoiceView(book: book)
-            case .render: RenderView(book: book)
-            case .review: ReviewView(book: book) { step = .pronunciation }
-            case .export: ExportView(book: book)
-            }
+            .padding(10)
+            .background(.blue.opacity(0.08))
         }
-    }
-}
-
-struct Sidebar: View {
-    let book: BookModel
-    @Binding var step: Step
-
-    var body: some View {
-        List(selection: $step) {
-            Section(book.book.title) {
-                ForEach(Step.allCases) { step in
-                    Label(step.title, systemImage: step.symbol)
-                        .badge(badge(step))
-                        .tag(step)
-                }
+        if let error = book.error {
+            HStack(alignment: .top) {
+                Image(systemName: "exclamationmark.triangle.fill").foregroundStyle(.orange)
+                Text(error).textSelection(.enabled)
+                Spacer()
+                Button("Dismiss") { book.error = nil }
             }
-        }
-        .navigationSplitViewColumnWidth(min: 180, ideal: 200)
-    }
-
-    private func badge(_ step: Step) -> Text? {
-        switch step {
-        case .contents: Text("\(book.book.sections.filter(\.include).count)")
-        case .pronunciation: book.unknownWords.map { Text("\($0.count)") }
-        case .review where !book.flagged.isEmpty: Text("\(book.flagged.count)")
-        case .render where book.isRendering && book.renderTodo > 0: Text("\(100 * book.renderDone / book.renderTodo)%")
-        case .render where book.totalChunks > 0 && book.cachedChunks == book.totalChunks: Text("✓")
-        case .export where book.exporting: Text("…")
-        case .export where book.output != nil: Text("✓")
-        default: nil
+            .padding(10)
+            .background(.orange.opacity(0.12))
         }
     }
 }
