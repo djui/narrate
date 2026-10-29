@@ -5,11 +5,16 @@ import Foundation
 /// Encoding happens a single time from uncompressed PCM, so AAC priming silence never lands at chunk
 /// joins. Chapters go in as ffmetadata, which ffmpeg's MP4 muxer writes as a QuickTime chapter track,
 /// the one Apple Books reads.
+///
+/// Loudness: `ebur128` measures integrated loudness at the source rate, then a fixed gain and a light
+/// lookahead limiter bring it to the target. ffmpeg's `loudnorm` does the same job but processes at
+/// 192 kHz in both passes; on a 6 h book that was ~13 of the export's ~15 minutes.
 public enum Assembler {
     static let leadIn = 0.5
     static let targetLUFS = -18.0
-    static let targetTP = -1.5
-    static let targetLRA = 11.0
+    /// Limiter ceiling, linear (-3.3 dBFS sample peak). Resampling and AAC add ~2 dB of overshoot;
+    /// measured on Treasure Island, -2 dBFS still ended at -0.1 dBTP, this lands under -1 dBTP.
+    static let limiterCeiling = 0.68
     static let outputRate = 44100
     static let bitrate = "64k"
 
@@ -118,14 +123,19 @@ public enum Assembler {
         return Pattern("\\baac_at\\b").matches(in: encoders).isEmpty ? "aac" : "aac_at"
     }
 
-    static func measureLoudness(_ wav: URL) throws -> [String: String] {
-        let stderr = try run("ffmpeg", ["-hide_banner", "-nostdin", "-i", wav.path, "-af",
-                                        "loudnorm=I=\(targetLUFS):TP=\(targetTP):LRA=\(targetLRA):print_format=json", "-f", "null", "-"]).err
-        guard let open = stderr.range(of: "{", options: .backwards), let close = stderr.range(of: "}", options: .backwards) else {
-            throw Failure.tool("ffmpeg loudnorm", stderr)
+    /// Integrated loudness (EBU R128 / BS.1770) of a WAV, in LUFS.
+    static func measureLoudness(_ wav: URL) throws -> Double {
+        let stderr = try run("ffmpeg", ["-hide_banner", "-nostdin", "-i", wav.path, "-af", "ebur128=framelog=quiet", "-f", "null", "-"]).err
+        guard let value = Pattern("\\bI:\\s+(-?[0-9.]+) LUFS").matches(in: stderr).last?[1], let lufs = Double(value) else {
+            throw Failure.tool("ffmpeg ebur128", stderr)
         }
-        let json = Data(stderr[open.lowerBound...close.lowerBound].utf8)
-        return try JSONDecoder().decode([String: String].self, from: json)
+        return lufs
+    }
+
+    /// Fixed gain to the target, then a lookahead limiter that only touches the rare peaks the gain pushes too high.
+    static func loudnessFilter(measured: Double) -> String {
+        let gain = measured > -70 ? targetLUFS - measured : 0  // -70 LUFS is ebur128's floor: silence
+        return String(format: "volume=%.2fdB,alimiter=limit=%.2f:attack=5:release=50:level=0", gain, limiterCeiling)
     }
 
     static func safeFilename(_ text: String) -> String {
@@ -140,10 +150,8 @@ public enum Assembler {
         let (wav, markers, rate) = try writePCM(project, log: log)
 
         log("measuring loudness (pass 1 of 2)")
-        let m = try measureLoudness(wav)
-        let loudnorm = "loudnorm=I=\(targetLUFS):TP=\(targetTP):LRA=\(targetLRA)"
-            + ":measured_I=\(m["input_i"]!):measured_TP=\(m["input_tp"]!):measured_LRA=\(m["input_lra"]!)"
-            + ":measured_thresh=\(m["input_thresh"]!):offset=\(m["target_offset"]!):linear=true"
+        let measured = try measureLoudness(wav)
+        let loudness = loudnessFilter(measured: measured)
         let tags = [
             ("title", book.title), ("album", book.title), ("artist", book.author), ("album_artist", book.author),
             ("composer", "Synthetic voice (Kokoro \(settings.voice))"), ("genre", "Audiobook"),
@@ -164,9 +172,9 @@ public enum Assembler {
             let codec = ["jpg", "jpeg", "png"].contains(cover.pathExtension.lowercased()) ? "copy" : "mjpeg"
             args += ["-map", "2:v", "-c:v", codec, "-disposition:v:0", "attached_pic"]
         }
-        args += ["-af", "\(loudnorm),aresample=\(outputRate)", "-c:a", aacEncoder(), "-b:a", bitrate, "-ac", "1",
+        args += ["-af", "\(loudness),aresample=\(outputRate)", "-c:a", aacEncoder(), "-b:a", bitrate, "-ac", "1",
                  "-movflags", "+faststart", "-f", "ipod", tmp.path]
-        log("normalizing and encoding (pass 2 of 2)")
+        log(String(format: "measured %.1f LUFS; normalizing and encoding (pass 2 of 2)", measured))
         try run("ffmpeg", args)
         _ = try? FileManager.default.removeItem(at: out)
         try FileManager.default.moveItem(at: tmp, to: out)

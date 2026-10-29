@@ -39,6 +39,11 @@ final class PipelineTests: XCTestCase {
         XCTAssertTrue(meta.contains("START=0\nEND=1000\ntitle=1 · X\\#"))
     }
 
+    func testLoudnessFilterGainAndSilence() {
+        XCTAssertEqual(Assembler.loudnessFilter(measured: -25.64), "volume=7.64dB,alimiter=limit=0.68:attack=5:release=50:level=0")
+        XCTAssertTrue(Assembler.loudnessFilter(measured: -70).hasPrefix("volume=0.00dB"))
+    }
+
     func testBuildM4BWithChaptersAndCover() async throws {
         guard FileManager.default.isExecutableFile(atPath: "/opt/homebrew/bin/ffmpeg") || FileManager.default.isExecutableFile(atPath: "/usr/local/bin/ffmpeg") else {
             throw XCTSkip("needs ffmpeg")
