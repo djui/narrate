@@ -1,0 +1,113 @@
+{
+  "model": "mlx-community/Qwen3-TTS-12Hz-0.6B-CustomVoice-4bit",
+  "voice": "serena",
+  "speed": 1.0,
+  "instruct": "Calm, warm audiobook narration. Restrained, steady pace, subtle expression.",
+  "paragraphs": 16,
+  "chars": 4105,
+  "sample_rate": 24000,
+  "load_s": 7.3,
+  "synth_s": 977.7,
+  "speech_s": 563.6,
+  "rtf": 1.735,
+  "peak_mlx_gb": 16.82,
+  "peak_rss_gb": 0.91,
+  "per_paragraph": [
+    {
+      "para": 0,
+      "chars": 184,
+      "audio_s": 17.04,
+      "synth_s": 23.11
+    },
+    {
+      "para": 1,
+      "chars": 301,
+      "audio_s": 30.72,
+      "synth_s": 48.49
+    },
+    {
+      "para": 2,
+      "chars": 24,
+      "audio_s": 2.88,
+      "synth_s": 11.22
+    },
+    {
+      "para": 3,
+      "chars": 1124,
+      "audio_s": 147.28,
+      "synth_s": 265.06
+    },
+    {
+      "para": 4,
+      "chars": 227,
+      "audio_s": 20.32,
+      "synth_s": 26.29
+    },
+    {
+      "para": 5,
+      "chars": 103,
+      "audio_s": 9.76,
+      "synth_s": 13.77
+    },
+    {
+      "para": 6,
+      "chars": 65,
+      "audio_s": 5.28,
+      "synth_s": 4.87
+    },
+    {
+      "para": 7,
+      "chars": 137,
+      "audio_s": 13.68,
+      "synth_s": 12.71
+    },
+    {
+      "para": 8,
+      "chars": 26,
+      "audio_s": 2.08,
+      "synth_s": 2.4
+    },
+    {
+      "para": 9,
+      "chars": 470,
+      "audio_s": 45.12,
+      "synth_s": 43.86
+    },
+    {
+      "para": 10,
+      "chars": 363,
+      "audio_s": 30.24,
+      "synth_s": 35.5
+    },
+    {
+      "para": 11,
+      "chars": 72,
+      "audio_s": 7.28,
+      "synth_s": 12.55
+    },
+    {
+      "para": 12,
+      "chars": 113,
+      "audio_s": 9.2,
+      "synth_s": 8.72
+    },
+    {
+      "para": 13,
+      "chars": 61,
+      "audio_s": 4.72,
+      "synth_s": 3.7
+    },
+    {
+      "para": 14,
+      "chars": 21,
+      "audio_s": 2.64,
+      "synth_s": 1.91
+    },
+    {
+      "para": 15,
+      "chars": 814,
+      "audio_s": 215.36,
+      "synth_s": 463.47
+    }
+  ]
+}

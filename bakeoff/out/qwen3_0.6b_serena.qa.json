@@ -1,0 +1,270 @@
+{
+  "wav": "qwen3_0.6b_serena.wav",
+  "audio_s": 572.6,
+  "asr_s": 126.8,
+  "asr_rtf": 0.2215,
+  "wer": 0.3035,
+  "diffs": [
+    {
+      "op": "replace",
+      "book": "anything",
+      "heard": "in cal"
+    },
+    {
+      "op": "delete",
+      "book": "but",
+      "heard": ""
+    },
+    {
+      "op": "replace",
+      "book": "silver fourpenny",
+      "heard": "saver for a penny"
+    },
+    {
+      "op": "replace",
+      "book": "you'll",
+      "heard": "you"
+    },
+    {
+      "op": "replace",
+      "book": "noggin",
+      "heard": "knocking"
+    },
+    {
+      "op": "replace",
+      "book": "matey",
+      "heard": "mate e"
+    },
+    {
+      "op": "replace",
+      "book": "i",
+      "heard": "i've"
+    },
+    {
+      "op": "replace",
+      "book": "do",
+      "heard": "did"
+    },
+    {
+      "op": "replace",
+      "book": "now i'm",
+      "heard": "yell i am"
+    },
+    {
+      "op": "replace",
+      "book": "poor old hulk",
+      "heard": "pole how"
+    },
+    {
+      "op": "replace",
+      "book": "a lee shore",
+      "heard": "the leash joy"
+    },
+    {
+      "op": "replace",
+      "book": "blood'll be on you jim",
+      "heard": "black the black me at your gym"
+    },
+    {
+      "op": "replace",
+      "book": "swab",
+      "heard": "swap"
+    },
+    {
+      "op": "replace",
+      "book": "fidges",
+      "heard": "fetches"
+    },
+    {
+      "op": "replace",
+      "book": "em",
+      "heard": "them"
+    },
+    {
+      "op": "delete",
+      "book": "i",
+      "heard": ""
+    },
+    {
+      "op": "replace",
+      "book": "a drop",
+      "heard": "the job"
+    },
+    {
+      "op": "replace",
+      "book": "that",
+      "heard": "the"
+    },
+    {
+      "op": "replace",
+      "book": "dram o rum",
+      "heard": "jam a ram"
+    },
+    {
+      "op": "replace",
+      "book": "horrors",
+      "heard": "horse"
+    },
+    {
+      "op": "replace",
+      "book": "seen some",
+      "heard": "sing sam"
+    },
+    {
+      "op": "replace",
+      "book": "em already",
+      "heard": "the moon me a red nutin yeah"
+    },
+    {
+      "op": "replace",
+      "book": "seen old flint in the corner there behind you as plain as print",
+      "heard": "don't care what done wanaka what don't"
+    },
+    {
+      "op": "replace",
+      "book": "seen him",
+      "heard": "don't know but then hang over head then i ran"
+    },
+    {
+      "op": "replace",
+      "book": "if i get the horrors i'm a man",
+      "heard": "make"
+    },
+    {
+      "op": "replace",
+      "book": "has lived rough and i'll raise cain your doctor hisself said one glass wouldn't hurt me i'll give you a golden guinea for a noggin jim he",
+      "heard": "buggy that hi"
+    },
+    {
+      "op": "replace",
+      "book": "none",
+      "heard": "not"
+    },
+    {
+      "op": "replace",
+      "book": "aye aye",
+      "heard": "hey hey"
+    },
+    {
+      "op": "replace",
+      "book": "a week",
+      "heard": "awake"
+    },
+    {
+      "op": "replace",
+      "book": "lubbers",
+      "heard": "lovers"
+    },
+    {
+      "op": "replace",
+      "book": "lubbers",
+      "heard": "lovers"
+    },
+    {
+      "op": "replace",
+      "book": "seamanly behaviour",
+      "heard": "similar behavior"
+    },
+    {
+      "op": "replace",
+      "book": "em",
+      "heard": "him"
+    },
+    {
+      "op": "replace",
+      "book": "on em",
+      "heard": "um"
+    },
+    {
+      "op": "replace",
+      "book": "matey",
+      "heard": "madey"
+    },
+    {
+      "op": "replace",
+      "book": "em",
+      "heard": "um"
+    },
+    {
+      "op": "replace",
+      "book": "done me",
+      "heard": "dummy"
+    },
+    {
+      "op": "replace",
+      "book": "seafaring",
+      "heard": "seafar"
+    },
+    {
+      "op": "delete",
+      "book": "he",
+      "heard": ""
+    },
+    {
+      "op": "replace",
+      "book": "un",
+      "heard": "on"
+    },
+    {
+      "op": "replace",
+      "book": "worse",
+      "heard": "words"
+    },
+    {
+      "op": "delete",
+      "book": "now",
+      "heard": ""
+    },
+    {
+      "op": "replace",
+      "book": "nohow",
+      "heard": "no how"
+    },
+    {
+      "op": "insert",
+      "book": "",
+      "heard": "a"
+    },
+    {
+      "op": "replace",
+      "book": "they're",
+      "heard": "there"
+    },
+    {
+      "op": "replace",
+      "book": "a horse",
+      "heard": "the house"
+    },
+    {
+      "op": "replace",
+      "book": "can't",
+      "heard": "kick"
+    },
+    {
+      "op": "replace",
+      "book": "a horse",
+      "heard": "uh souse you ain't eat"
+    },
+    {
+      "op": "replace",
+      "book": "go to well yes",
+      "heard": "jacket now if"
+    },
+    {
+      "op": "replace",
+      "book": "will to that eternal doctor swab and tell him to pipe all hands magistrates and sich and he'll lay em aboard at the admiral benbow all old flint's crew",
+      "heard": "can't get away no how in man doen in line wen"
+    },
+    {
+      "op": "replace",
+      "book": "boy all on em that's left i was first mate i was old flint's first mate",
+      "heard": "you didn't think so"
+    },
+    {
+      "op": "replace",
+      "book": "i'm the on'y one as knows the place he gave it me at savannah when he lay a dying like as if i was to now you see but you won't peach unless they get the black spot on me or unless you see that black dog again or a seafaring man with one leg jim him above all",
+      "heard": "mama did"
+    }
+  ],
+  "transcript": "About noon I stopped at the captain's door with some cooling drinks and medicines. He was lying very much as we had left him only a little higher and he seemed both weak and excited. Jim he said you're the only one here that's worth in cal and you know I've been always good to you never a month I've given you a saver for a penny for yourself and now you see mate I'm pretty low and deserted by all and Jim you bring me one knocking of rum now won't you mate e the doctor I began but he broke in cursing the doctor in a feeble voice but heartily Doctors is all swabs he said and that doctor there why what do he know about seafaring men I've been in places hot as pitch and mates dropping round with yellow jack and the blessed land a heaving like the sea with earthquakes What did the doctor know of lands like that and I lived on rum I tell you it's been meat and drink and man and wife to me and if I'm not to have my rum yell I am a pole how on the leash joy my black the black me at your gym and that doctor swap and he ran on again for a while with curses look Jim how my fingers fetches he continued in the pleading tone I can't keep them still not I haven't had the job this blessed day the doctor's a fool I tell you if I don't have a jam a ram Jim I'll have the horse I sing Sam on the moon me a red nutin yeah I don't care what done Wanaka What don't I don't know but then hang over head then I ran and make that buggy that hi was growing more and more excited and this alarmed me for my father who was very low that day and needed quiet besides I was reassured by the doctor's words now quoted to me and rather offended by the offer of a bribe I want not of your money said I but what you owe my father I'll get you one glass and no more when I brought it to him he seized it greedily and drank it out hey hey said he that's some better sure enough and now matey did that doctor say how long I was to lie here in this old berth awake at least said I thunder he cried a week I can't do that they'd have the black spot on me by then the lovers is going about to get the wind of me this blessed moment Lovers as couldn't keep what they got and want to nail what is another's is that similar behavior now I want to know but I'm a saving soul I never wasted good money of mine nor lost it neither and I'll trick him again I'm not afraid um I'll shake out another reef madey and daddle um again as he was thus speaking he had risen from bed with great difficulty holding to my shoulder with a grip that almost made me cry out and moving his legs like so much dead weight his words spirited as they were in meaning contrasted sadly with the weakness of the voice in which they were uttered he paused when he had got into a sitting position on the edge that doctor's dummy he murmured my ears is singing lay me back before I could do much to help him he had fallen back again to his former place where he lay for a while silent Jim he said at length you saw that seafar man today Black dog I asked Ah black dog says he's a bad on but there's words that put him on if I can't get away no how and they tip me the black spot mind you it's my old sea a chest there after you get on the house you can kick you well then you get on uh souse you ain't eat and jacket Now if I can't get away no how in man doen in line wen man and you didn't think so and Mama did"
+}

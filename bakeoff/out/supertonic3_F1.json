@@ -1,0 +1,113 @@
+{
+  "model": "supertonic-3",
+  "voice": "F1",
+  "speed": 1.0,
+  "instruct": null,
+  "paragraphs": 16,
+  "chars": 4105,
+  "sample_rate": 44100,
+  "load_s": 0.7,
+  "synth_s": 70.6,
+  "speech_s": 276.0,
+  "rtf": 0.256,
+  "peak_mlx_gb": 0.0,
+  "peak_rss_gb": 0.76,
+  "per_paragraph": [
+    {
+      "para": 0,
+      "chars": 184,
+      "audio_s": 12.33,
+      "synth_s": 3.82
+    },
+    {
+      "para": 1,
+      "chars": 301,
+      "audio_s": 19.94,
+      "synth_s": 5.17
+    },
+    {
+      "para": 2,
+      "chars": 24,
+      "audio_s": 2.09,
+      "synth_s": 0.6
+    },
+    {
+      "para": 3,
+      "chars": 1124,
+      "audio_s": 74.06,
+      "synth_s": 17.92
+    },
+    {
+      "para": 4,
+      "chars": 227,
+      "audio_s": 15.46,
+      "synth_s": 3.6
+    },
+    {
+      "para": 5,
+      "chars": 103,
+      "audio_s": 7.59,
+      "synth_s": 1.91
+    },
+    {
+      "para": 6,
+      "chars": 65,
+      "audio_s": 4.67,
+      "synth_s": 1.35
+    },
+    {
+      "para": 7,
+      "chars": 137,
+      "audio_s": 9.82,
+      "synth_s": 2.56
+    },
+    {
+      "para": 8,
+      "chars": 26,
+      "audio_s": 2.3,
+      "synth_s": 0.85
+    },
+    {
+      "para": 9,
+      "chars": 470,
+      "audio_s": 31.86,
+      "synth_s": 7.9
+    },
+    {
+      "para": 10,
+      "chars": 363,
+      "audio_s": 23.85,
+      "synth_s": 6.73
+    },
+    {
+      "para": 11,
+      "chars": 72,
+      "audio_s": 6.13,
+      "synth_s": 1.6
+    },
+    {
+      "para": 12,
+      "chars": 113,
+      "audio_s": 7.31,
+      "synth_s": 1.93
+    },
+    {
+      "para": 13,
+      "chars": 61,
+      "audio_s": 4.95,
+      "synth_s": 1.4
+    },
+    {
+      "para": 14,
+      "chars": 21,
+      "audio_s": 1.95,
+      "synth_s": 0.59
+    },
+    {
+      "para": 15,
+      "chars": 814,
+      "audio_s": 51.66,
+      "synth_s": 12.69
+    }
+  ]
+}

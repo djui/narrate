@@ -1,0 +1,705 @@
+<title>Narrate Design Proposal</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400;7..72,600;7..72,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one reading column (~68ch) for argument; wide breakout rows for app sketches and the pipeline. */
+:root{
+  --bg:#F4F6F8; --surface:#FFFFFF; --ink:#14181D; --ink-2:#4A535E; --ink-3:#6F7985; --rule:#D9DEE4;
+  --accent:#146C7A; --accent-soft:#E2F0F1; --warn:#A8670F; --warn-soft:#FBEFD9; --bad:#B23A2B; --bad-soft:#FBE4E0; --good:#2F7D4F; --good-soft:#E1F1E6;
+  --display:"Literata", "Iowan Old Style", Georgia, serif;
+  --body:"Literata", "Iowan Old Style", Georgia, serif;
+  --ui:"IBM Plex Sans", -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
+  /* macOS mockup tokens */
+  --m-bg:#FFFFFF; --m-side:#ECEEF1; --m-bar:#F6F6F7; --m-border:rgba(0,0,0,.12); --m-line:rgba(0,0,0,.08); --m-text:#1D1D1F; --m-text2:#6E6E73; --m-hover:rgba(0,0,0,.06); --m-blue:#0A6CF0; --m-blue-soft:rgba(10,108,240,.12); --m-field:#FFFFFF; --m-shadow:0 22px 60px rgba(20,24,29,.18), 0 2px 8px rgba(20,24,29,.08);
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#0F1317; --surface:#171C21; --ink:#E6EAEE; --ink-2:#A9B2BC; --ink-3:#85909B; --rule:#2A3239;
+  --accent:#5BC0CB; --accent-soft:#163238; --warn:#E9A945; --warn-soft:#352914; --bad:#F07A68; --bad-soft:#3A1E1A; --good:#6CC08D; --good-soft:#18301F;
+  --m-bg:#1E1E20; --m-side:#28282B; --m-bar:#2A2A2D; --m-border:rgba(255,255,255,.12); --m-line:rgba(255,255,255,.08); --m-text:#F2F2F4; --m-text2:#9A9AA0; --m-hover:rgba(255,255,255,.07); --m-blue:#3B8CFF; --m-blue-soft:rgba(59,140,255,.2); --m-field:#323236; --m-shadow:0 22px 60px rgba(0,0,0,.5), 0 2px 8px rgba(0,0,0,.3);
+  color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#0F1317; --surface:#171C21; --ink:#E6EAEE; --ink-2:#A9B2BC; --ink-3:#85909B; --rule:#2A3239;
+  --accent:#5BC0CB; --accent-soft:#163238; --warn:#E9A945; --warn-soft:#352914; --bad:#F07A68; --bad-soft:#3A1E1A; --good:#6CC08D; --good-soft:#18301F;
+  --m-bg:#1E1E20; --m-side:#28282B; --m-bar:#2A2A2D; --m-border:rgba(255,255,255,.12); --m-line:rgba(255,255,255,.08); --m-text:#F2F2F4; --m-text2:#9A9AA0; --m-hover:rgba(255,255,255,.07); --m-blue:#3B8CFF; --m-blue-soft:rgba(59,140,255,.2); --m-field:#323236; --m-shadow:0 22px 60px rgba(0,0,0,.5), 0 2px 8px rgba(0,0,0,.3);
+  color-scheme:dark }
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:17px/1.62 var(--body);margin:0}
+.page{padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));padding-block:56px 96px}
+.col{max-width:720px;margin-inline:auto}
+.wide{max-width:1120px;margin-inline:auto}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;letter-spacing:-.01em;margin:0}
+h1{font-size:clamp(44px,8vw,76px);line-height:1;font-weight:800}
+h2{font-size:clamp(26px,3.4vw,34px);line-height:1.15;font-weight:800;margin-top:88px}
+h3{font-size:20px;font-weight:600;margin-top:36px}
+p{margin:14px 0}
+.eyebrow{font:500 12px/1 var(--ui);letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+.lede{font-size:21px;line-height:1.5;color:var(--ink-2);margin-top:20px}
+.meta{font:13px/1.5 var(--ui);color:var(--ink-3);margin-top:18px}
+code,.mono{font-family:var(--mono);font-size:.86em}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.verdict{margin-top:40px;background:var(--surface);border:1px solid var(--rule);border-radius:6px;padding:24px 26px;display:grid;gap:14px}
+.verdict .big{font-family:var(--display);font-size:24px;line-height:1.3;font-weight:600}
+.verdict ul{margin:0;padding-left:20px;font-family:var(--ui);font-size:15px;color:var(--ink-2)}
+.verdict li{margin:5px 0}
+
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.chip{font:500 13px/1 var(--ui);padding:8px 11px;border-radius:999px;background:var(--surface);border:1px solid var(--rule);color:var(--ink-2)}
+.chip b{color:var(--ink);font-weight:600}
+
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table.t{width:100%;border-collapse:collapse;font:14px/1.45 var(--ui);margin-top:22px;min-width:860px}
+.t th{text-align:left;font-weight:600;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);padding:10px 12px;border-bottom:1px solid var(--rule)}
+.t td{padding:12px;border-bottom:1px solid var(--rule);vertical-align:top}
+.t td.num{font-variant-numeric:tabular-nums}
+.t tr.pick td{background:var(--accent-soft)}
+.t .name{font-weight:600;display:block}
+.t .sub{color:var(--ink-3);font-size:12.5px}
+.pill{display:inline-block;font:600 11px/1 var(--ui);letter-spacing:.04em;padding:4px 7px;border-radius:4px;white-space:nowrap}
+.pill.good{background:var(--good-soft);color:var(--good)} .pill.warn{background:var(--warn-soft);color:var(--warn)} .pill.bad{background:var(--bad-soft);color:var(--bad)} .pill.acc{background:var(--accent-soft);color:var(--accent)}
+.note{font:13px/1.55 var(--ui);color:var(--ink-3);margin-top:10px}
+
+.diff{display:grid;margin-top:22px;border-top:1px solid var(--rule)}
+.diff .row{display:grid;grid-template-columns:110px 1fr;gap:18px;padding:16px 0;border-bottom:1px solid var(--rule)}
+.diff .row > div{min-width:0}
+.diff .tag{font:600 11px/1.2 var(--ui);letter-spacing:.08em;text-transform:uppercase;padding-top:5px}
+.diff .tag.keep{color:var(--good)} .diff .tag.change{color:var(--warn)} .diff .tag.add{color:var(--accent)}
+.diff .row b{font-family:var(--ui);font-weight:600;font-size:15px;display:block}
+.diff .row p{margin:4px 0 0;font-size:15.5px;color:var(--ink-2)}
+
+.pipe{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:26px}
+.stage{background:var(--surface);border:1px solid var(--rule);border-radius:6px;padding:14px 14px 12px;display:flex;flex-direction:column;gap:6px;min-width:0;position:relative}
+.stage.new{border-color:var(--accent)}
+.stage .n{font:500 11px/1 var(--mono);color:var(--ink-3)}
+.stage h4{margin:0;font:600 15px/1.25 var(--ui)}
+.stage p{margin:0;font:13px/1.45 var(--ui);color:var(--ink-2)}
+.stage .out{margin-top:auto;padding-top:8px;font:12px/1.35 var(--mono);color:var(--accent);word-break:break-word}
+.stage .badge{position:absolute;top:-9px;right:10px;font:600 10px/1 var(--ui);letter-spacing:.06em;text-transform:uppercase;background:var(--accent);color:var(--bg);padding:4px 6px;border-radius:3px}
+.loop{margin-top:12px;font:13.5px/1.55 var(--ui);color:var(--ink-2);padding:12px 14px;border:1px dashed var(--accent);border-radius:6px}
+@media (max-width:860px){.pipe{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:460px){.pipe{grid-template-columns:1fr}}
+
+.budget{margin-top:26px;font-family:var(--ui);display:grid;gap:18px}
+.brow{display:grid;gap:6px}
+.brow .bl{font:600 13.5px/1.3 var(--ui)} .brow .bl span{font-weight:400;color:var(--ink-3)}
+.bar{display:flex;height:30px;border-radius:4px;overflow:hidden;border:1px solid var(--rule);background:var(--surface);position:relative}
+.bar > div{height:100%;display:flex;align-items:center;padding-left:8px;font:600 11.5px/1 var(--ui);white-space:nowrap;overflow:hidden}
+.seg-a{background:var(--accent);color:var(--bg)}
+.seg-b{background:color-mix(in srgb, var(--accent) 55%, var(--surface));color:var(--ink)}
+.seg-c{background:var(--ink-3);color:var(--bg)}
+.seg-h{background:repeating-linear-gradient(135deg, transparent 0 6px, var(--rule) 6px 7px);color:var(--ink-3)}
+.seg-x{background:var(--warn);color:var(--bg)}
+.axis{display:flex;justify-content:space-between;font:12px/1 var(--ui);color:var(--ink-3);font-variant-numeric:tabular-nums}
+
+pre.block{font:13px/1.55 var(--mono);background:var(--surface);border:1px solid var(--rule);border-radius:6px;padding:16px 18px;overflow-x:auto;color:var(--ink);margin:18px 0}
+pre.block .c{color:var(--ink-3)}
+
+.sketch{margin-top:34px}
+.sketch figcaption{font:14.5px/1.55 var(--ui);color:var(--ink-2);max-width:720px;margin:6px auto 0}
+.sketch figcaption b{color:var(--ink)}
+figure{margin:0}
+.frame{overflow-x:auto;padding:18px 18px 34px;margin-inline:-18px}
+.mac{min-width:900px;border-radius:11px;background:var(--m-bg);border:1px solid var(--m-border);box-shadow:var(--m-shadow);overflow:hidden;font:13px/1.35 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;color:var(--m-text);display:grid;grid-template-columns:208px 1fr;height:530px}
+.mac.tall{height:580px}
+.side{background:var(--m-side);border-right:1px solid var(--m-line);padding:12px 10px;display:flex;flex-direction:column;gap:2px}
+.lights{display:flex;gap:8px;padding:4px 6px 18px}
+.lights i{width:12px;height:12px;border-radius:50%;background:#FF5F57;display:block}
+.lights i:nth-child(2){background:#FEBC2E}.lights i:nth-child(3){background:#28C840}
+.side .sec{font-size:11px;font-weight:600;color:var(--m-text2);padding:10px 8px 4px}
+.side .it{display:flex;align-items:center;gap:8px;padding:5px 8px;border-radius:6px}
+.side .it.on{background:var(--m-hover)}
+.side .it .g{width:15px;height:15px;flex:none;border-radius:4px;border:1.5px solid var(--m-blue)}
+.side .it .g.l{border-color:var(--m-text2);border-radius:2px;width:11px;margin-inline:2px}
+.side .it .ct{margin-left:auto;font-size:11px;color:var(--m-text2);font-variant-numeric:tabular-nums}
+.side .it .ct.flag{background:#E8762B;color:#fff;border-radius:8px;padding:1px 6px;font-weight:600}
+.side .book{margin-top:auto;display:flex;gap:9px;align-items:center;padding:8px;border-top:1px solid var(--m-line)}
+.cover{width:34px;height:48px;border-radius:2px;flex:none;background:linear-gradient(160deg,#7B2D26 0%,#4A1714 70%);position:relative;box-shadow:0 1px 3px rgba(0,0,0,.3)}
+.cover::after{content:"TI";position:absolute;inset:auto 0 6px 0;text-align:center;font:700 9px/1 Georgia,serif;color:#E9C46A;letter-spacing:.1em}
+.cover.lg{width:132px;height:196px;border-radius:3px}
+.cover.lg::before{content:"";position:absolute;left:30px;right:30px;top:38px;height:56px;border:1.5px solid #E9C46A;border-radius:50% 50% 46% 54%/60% 50% 50% 40%;opacity:.7}
+.cover.lg::after{content:"TREASURE ISLAND";font-size:13px;inset:auto 10px 22px 10px;line-height:1.25;letter-spacing:.12em}
+.main{display:flex;flex-direction:column;min-width:0}
+.tb{height:52px;flex:none;display:flex;align-items:center;gap:12px;padding:0 16px;border-bottom:1px solid var(--m-line);background:var(--m-bar)}
+.tb .ttl{font-weight:600;font-size:13px}
+.tb .sub{color:var(--m-text2);font-size:12px}
+.tb .sp{flex:1}
+.btn{font:500 12.5px/1 -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;padding:6px 11px;border-radius:6px;background:var(--m-field);border:1px solid var(--m-border);color:var(--m-text);white-space:nowrap}
+.btn.pri{background:var(--m-blue);border-color:var(--m-blue);color:#fff}
+.seg{display:inline-flex;border:1px solid var(--m-border);border-radius:6px;overflow:hidden}
+.seg span{padding:5px 10px;font-size:12px;border-right:1px solid var(--m-border)} .seg span:last-child{border:0} .seg span.on{background:var(--m-hover);font-weight:600}
+.body{flex:1;overflow:hidden;padding:16px 18px;display:flex;flex-direction:column;gap:12px;min-height:0;min-width:0}
+.mt{width:100%;border-collapse:collapse;font-size:12.5px}
+.mt th{font-weight:500;color:var(--m-text2);text-align:left;padding:6px 8px;border-bottom:1px solid var(--m-line);font-size:11.5px}
+.mt td{padding:6px 8px;border-bottom:1px solid var(--m-line);white-space:nowrap;font-variant-numeric:tabular-nums}
+.mt tr.dim td{color:var(--m-text2)}
+.mt tr.sel td{background:var(--m-blue-soft)}
+.mt td.r,.mt th.r{text-align:right}
+.chk{display:inline-block;width:14px;height:14px;border-radius:4px;background:var(--m-blue);vertical-align:-2px;position:relative}
+.chk::after{content:"";position:absolute;left:4.5px;top:1.5px;width:3px;height:7px;border:solid #fff;border-width:0 1.8px 1.8px 0;transform:rotate(45deg)}
+.chk.off{background:transparent;border:1.5px solid var(--m-text2);opacity:.6}
+.chk.off::after{display:none}
+.mtag{font-size:10.5px;font-weight:600;padding:2px 6px;border-radius:4px;background:var(--m-hover);color:var(--m-text2);white-space:nowrap}
+.mtag.o{background:rgba(232,118,43,.16);color:#C25E17}
+.mtag.g{background:rgba(40,160,80,.15);color:#1F8A46}
+.mtag.b{background:var(--m-blue-soft);color:var(--m-blue)}
+.play{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;border:1px solid var(--m-border);background:var(--m-field);vertical-align:middle;flex:none}
+.play::after{content:"";border-left:6px solid var(--m-text);border-top:4px solid transparent;border-bottom:4px solid transparent;margin-left:2px}
+.field{background:var(--m-field);border:1px solid var(--m-border);border-radius:5px;padding:4px 7px;font-size:12px;display:inline-block;min-width:120px}
+.foot{height:34px;flex:none;border-top:1px solid var(--m-line);display:flex;align-items:center;gap:14px;padding:0 16px;color:var(--m-text2);font-size:11.5px;background:var(--m-bar);font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden}
+.prog{height:6px;border-radius:3px;background:var(--m-hover);overflow:hidden;width:100%}
+.prog i{display:block;height:100%;background:var(--m-blue);border-radius:3px}
+.prog.done i{background:#28A050}
+.wave{display:flex;align-items:center;gap:1.5px;height:56px}
+.wave b{display:block;width:2.5px;border-radius:1px;background:var(--m-text2);opacity:.5;flex:none}
+.wave b.hl{background:var(--m-blue);opacity:1}
+.wave b.bad{background:#E8762B;opacity:1}
+.card{border:1px solid var(--m-line);border-radius:8px;padding:12px 14px;background:var(--m-bg)}
+.lbl{font-size:11px;color:var(--m-text2);font-weight:500;margin-bottom:4px}
+.txt{font:14px/1.5 "Iowan Old Style", Georgia, serif}
+.txt mark{background:rgba(232,118,43,.22);color:inherit;border-radius:2px;padding:0 2px}
+.txt s{background:rgba(220,60,40,.16);text-decoration-color:rgba(220,60,40,.8);border-radius:2px;padding:0 2px}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:12.5px}
+.kv > span:nth-child(odd){color:var(--m-text2)}
+.flags{display:flex;flex-direction:column;border-right:1px solid var(--m-line);width:300px;flex:none;overflow:hidden}
+.flag{padding:9px 12px;border-bottom:1px solid var(--m-line);display:grid;gap:3px}
+.flag.on{background:var(--m-blue-soft)}
+.flag .top{display:flex;gap:6px;align-items:center;font-size:11px;color:var(--m-text2)}
+.flag .q{font:13px/1.35 "Iowan Old Style", Georgia, serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.vgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.voice{border:1px solid var(--m-line);border-radius:8px;padding:10px 12px;display:grid;gap:5px}
+.voice.on{border-color:var(--m-blue);box-shadow:0 0 0 3px var(--m-blue-soft)}
+.voice .vn{font-weight:600;display:flex;align-items:center;gap:7px}
+.voice .vd{font-size:11.5px;color:var(--m-text2)}
+.slider{height:4px;border-radius:2px;background:var(--m-hover);position:relative}
+.slider i{position:absolute;left:0;top:0;bottom:0;background:var(--m-blue);border-radius:2px}
+.slider u{position:absolute;top:-6px;width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 0 0 .5px rgba(0,0,0,.25),0 1px 3px rgba(0,0,0,.3)}
+
+.risks{margin-top:22px;display:grid;border-top:1px solid var(--rule)}
+.risk{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:20px;padding:14px 0;border-bottom:1px solid var(--rule);font-family:var(--ui);font-size:14.5px}
+.risk b{font-weight:600}
+.risk span{color:var(--ink-2)}
+@media (max-width:620px){.risk{grid-template-columns:1fr;gap:6px}.diff .row{grid-template-columns:1fr;gap:4px}}
+
+ol.ms{list-style:none;padding:0;margin:22px 0 0;display:grid;border-left:2px solid var(--rule)}
+ol.ms li{position:relative;padding:2px 0 20px 26px;font-family:var(--ui);font-size:14.5px;color:var(--ink-2)}
+ol.ms li::before{content:"";position:absolute;left:-7px;top:6px;width:12px;height:12px;border-radius:50%;background:var(--bg);border:2px solid var(--accent)}
+ol.ms li b{color:var(--ink);font-size:15.5px;display:block;margin:4px 0 2px}
+ol.ms li .wk{font:500 12px/1 var(--mono);color:var(--accent)}
+
+.qs{display:grid;gap:12px;margin-top:20px;padding:0;list-style:none}
+.qs li{background:var(--surface);border:1px solid var(--rule);border-radius:6px;padding:14px 16px;font-family:var(--ui);font-size:14.5px;color:var(--ink-2)}
+.qs li b{color:var(--ink);display:block;font-size:15.5px;margin-bottom:3px}
+.src{font:13px/1.7 var(--ui);color:var(--ink-3);margin-top:40px;border-top:1px solid var(--rule);padding-top:16px}
+.src a{color:var(--ink-3)}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="page">
+
+<header class="col">
+  <div class="eyebrow">Design proposal · nothing implemented yet</div>
+  <h1>Narrate</h1>
+  <p class="lede">A native macOS app that turns a DRM-free EPUB into a chaptered M4B audiobook, rendered entirely on a 16&nbsp;GB M2 in one night, and checking its own work before you ever press play.</p>
+  <p class="meta">29 October 2026 · Response to the proposed pipeline “EPUB → ebooklib → normalize → chunk → Qwen3-TTS → ffmpeg → M4B”</p>
+
+  <div class="verdict">
+    <div class="eyebrow">Recommendation</div>
+    <div class="big">Build v1 on Kokoro-82M running on MLX, not on Qwen3-TTS. Spend the hours that saves on listening back to every sentence automatically.</div>
+    <ul>
+      <li><b>Measured on this M2:</b> Kokoro renders an 11-hour novel in about 2.2 hours. Qwen3-TTS 0.6B would take about 19 hours, filled all 16&nbsp;GB of memory, and got 30% of the words wrong. Qwen3-TTS is out on this machine.</li>
+      <li>For fiction, the biggest quality lever isn't the model but <b>getting the names right</b>. A per-book pronunciation list, confirmed before rendering, fixes hundreds of sentences at once.</li>
+      <li>No existing tool (abogen, audiblez, ebook2audiobook) checks the audio it produced or can re-render a single sentence. That gap is the reason to build Narrate.</li>
+      <li>Keep the engine behind a small plugin interface, so Qwen3-TTS can be an opt-in for people with bigger machines.</li>
+    </ul>
+  </div>
+</header>
+
+<section class="col">
+  <h2>What you told me</h2>
+  <p>Seventeen answers, and together they make most of the decisions in this report.</p>
+  <div class="chips">
+    <span class="chip"><b>Base M2, 16 GB</b> · this Mac only</span>
+    <span class="chip"><b>Native macOS app</b></span>
+    <span class="chip"><b>Swift</b> shell + bundled <b>Python</b> engine</span>
+    <span class="chip"><b>English</b> only</span>
+    <span class="chip"><b>Fiction</b>, one <b>female</b> narrator</span>
+    <span class="chip">Built-in <b>preset</b> voices</span>
+    <span class="chip">Optional <b>local LLM</b> for text prep</span>
+    <span class="chip">A novel in <b>≤ 8 h</b></span>
+    <span class="chip"><b>Auto-check</b>, review flags only</span>
+    <span class="chip"><b>M4B</b> for Apple Books / BookPlayer</span>
+    <span class="chip">Skip boilerplate · <b>footnotes inline</b> · pick chapters</span>
+    <span class="chip"><b>Open source</b> on GitHub · <b>Apache-2.0</b></span>
+    <span class="chip">Spoken <b>chapter number + title</b></span>
+    <span class="chip">Up to <b>150k words</b> per night</span>
+    <span class="chip">Synthetic voice disclosed in <b>metadata</b></span>
+  </div>
+</section>
+
+<section class="col">
+  <h2>Choosing the engine for this machine</h2>
+  <p>I checked each candidate against three hard requirements from your answers. It has to run on a base M2 with 16&nbsp;GB, finish a novel overnight, and come with a license that an open-source app can redistribute. The speed figures are third-party measurements on similar Apple chips. Base-M2 numbers for the larger models are my estimates, to be confirmed in the bake-off (M0).</p>
+</section>
+<div class="wide scroll">
+  <table class="t">
+    <thead><tr><th>Model</th><th>Size · memory</th><th>Measured speed</th><th>11 h of audio on base M2</th><th>License</th><th>Voices</th><th>Verdict</th></tr></thead>
+    <tbody>
+      <tr class="pick"><td><span class="name">Kokoro-82M v1.0</span><span class="sub">hexgrad, Jan 2025</span></td><td class="num">82M · 2.8 GB peak (measured)</td><td class="num"><b>0.17–0.20×</b> real time<br><span class="sub">this M2, mlx-audio 0.6.3</span></td><td class="num"><b>≈ 2.2 h</b> (measured)</td><td>Apache-2.0<br><span class="sub">fallback G2P espeak-ng is GPL-3.0</span></td><td>54 presets, no cloning</td><td><span class="pill good">Default engine</span></td></tr>
+      <tr><td><span class="name">Supertonic 3</span><span class="sub">Supertone</span></td><td class="num">99M · 0.8 GB</td><td class="num"><b>0.26×</b> real time<br><span class="sub">this M2, ONNX on CPU (claimed 0.01× on M4 Pro)</span></td><td class="num">≈ 2.8 h (measured)</td><td>MIT code<br><span class="sub">OpenRAIL-M weights (use restrictions)</span></td><td>Presets</td><td><span class="pill acc">Runner-up</span></td></tr>
+      <tr><td><span class="name">Qwen3-TTS 0.6B / 1.7B</span><span class="sub">Alibaba, Jan 2026</span></td><td class="num">0.6B 4-bit: <b>16.8 GB peak</b> (measured)</td><td class="num"><b>1.74×</b> real time<br><span class="sub">this M2, 0.6B 4-bit, MLX</span></td><td class="num"><b>≈ 19 h</b> (measured, 0.6B)</td><td>Apache-2.0</td><td>Presets (no native-English female); voice design on 1.7B only</td><td><span class="pill bad">Out on this Mac</span></td></tr>
+      <tr><td><span class="name">Chatterbox Turbo / Multilingual V3</span><span class="sub">Resemble AI</span></td><td class="num">350–500M</td><td class="num">slower than real time<br><span class="sub">M4, chatterbox-mlx</span></td><td class="num">&gt; 15 h</td><td>MIT<br><span class="sub">every output is watermarked</span></td><td>Cloning first</td><td><span class="pill warn">Later, maybe</span></td></tr>
+      <tr><td><span class="name">Voxtral 4B TTS</span><span class="sub">Mistral, Mar 2026</span></td><td class="num">4B · ≥16 GB GPU</td><td class="num">—</td><td class="num">does not fit</td><td>CC BY-NC 4.0</td><td>Presets</td><td><span class="pill bad">Ruled out</span></td></tr>
+      <tr><td><span class="name">F5-TTS</span></td><td class="num">≈330M</td><td class="num">no M2 data</td><td class="num">—</td><td>non-commercial weights</td><td>Cloning only</td><td><span class="pill bad">Ruled out</span></td></tr>
+    </tbody>
+  </table>
+</div>
+<section class="col">
+  <p>Your ranking is right for an NVIDIA box and wrong for this Mac, and the bake-off below shows that with measurements rather than estimates. Qwen3-TTS is the better narrator on paper, and its Apache-2.0 license is fine. On a base M2, though, even the 0.6B model runs slower than real time and garbles the text. Kokoro finishes a novel in about two hours, which leaves most of the night for the listen-back check and retries.</p>
+  <p>Two findings from the research change the design itself.</p>
+  <ul style="font-size:16px;color:var(--ink-2);padding-left:20px">
+    <li><b style="color:var(--ink)">Kokoro silently drops words it doesn't know.</b> It falls back to espeak-ng for words missing from its pronunciation dictionary, and if espeak isn't installed, those words are skipped without an error. espeak-ng is also GPL-3.0, which is awkward to bundle. The pronunciation step below covers exactly those words, so espeak can be an optional download, and the listen-back check catches any word that still goes missing.</li>
+    <li><b style="color:var(--ink)">Use Parakeet, not Whisper, for the check.</b> Parakeet TDT on MLX is English-only and returns word timings. On this M2 it ran at 0.06–0.22× real time, so checking an 11-hour book takes 40 minutes to 2 hours. The variation was probably thermal. Unlike Whisper, it doesn't hallucinate fluent text into silence, which matters when the whole point is catching silence.</li>
+  </ul>
+  <p class="note">Prior art: audiblez and abogen already turn EPUBs into M4Bs with Kokoro, and abogen has a GUI, queues and subtitles. Neither checks its output, and both re-render only whole chapters. Read abogen's EPUB handling before writing the ingest stage; there's no need to rediscover its edge cases.</p>
+</section>
+
+<section class="col">
+  <h2>Bake-off results (M0)</h2>
+  <p>Run on this M2 on 29 October 2026. Each engine read the same 825-word passage from <i>Treasure Island</i> chapter 3: dialect dialogue, “’em”, “o’ rum”, “hisself”. Parakeet then transcribed each render and compared it with the book. Every job ran alone, so the timings aren't skewed by other work.</p>
+</section>
+<div class="wide scroll">
+  <table class="t">
+    <thead><tr><th>Engine · voice</th><th>Render time ÷ audio length</th><th>Peak memory</th><th>Word error rate</th><th>Audio length</th><th>What went wrong</th></tr></thead>
+    <tbody>
+      <tr class="pick"><td><span class="name">Kokoro af_heart</span><span class="sub">speed 0.94</span></td><td class="num">0.20</td><td class="num">2.8 GB</td><td class="num">3.1%</td><td class="num">4.3 min</td><td>“fourpenny” said as “forepenny”. Nothing dropped, even without espeak-ng.</td></tr>
+      <tr><td><span class="name">Kokoro af_bella</span><span class="sub">speed 0.94</span></td><td class="num">0.17</td><td class="num">2.9 GB</td><td class="num">2.8%</td><td class="num">4.4 min</td><td>No real errors. Every difference was a transcription mismatch.</td></tr>
+      <tr><td><span class="name">Supertonic 3 F1</span><span class="sub">ONNX, CPU</span></td><td class="num">0.26</td><td class="num">0.8 GB</td><td class="num">3.1%</td><td class="num">4.8 min</td><td>Dropped a “you”; “dram o’” came out as “drama”.</td></tr>
+      <tr><td><span class="name">Qwen3-TTS 0.6B 4-bit, serena</span><span class="sub">instruct: calm, restrained</span></td><td class="num"><b>1.74</b></td><td class="num"><b>16.8 GB</b></td><td class="num"><b>30%</b></td><td class="num">9.5 min</td><td>Garbled whole phrases: “a lee shore, my blood’ll be on you, Jim” was heard as “the leash joy… black the black me at your gym”.</td></tr>
+    </tbody>
+  </table>
+</div>
+<section class="col">
+  <p>Most differences in the three good renders were the transcriber misreading dialect, not the voice being wrong: “’em” heard as “him”, “aye” as “I”, “matey” as “mighty”, “seamanly” as “seemingly”. That's direct evidence that the listen-back check needs per-word accepted flags and dialect normalization before it compares; otherwise every <i>Treasure Island</i> chapter would be full of false alarms.</p>
+  <p class="note">Still open from M0: listening on headphones, and playing the winning voice for a full hour. Samples and scripts are in <code>bakeoff/</code>.</p>
+</section>
+
+<section class="col">
+  <h2>Your pipeline, revised</h2>
+  <p>The shape you proposed is right: chapters, chunks, per-chunk files, then ffmpeg to M4B. Most of my changes make each chunk addressable, checkable and cheap to redo.</p>
+  <div class="diff">
+    <div class="row"><div class="tag keep">Keep</div><div><b>Chunk, render, concatenate. Never feed whole chapters.</b><p>The chunk is the unit you retry, cache, check and fix. With Kokoro, though, chunks have to be smaller than your 300–1000 characters. Kokoro accepts at most 510 phoneme tokens per call (about 30 seconds of speech) and truncates anything longer. That means one to three sentences, roughly 150–350 characters, split only at sentence boundaries and never across paragraphs.</p></div></div>
+    <div class="row"><div class="tag change">Change</div><div><b>Split chapters by the table of contents, not by spine file.</b><p>An EPUB's spine files and its chapters often don't line up. One file can hold three chapters, or one chapter can span two files. Walk the nav/NCX table of contents and its <code>#anchor</code> targets instead, and fall back to detecting <code>&lt;h1&gt;</code>/<code>&lt;h2&gt;</code> headings when the TOC is broken.</p></div></div>
+    <div class="row"><div class="tag change">Change</div><div><b>Read the EPUB's semantic tags before guessing.</b><p>EPUB 3 marks sections with <code>epub:type</code> values such as <code>copyright-page</code>, <code>toc</code>, <code>index</code>, <code>footnote</code> and <code>noteref</code>. Use them to drop boilerplate and to read each footnote right after the sentence that cites it. Heuristics, and the optional local LLM, step in only when the tags are missing, which is common in older books.</p></div></div>
+    <div class="row"><div class="tag change">Change</div><div><b>Insert silence; don't crossfade.</b><p>Crossfading speech smears consonants and shifts timing. Instead, trim each chunk's own leading and trailing silence and insert exact pauses based on the text's structure. Roughly 0.25&nbsp;s between sentences, 0.6&nbsp;s between paragraphs, 1.4&nbsp;s at a scene break (<code>* * *</code>), and 2&nbsp;s after a chapter title. The gaps then sound like a narrator breathing, not like seams.</p></div></div>
+    <div class="row"><div class="tag change">Change</div><div><b>Name chunk files by their content, not by number.</b><p><code>037.wav</code> breaks as soon as you edit chapter 7 and every later chunk shifts by one. Instead, name each file by a hash of the normalized text, voice, speed and engine version. An edit then re-renders only the chunk that changed, and an engine upgrade automatically invalidates the old audio.</p></div></div>
+    <div class="row"><div class="tag add">Add</div><div><b>Pronunciation pre-flight.</b><p>Before rendering, list every word that isn't in the speech model's pronunciation dictionary (Livesey, Trelawney, Hispaniola), plus words with well-known traps (boatswain, forecastle, gunwale), ranked by how often they occur. You confirm a “sounds like” spelling once, and it applies throughout the book.</p></div></div>
+    <div class="row"><div class="tag add">Add</div><div><b>Listen back to every chunk.</b><p>Parakeet transcribes each rendered chunk. The app compares the transcript with the source text and checks speaking rate, silences and clipping. Only the outliers are flagged for you. This is what makes “review flags only” trustworthy.</p></div></div>
+    <div class="row"><div class="tag add">Add</div><div><b>Encode once, after a loudness pass.</b><p>Concatenate all the audio uncompressed first, then run two-pass <code>loudnorm</code> to −18 LUFS with a true peak of −1.5 dB. Encode to AAC only once, with the macOS <code>aac_at</code> encoder at 64&nbsp;kb/s mono. Encoding once also avoids AAC's start-up silence at every join.</p></div></div>
+    <div class="row"><div class="tag change">Change</div><div><b>The LLM never rewrites prose.</b><p>A small local model may classify sections (front matter or story?) and suggest pronunciations, and you approve each suggestion. It never paraphrases the text: an LLM that quietly “fixes” a sentence in chapter 19 is a bug you'd never find.</p></div></div>
+  </div>
+</section>
+
+<section class="wide">
+  <div class="col"><h2>The pipeline</h2>
+  <p>Eight stages. Each one writes a file that the next stage reads, and each can resume after a crash or quit. Outlined stages are new compared with your sketch.</p></div>
+  <div class="pipe">
+    <div class="stage"><span class="n">1 · ingest</span><h4>Unpack the EPUB</h4><p>Reads metadata, cover, spine and table of contents. Splits chapters at TOC anchors and tags front matter, notes and scene breaks.</p><span class="out">book.json</span></div>
+    <div class="stage new"><span class="badge">new</span><span class="n">2 · contents</span><h4>Pick chapters</h4><p>Shows the detected structure. Copyright, TOC, index and ads are skipped by default; you can toggle anything.</p><span class="out">book.json · include[]</span></div>
+    <div class="stage"><span class="n">3 · normalize</span><h4>Make text speakable</h4><p>Expands numbers, dates, Roman numerals in headings and abbreviations (Dr., Capt.). Handles dialect apostrophes (’em, o’, Cap’n). Turns dashes and ellipses into pauses.</p><span class="out">speech.json</span></div>
+    <div class="stage new"><span class="badge">new</span><span class="n">4 · lexicon</span><h4>Pronunciations</h4><p>Lists unknown words by frequency. The local LLM can pre-fill “sounds like” spellings, which you confirm. Spellings are converted to phonemes.</p><span class="out">lexicon.toml</span></div>
+    <div class="stage"><span class="n">5 · chunk</span><h4>Sentence chunks</h4><p>One to three sentences, under 510 phoneme tokens. Each chunk records the pause that follows it: sentence, paragraph, scene or chapter.</p><span class="out">chunks.sqlite</span></div>
+    <div class="stage"><span class="n">6 · synth</span><h4>Render audio</h4><p>Kokoro on MLX, 24&nbsp;kHz mono. Each chunk is cached by content hash and never rendered twice.</p><span class="out">cache/ab/ab31…f2.wav</span></div>
+    <div class="stage new"><span class="badge">new</span><span class="n">7 · check</span><h4>Listen back</h4><p>Parakeet transcribes each chunk. Checks word errors against the text, characters per second, silence and clipping. Retries once with a different split; anything still failing is flagged.</p><span class="out">qa table · chunks.sqlite</span></div>
+    <div class="stage"><span class="n">8 · assemble</span><h4>Chapters → M4B</h4><p>Trims, inserts gaps, normalizes loudness, then encodes once to AAC. Adds QuickTime chapter markers, cover and tags.</p><span class="out">Treasure Island.m4b</span></div>
+  </div>
+  <div class="loop"><b>The fix loop.</b> Editing a chunk's text or adding a pronunciation in Review re-runs stages 3–7 for only the chunks it touches. Fixing “Livesey” re-renders the 212 chunks that contain the name, about 40 seconds of work, then stage 8 rebuilds the M4B in about a minute.</div>
+</section>
+
+<section class="col">
+  <h2>Time budget for one novel</h2>
+  <p>A 100,000-word novel is about 11 hours of audio. The bars use the speeds measured in the bake-off, in the worst case, with stages running one after another and the slowest checking speed. Kokoro still leaves more than three hours of the night to spare. With Qwen3-TTS, rendering alone doesn't finish.</p>
+  <div class="budget">
+    <div class="brow">
+      <div class="bl">Kokoro af_heart + Parakeet <span>· ≈ 4.6 h of 8 h, measured</span></div>
+      <div class="bar" role="img" aria-label="Prep 0.2 hours, render 2.2 hours, check up to 2 hours, retries and assembly 0.2 hours, about 3.4 hours to spare">
+        <div class="seg-c" style="width:2.5%" title="Ingest, normalize, LLM lexicon pass ≈ 12 min"></div>
+        <div class="seg-a" style="width:27.5%">Render 2.2 h</div>
+        <div class="seg-b" style="width:25%">Check ≤ 2 h</div>
+        <div class="seg-c" style="width:2.5%" title="Retries + loudness + AAC ≈ 12 min"></div>
+        <div class="seg-h" style="width:42.5%">≈ 3.4 h to spare</div>
+      </div>
+    </div>
+    <div class="brow">
+      <div class="bl">Qwen3-TTS 0.6B (MLX, 4-bit) + Parakeet <span>· ≈ 19 h render, measured</span></div>
+      <div class="bar" role="img" aria-label="Rendering alone takes about 19 hours, longer than the 8 hour night">
+        <div class="seg-c" style="width:2.5%"></div>
+        <div class="seg-x" style="width:97.5%">Render alone exceeds the night; book is ≈ 40% done at 8 h</div>
+      </div>
+    </div>
+    <div class="axis"><span>0 h</span><span>2 h</span><span>4 h</span><span>6 h</span><span>8 h</span></div>
+    <p class="note" style="margin:0">Unlabelled grey: ingest, normalization and the optional LLM pass (≈ 12 min); retries, loudness and AAC encoding (≈ 12 min). Rates measured on this M2 (Kokoro 0.20×, Parakeet 0.06–0.18×). At your 150,000-word limit (about 16.5 hours of audio), the same stack needs about 4.5–6.5 hours: tighter, but still one night.</p>
+  </div>
+</section>
+
+<section class="wide">
+  <div class="col"><h2>The app, sketched</h2>
+  <p>Six screens, presented as steps in one sidebar per book. These are SwiftUI layout sketches filled with real data from <i>Treasure Island</i> (Stevenson, 1883, public domain). It's a good stress test: heavy dialect dialogue, nautical vocabulary, and names English speakers get wrong.</p></div>
+
+  <figure class="sketch">
+    <div class="frame"><div class="mac">
+      <div class="side">
+        <div class="lights"><i></i><i></i><i></i></div>
+        <div class="sec">Treasure Island</div>
+        <div class="it on"><span class="g"></span>Contents<span class="ct">34</span></div>
+        <div class="it"><span class="g"></span>Pronunciation<span class="ct">41</span></div>
+        <div class="it"><span class="g"></span>Voice</div>
+        <div class="it"><span class="g"></span>Render</div>
+        <div class="it"><span class="g"></span>Review</div>
+        <div class="it"><span class="g"></span>Export</div>
+        <div class="sec">Library</div>
+        <div class="it"><span class="g l"></span>The Moonstone<span class="ct">done</span></div>
+        <div class="it"><span class="g l"></span>Kidnapped<span class="ct">queued</span></div>
+        <div class="book"><span class="cover"></span><div><div style="font-weight:600;font-size:12px">Treasure Island</div><div style="color:var(--m-text2);font-size:11px">Robert Louis Stevenson</div></div></div>
+      </div>
+      <div class="main">
+        <div class="tb"><span class="ttl">Contents</span><span class="sub">34 chapters · 67,412 words · ≈ 7 h 29 min</span><span class="sp"></span><span class="seg"><span class="on">Detected</span><span>Spine files</span></span><span class="btn">Skip all front matter</span></div>
+        <div class="body" style="padding:0">
+          <table class="mt">
+            <thead><tr><th style="width:34px"></th><th>Section</th><th>Detected as</th><th class="r">Words</th><th class="r">Est. time</th><th class="r">Notes</th></tr></thead>
+            <tbody>
+              <tr class="dim"><td><span class="chk off"></span></td><td>Title Page</td><td><span class="mtag">titlepage</span></td><td class="r">14</td><td class="r">—</td><td class="r"></td></tr>
+              <tr class="dim"><td><span class="chk off"></span></td><td>Copyright</td><td><span class="mtag">copyright-page</span></td><td class="r">212</td><td class="r">—</td><td class="r"></td></tr>
+              <tr class="dim"><td><span class="chk off"></span></td><td>Contents</td><td><span class="mtag">toc</span></td><td class="r">298</td><td class="r">—</td><td class="r"></td></tr>
+              <tr><td><span class="chk"></span></td><td>To the Hesitating Purchaser</td><td><span class="mtag b">poem · guessed</span></td><td class="r">118</td><td class="r">0:52</td><td class="r"></td></tr>
+              <tr><td><span class="chk"></span></td><td><b>Part One — The Old Buccaneer</b></td><td><span class="mtag">part</span></td><td class="r">4</td><td class="r">0:04</td><td class="r"></td></tr>
+              <tr class="sel"><td><span class="chk"></span></td><td style="padding-left:22px">1 · The Old Sea-dog at the “Admiral Benbow”</td><td><span class="mtag g">chapter</span></td><td class="r">2,964</td><td class="r">19:41</td><td class="r">2 notes</td></tr>
+              <tr><td><span class="chk"></span></td><td style="padding-left:22px">2 · Black Dog Appears and Disappears</td><td><span class="mtag g">chapter</span></td><td class="r">2,786</td><td class="r">18:30</td><td class="r"></td></tr>
+              <tr><td><span class="chk"></span></td><td style="padding-left:22px">3 · The Black Spot</td><td><span class="mtag g">chapter</span></td><td class="r">2,402</td><td class="r">15:57</td><td class="r"></td></tr>
+              <tr><td><span class="chk"></span></td><td style="padding-left:22px">4 · The Sea-chest</td><td><span class="mtag g">chapter</span></td><td class="r">2,318</td><td class="r">15:24</td><td class="r"></td></tr>
+              <tr><td><span class="chk"></span></td><td style="padding-left:22px">5 · The Last of the Blind Man</td><td><span class="mtag g">chapter</span></td><td class="r">1,937</td><td class="r">12:52</td><td class="r"></td></tr>
+              <tr><td><span class="chk"></span></td><td style="padding-left:22px">6 · The Captain’s Papers</td><td><span class="mtag g">chapter</span></td><td class="r">2,205</td><td class="r">14:39</td><td class="r">1 note</td></tr>
+              <tr><td><span class="chk"></span></td><td><b>Part Two — The Sea-cook</b></td><td><span class="mtag">part</span></td><td class="r">4</td><td class="r">0:04</td><td class="r"></td></tr>
+              <tr><td><span class="chk"></span></td><td style="padding-left:22px">7 · I Go to Bristol</td><td><span class="mtag g">chapter</span></td><td class="r">2,241</td><td class="r">14:53</td><td class="r"></td></tr>
+              <tr class="dim"><td><span class="chk off"></span></td><td>About the Publisher</td><td><span class="mtag o">back matter · ad · guessed</span></td><td class="r">183</td><td class="r">—</td><td class="r"></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="foot"><span>Spoken: “Chapter One. The Old Sea-dog at the Admiral Benbow.”</span><span style="flex:1"></span><span>Footnotes: read inline</span></div>
+      </div>
+    </div></div>
+    <figcaption><b>1 · Contents.</b> Opens right after you drop in an EPUB. Structure comes from the table of contents and <code>epub:type</code> tags; “guessed” marks a heuristic call worth a glance. Unticked rows are left out of the audio. Time estimates use the selected voice's measured speaking rate, not a fixed words-per-minute figure.</figcaption>
+  </figure>
+
+  <figure class="sketch">
+    <div class="frame"><div class="mac">
+      <div class="side">
+        <div class="lights"><i></i><i></i><i></i></div>
+        <div class="sec">Treasure Island</div>
+        <div class="it"><span class="g"></span>Contents<span class="ct">✓</span></div>
+        <div class="it on"><span class="g"></span>Pronunciation<span class="ct">41</span></div>
+        <div class="it"><span class="g"></span>Voice</div>
+        <div class="it"><span class="g"></span>Render</div>
+        <div class="it"><span class="g"></span>Review</div>
+        <div class="it"><span class="g"></span>Export</div>
+        <div class="book"><span class="cover"></span><div><div style="font-weight:600;font-size:12px">Treasure Island</div><div style="color:var(--m-text2);font-size:11px">Robert Louis Stevenson</div></div></div>
+      </div>
+      <div class="main">
+        <div class="tb"><span class="ttl">Pronunciation</span><span class="sub">41 to confirm · 12 done · suggestions by local model</span><span class="sp"></span><span class="seg"><span class="on">To confirm</span><span>All 53</span><span>Global</span></span><span class="btn pri">Accept 29 suggestions</span></div>
+        <div class="body" style="padding:0">
+          <table class="mt">
+            <thead><tr><th>Word</th><th class="r">Count</th><th>Why flagged</th><th>Default reading</th><th>Sounds like</th><th></th><th>First use</th></tr></thead>
+            <tbody>
+              <tr class="sel"><td><b>Livesey</b></td><td class="r">212</td><td><span class="mtag o">unknown name</span></td><td><span class="play"></span> LYVE-zee</td><td><span class="field">LIV-see</span></td><td><span class="play"></span></td><td style="color:var(--m-text2)">“Dr. Livesey came late one afternoon…”</td></tr>
+              <tr><td><b>Trelawney</b></td><td class="r">148</td><td><span class="mtag o">unknown name</span></td><td><span class="play"></span> tre-LAWN-ee</td><td><span class="field">truh-LAW-nee</span></td><td><span class="play"></span></td><td style="color:var(--m-text2)">“Squire Trelawney, Dr. Livesey…”</td></tr>
+              <tr><td><b>Hispaniola</b></td><td class="r">71</td><td><span class="mtag o">unknown name</span></td><td><span class="play"></span> his-pan-YO-la</td><td><span class="field" style="color:var(--m-text2)">keep default</span></td><td></td><td style="color:var(--m-text2)">“…the Hispaniola lay some way out…”</td></tr>
+              <tr><td><b>boatswain</b></td><td class="r">19</td><td><span class="mtag b">nautical</span></td><td><span class="play"></span> BOAT-swain</td><td><span class="field">BOH-sun</span></td><td><span class="play"></span></td><td style="color:var(--m-text2)">“…the boatswain piped…”</td></tr>
+              <tr><td><b>forecastle</b></td><td class="r">23</td><td><span class="mtag b">nautical</span></td><td><span class="play"></span> FORE-cas-ul</td><td><span class="field">FOHK-sul</span></td><td><span class="play"></span></td><td style="color:var(--m-text2)">“…the men in the forecastle…”</td></tr>
+              <tr><td><b>gunwale</b></td><td class="r">6</td><td><span class="mtag b">nautical</span></td><td><span class="play"></span> GUN-wale</td><td><span class="field">GUN-ul</span></td><td><span class="play"></span></td><td style="color:var(--m-text2)">“…over the gunwale…”</td></tr>
+              <tr><td><b>Cap’n</b></td><td class="r">96</td><td><span class="mtag">dialect</span></td><td><span class="play"></span> <i>dropped</i></td><td><span class="field">CAP-n</span></td><td><span class="play"></span></td><td style="color:var(--m-text2)">“Cap’n, if I may make so bold…”</td></tr>
+              <tr><td><b>17—</b></td><td class="r">1</td><td><span class="mtag">normalizer</span></td><td><span class="play"></span> seventeen dash</td><td><span class="field">seventeen hundred and blank</span></td><td><span class="play"></span></td><td style="color:var(--m-text2)">“…the year of grace 17—…”</td></tr>
+              <tr><td><b>Pew</b></td><td class="r">27</td><td><span class="mtag g">known word</span></td><td><span class="play"></span> pyoo</td><td><span class="field" style="color:var(--m-text2)">keep default</span></td><td></td><td style="color:var(--m-text2)">“…blind Pew…”</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="foot"><span>Saved to lexicon.toml · “Global” entries apply to every book</span><span style="flex:1"></span><span>Changing a word later re-renders only the chunks that contain it</span></div>
+      </div>
+    </div></div>
+    <figcaption><b>2 · Pronunciation.</b> This screen is what makes fiction sound professionally read. Candidates are words the dictionary doesn't know, ranked by count, because fixing “Livesey” fixes 212 sentences. “<i>dropped</i>” marks a word Kokoro would silently skip. You type a <i>sounds-like</i> spelling, not IPA, and the app converts it to phonemes. The local LLM only pre-fills that column.</figcaption>
+  </figure>
+
+  <figure class="sketch">
+    <div class="frame"><div class="mac">
+      <div class="side">
+        <div class="lights"><i></i><i></i><i></i></div>
+        <div class="sec">Treasure Island</div>
+        <div class="it"><span class="g"></span>Contents<span class="ct">✓</span></div>
+        <div class="it"><span class="g"></span>Pronunciation<span class="ct">✓</span></div>
+        <div class="it on"><span class="g"></span>Voice</div>
+        <div class="it"><span class="g"></span>Render</div>
+        <div class="it"><span class="g"></span>Review</div>
+        <div class="it"><span class="g"></span>Export</div>
+        <div class="book"><span class="cover"></span><div><div style="font-weight:600;font-size:12px">Treasure Island</div><div style="color:var(--m-text2);font-size:11px">Robert Louis Stevenson</div></div></div>
+      </div>
+      <div class="main">
+        <div class="tb"><span class="ttl">Voice</span><span class="sub">Auditioned on this book's opening</span><span class="sp"></span><span class="btn">Render 5-minute sample</span></div>
+        <div class="body">
+          <div class="card">
+            <div class="lbl">Preview passage · Chapter 1</div>
+            <div class="txt">I remember him as if it were yesterday, as he came plodding to the inn door, his sea-chest following behind him in a hand-barrow — a tall, strong, heavy, nut-brown man, his tarry pigtail falling over the shoulder of his soiled blue coat…</div>
+          </div>
+          <div class="vgrid" id="voices"></div>
+          <div class="card" style="display:grid;grid-template-columns:130px 1fr 60px;gap:14px;align-items:center">
+            <span class="lbl" style="margin:0">Speed</span><div class="slider"><i style="width:44%"></i><u style="left:calc(44% - 8px)"></u></div><span style="font-variant-numeric:tabular-nums;text-align:right">0.94×</span>
+            <span class="lbl" style="margin:0">Paragraph pause</span><div class="slider"><i style="width:52%"></i><u style="left:calc(52% - 8px)"></u></div><span style="font-variant-numeric:tabular-nums;text-align:right">0.60 s</span>
+            <span class="lbl" style="margin:0">Scene-break pause</span><div class="slider"><i style="width:62%"></i><u style="left:calc(62% - 8px)"></u></div><span style="font-variant-numeric:tabular-nums;text-align:right">1.40 s</span>
+          </div>
+        </div>
+        <div class="foot"><span>Engine: Kokoro-82M · MLX · 24 kHz</span><span style="flex:1"></span><span>Grades are from Kokoro's own voice list</span></div>
+      </div>
+    </div></div>
+    <figcaption><b>3 · Voice.</b> Presets are auditioned on the book's own opening, not a stock demo sentence. “Render 5-minute sample” is your own bake-off advice built into the app: narration that charms for ten seconds can wear you out over eight hours.</figcaption>
+  </figure>
+
+  <figure class="sketch">
+    <div class="frame"><div class="mac">
+      <div class="side">
+        <div class="lights"><i></i><i></i><i></i></div>
+        <div class="sec">Treasure Island</div>
+        <div class="it"><span class="g"></span>Contents<span class="ct">✓</span></div>
+        <div class="it"><span class="g"></span>Pronunciation<span class="ct">✓</span></div>
+        <div class="it"><span class="g"></span>Voice<span class="ct">✓</span></div>
+        <div class="it on"><span class="g"></span>Render<span class="ct">41%</span></div>
+        <div class="it"><span class="g"></span>Review<span class="ct flag">3</span></div>
+        <div class="it"><span class="g"></span>Export</div>
+        <div class="book"><span class="cover"></span><div><div style="font-weight:600;font-size:12px">Treasure Island</div><div style="color:var(--m-text2);font-size:11px">Robert Louis Stevenson</div></div></div>
+      </div>
+      <div class="main">
+        <div class="tb"><span class="ttl">Render</span><span class="sub">Chapter 14 of 34 · 8× real time · about 35 min left</span><span class="sp"></span><span class="btn">Pause</span><span class="btn">Keep Mac awake ✓</span></div>
+        <div class="body" style="padding:0">
+          <table class="mt">
+            <thead><tr><th>Chapter</th><th style="width:30%">Progress</th><th class="r">Chunks</th><th class="r">Audio</th><th class="r">Checked</th><th class="r">Flags</th></tr></thead>
+            <tbody id="render-rows"></tbody>
+          </table>
+        </div>
+        <div class="foot"><span>Rendered 1,583 / 3,862 chunks</span><span>Check queue 43</span><span>Peak memory 1.9 GB</span><span style="flex:1"></span><span>Kokoro (MLX) → Parakeet (MLX)</span></div>
+      </div>
+    </div></div>
+    <figcaption><b>4 · Render.</b> Rendering and listen-back run as two queues, so chapter 13 is checked while chapter 14 renders, and flags appear in Review before the render ends. The worker survives a quit or sleep, and a cached chunk is never rendered twice.</figcaption>
+  </figure>
+
+  <figure class="sketch">
+    <div class="frame"><div class="mac tall">
+      <div class="side">
+        <div class="lights"><i></i><i></i><i></i></div>
+        <div class="sec">Treasure Island</div>
+        <div class="it"><span class="g"></span>Contents<span class="ct">✓</span></div>
+        <div class="it"><span class="g"></span>Pronunciation<span class="ct">✓</span></div>
+        <div class="it"><span class="g"></span>Voice<span class="ct">✓</span></div>
+        <div class="it"><span class="g"></span>Render<span class="ct">✓</span></div>
+        <div class="it on"><span class="g"></span>Review<span class="ct flag">7</span></div>
+        <div class="it"><span class="g"></span>Export</div>
+        <div class="book"><span class="cover"></span><div><div style="font-weight:600;font-size:12px">Treasure Island</div><div style="color:var(--m-text2);font-size:11px">Robert Louis Stevenson</div></div></div>
+      </div>
+      <div class="main">
+        <div class="tb"><span class="ttl">Review</span><span class="sub">7 of 3,862 chunks flagged · 0.18%</span><span class="sp"></span><span class="seg"><span class="on">Flagged</span><span>Accepted</span><span>All</span></span></div>
+        <div style="display:flex;flex:1;min-height:0">
+          <div class="flags">
+            <div class="flag on"><div class="top"><span class="mtag o">words differ</span>Ch 1 · #0006 · 2 words</div><div class="q">…in the year of grace 17— and go back to the time…</div></div>
+            <div class="flag"><div class="top"><span class="mtag o">too slow</span>Ch 8 · #0031 · 4.1 chars/s</div><div class="q">“Ah,” said he, “this is the berth for me.”</div></div>
+            <div class="flag"><div class="top"><span class="mtag o">words differ</span>Ch 11 · #0007 · 1 word</div><div class="q">…the fo’c’sle hands were all asleep…</div></div>
+            <div class="flag"><div class="top"><span class="mtag o">word missing</span>Ch 15 · #0052 · 1 word</div><div class="q">“I’m poor Ben Gunn, I am; and I haven’t…</div></div>
+            <div class="flag"><div class="top"><span class="mtag">long silence</span>Ch 19 · #0118 · 2.3 s gap</div><div class="q">“Pieces of eight! pieces of eight!”</div></div>
+            <div class="flag"><div class="top"><span class="mtag o">words differ</span>Ch 23 · #0014 · 1 word</div><div class="q">…the coracle, as I had ample reason to know…</div></div>
+            <div class="flag"><div class="top"><span class="mtag">clipped end</span>Ch 34 · #0090 · last word cut</div><div class="q">…and a bottle of rum!</div></div>
+          </div>
+          <div class="body">
+            <div class="card">
+              <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><span class="play"></span><span style="font-weight:600">Chapter 1 · chunk 0006</span><span style="color:var(--m-text2);font-size:12px">0:41.2 – 0:49.8 · 8.6 s</span><span style="flex:1"></span><span class="mtag">auto-retry used</span></div>
+              <div class="wave" id="wave1"></div>
+            </div>
+            <div class="card"><div class="lbl">Book text</div><div class="txt">…I take up my pen in the year of grace <mark>17—</mark> and go back to the time when my father kept the Admiral Benbow inn…</div></div>
+            <div class="card"><div class="lbl">Heard (Parakeet)</div><div class="txt">…I take up my pen in the year of grace <s>seventeen dash</s> and go back to the time when my father kept the Admiral Benbow inn…</div></div>
+            <div class="card kv"><span>Likely cause</span><span>The normalizer read the redacted year “17—” literally</span><span>Suggested fix</span><span>Say it as “seventeen hundred and blank” (1 chunk)</span></div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap"><span class="btn pri">Apply fix &amp; re-render</span><span class="btn">Edit text…</span><span class="btn">Add pronunciation…</span><span class="btn">Accept as is</span><span class="btn">Play ±10 s in context</span></div>
+          </div>
+        </div>
+        <div class="foot"><span>Space play · ↓ next · A accept · R re-render · E edit</span><span style="flex:1"></span><span>Accepted flags are remembered for this word</span></div>
+      </div>
+    </div></div>
+    <figcaption><b>5 · Review.</b> This is the only screen where you have to listen. Each flag shows what the book says next to what Parakeet heard, plus a likely cause and a one-click fix. Some flags will be false alarms: Parakeet transcribing “fo’c’sle” as “folks’ll” doesn't mean the narration is wrong, and “Play ±10 s in context” settles it in two seconds.</figcaption>
+  </figure>
+
+  <figure class="sketch">
+    <div class="frame"><div class="mac">
+      <div class="side">
+        <div class="lights"><i></i><i></i><i></i></div>
+        <div class="sec">Treasure Island</div>
+        <div class="it"><span class="g"></span>Contents<span class="ct">✓</span></div>
+        <div class="it"><span class="g"></span>Pronunciation<span class="ct">✓</span></div>
+        <div class="it"><span class="g"></span>Voice<span class="ct">✓</span></div>
+        <div class="it"><span class="g"></span>Render<span class="ct">✓</span></div>
+        <div class="it"><span class="g"></span>Review<span class="ct">✓</span></div>
+        <div class="it on"><span class="g"></span>Export</div>
+        <div class="book"><span class="cover"></span><div><div style="font-weight:600;font-size:12px">Treasure Island</div><div style="color:var(--m-text2);font-size:11px">Robert Louis Stevenson</div></div></div>
+      </div>
+      <div class="main">
+        <div class="tb"><span class="ttl">Export</span><span class="sp"></span><span class="btn">Show in Finder</span><span class="btn">AirDrop…</span><span class="btn pri">Build M4B</span></div>
+        <div class="body" style="flex-direction:row;gap:22px">
+          <div style="display:grid;gap:10px;align-content:start"><span class="cover lg"></span><span class="btn" style="text-align:center">Replace cover…</span></div>
+          <div style="flex:1;display:grid;gap:14px;align-content:start;min-width:0">
+            <div class="kv" style="grid-template-columns:110px 1fr;gap:9px 14px">
+              <span>Title</span><span><span class="field" style="min-width:280px">Treasure Island</span></span>
+              <span>Author</span><span><span class="field" style="min-width:280px">Robert Louis Stevenson</span></span>
+              <span>Narrator</span><span><span class="field" style="min-width:280px">Synthetic voice (Kokoro af_heart)</span></span>
+              <span>Chapters</span><span>37 markers: poem, 2 parts, 34 chapters (QuickTime chapter track)</span>
+              <span>Audio</span><span>AAC-LC 64 kb/s mono · 24 kHz · −18 LUFS · −1.5 dBTP</span>
+              <span>Length</span><span>7 h 31 min · ≈ 218 MB</span>
+            </div>
+            <div class="card" style="padding:0">
+              <table class="mt">
+                <thead><tr><th>Marker</th><th class="r">Starts</th><th class="r">Length</th></tr></thead>
+                <tbody>
+                  <tr><td>To the Hesitating Purchaser</td><td class="r">0:00:00</td><td class="r">0:52</td></tr>
+                  <tr><td>Part One — The Old Buccaneer</td><td class="r">0:00:52</td><td class="r">0:04</td></tr>
+                  <tr><td>1 · The Old Sea-dog at the “Admiral Benbow”</td><td class="r">0:00:56</td><td class="r">19:44</td></tr>
+                  <tr><td>2 · Black Dog Appears and Disappears</td><td class="r">0:20:40</td><td class="r">18:27</td></tr>
+                  <tr><td>3 · The Black Spot</td><td class="r">0:39:07</td><td class="r">16:01</td></tr>
+                  <tr class="dim"><td>… 32 more</td><td class="r"></td><td class="r"></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="foot"><span>Treasure Island - Robert Louis Stevenson.m4b</span><span style="flex:1"></span><span>Verified: ffprobe chapters ✓ · cover ✓ · duration matches ✓</span></div>
+      </div>
+    </div></div>
+    <figcaption><b>6 · Export.</b> Building the M4B takes about a minute, because every chapter is already rendered and checked. Chapters go into the QuickTime chapter track, which is the only one Apple Books reads. The narrator tag says plainly that the voice is synthetic. That's the only disclosure: there's no spoken credit.</figcaption>
+  </figure>
+</section>
+
+<section class="col">
+  <h2>How it's built</h2>
+  <p>Two processes and one folder per book. The Swift app owns the interface, playback and files. A bundled Python worker owns everything that touches a model. They talk JSON-RPC over stdin/stdout, which means the worker doubles as a command-line tool at no extra cost.</p>
+<pre class="block"><span class="c">Narrate.app/Contents/</span>
+  MacOS/Narrate              <span class="c"># SwiftUI shell, AVFoundation playback</span>
+  Helpers/narrate-worker     <span class="c"># python-build-standalone + uv-locked env</span>
+  Resources/bin/ffmpeg       <span class="c"># LGPL build with AudioToolbox (aac_at)</span>
+
+<span class="c">~/Library/Application Support/Narrate/</span>
+  models/kokoro-82m/         <span class="c"># downloaded on first run, ≈ 330 MB</span>
+  models/parakeet-tdt/       <span class="c"># ≈ 0.6 GB, CC-BY-4.0: credit in About</span>
+  models/llm/  espeak-ng/    <span class="c"># both optional downloads</span>
+  lexicon.global.toml        <span class="c"># pronunciations you reuse across books</span>
+
+<span class="c">~/Audiobooks/Treasure Island.narrate/</span>
+  source.epub
+  book.json                  <span class="c"># structure + your include/skip choices</span>
+  lexicon.toml               <span class="c"># this book's pronunciations</span>
+  chunks.sqlite              <span class="c"># text, hash, pause, QA result per chunk</span>
+  cache/ab/ab31…f2.wav       <span class="c"># content-addressed audio</span>
+  out/Treasure Island.m4b</pre>
+<pre class="block"><span class="c">$</span> narrate ingest treasure-island.epub
+<span class="c">$</span> narrate lexicon --suggest       <span class="c"># optional local LLM pass</span>
+<span class="c">$</span> narrate render --voice af_heart --speed 0.94
+<span class="c">$</span> narrate review --flagged
+<span class="c">$</span> narrate export --m4b</pre>
+  <h3>The engine contract</h3>
+  <p>Each engine implements four things: <code>voices()</code>, <code>max_chunk()</code>, <code>synthesize(text, voice, speed) → pcm</code>, and an <code>engine_id</code> that becomes part of every cache key. Kokoro is the default. A Qwen3-TTS plugin only has to satisfy the same contract, and the chunker reads <code>max_chunk()</code> to size chunks for it. Your original ranking still applies; it just moves to people with an NVIDIA GPU or 32&nbsp;GB or more of memory. On this Mac, the bake-off ruled it out.</p>
+  <h3>The local LLM, on a leash</h3>
+  <p>It runs once before rendering and is then unloaded, so it never competes with the speech models for 16&nbsp;GB of memory. A 3–4B instruct model, 4-bit quantized and run through <code>mlx-lm</code>, needs about 2.5&nbsp;GB. It has two jobs, and both produce suggestions you approve. It classifies unlabelled sections (front matter or story?) and proposes sounds-like spellings for unknown words. Skip it and the app still works; you type the spellings yourself.</p>
+</section>
+
+<section class="col">
+  <h2>Risks</h2>
+  <div class="risks">
+    <div class="risk"><b>One voice for eight hours</b><span>Decided: a female narrator, so the default is af_heart, the best-rated Kokoro voice, with af_bella as the alternative. Kokoro's weaker male voices no longer matter. What's left is listener fatigue: confirm in M0 that af_heart at about 0.94× speed is still pleasant after an hour, not just after a minute.</span></div>
+    <div class="risk"><b>Prosody across ~3,800 separate chunks</b><span>Each chunk is spoken without hearing the one before it, so intonation can reset every sentence or two. To soften this, fill chunks up to the token limit within a paragraph, and keep a quote together with its tag (“…,” said he). Judge it by ear in M0, not on paper.</span></div>
+    <div class="risk"><b>False alarms from the listen-back check</b><span>Dialect and archaic spellings (’em, fo’c’sle, ye) won't match the transcript even when the audio is right. Normalize both sides before comparing, ignore punctuation, and remember accepted flags per word. Tune thresholds on one real book until under 0.5% of chunks get flagged.</span></div>
+    <div class="risk"><b>Shipping Python inside a Mac app</b><span>Every <code>.so</code> file in the bundle has to be signed, the app needs notarizing, and it's about 400&nbsp;MB before models. Ship the worker as a signed helper, download models on first run, and keep the CLI installable separately with <code>uv tool install</code>.</span></div>
+    <div class="risk"><b>Licenses in the bundle</b><span>espeak-ng is GPL-3.0, Parakeet's weights are CC-BY-4.0, and Supertonic's are OpenRAIL-M. Bundle none of them; download each on first use with its license shown. Use an LGPL ffmpeg build, without <code>--enable-gpl</code>.</span></div>
+    <div class="risk"><b>The variety of EPUBs out there</b><span>Broken tables of contents, chapter titles as images, footnotes as bare superscript links. Keep 20 real public-domain EPUBs from Standard Ebooks and Project Gutenberg as ingest test fixtures from day one.</span></div>
+    <div class="risk"><b>Apple Books quirks</b><span>Whether Apple Books needs the audiobook media-type tag, and how it handles <code>faststart</code>, couldn't be confirmed. Import a test M4B into Apple Books and BookPlayer in M1 instead of trusting <code>ffprobe</code> alone.</span></div>
+  </div>
+</section>
+
+<section class="col">
+  <h2>Build order</h2>
+  <ol class="ms">
+    <li><span class="wk">M0 · done 29 Oct, except the 1-hour listen</span><b>Bake-off on this Mac</b>The same 5 minutes of <i>Treasure Island</i> chapter 3 read by Kokoro af_heart and af_bella, Supertonic 3's female voices, and Qwen3-TTS 0.6B at 4-bit on MLX as a quality reference. Listen on headphones, then play the winner for a full hour. Measure real-time factor and peak memory. This confirms or overturns the engine choice, so nothing else gets built first.</li>
+    <li><span class="wk">M1 · 1–2 weeks</span><b>Command-line core, from ingest to M4B</b>No checking and no UI. Done when <i>Treasure Island</i> plays in Apple Books and BookPlayer with correct chapters and cover.</li>
+    <li><span class="wk">M2 · 1 week</span><b>Listen-back check and flags</b>Parakeet queue, word-error comparison, speaking-rate and silence checks, and one automatic retry. Tune the thresholds on two complete books.</li>
+    <li><span class="wk">M3 · 1 week</span><b>Pronunciation lexicon and the LLM pass</b>Unknown-word detection, converting sounds-like spellings to phonemes, per-book and global lexicons, and targeted re-rendering.</li>
+    <li><span class="wk">M4 · 2–3 weeks</span><b>The SwiftUI app</b>Six screens over the same worker. Build Contents, Review and Export first; Voice and Render are thin.</li>
+    <li><span class="wk">M5 · 1 week</span><b>Packaging</b>A signed, notarized app, model downloads on first run, a Homebrew cask, and the EPUB test corpus running in CI.</li>
+  </ol>
+</section>
+
+<section class="col">
+  <h2>Settled after the first draft</h2>
+  <p>No questions are open. These four decisions came after the first version of this report.</p>
+  <ul class="qs">
+    <li><b>Narrator: female, Kokoro af_heart</b>af_bella is the alternative. Kokoro's weaker male voices are no longer a factor.</li>
+    <li><b>Chapter titles: number plus title, spoken</b>“Chapter One. The Old Sea-dog at the Admiral Benbow.” Part titles are spoken the same way (“Part One. The Old Buccaneer.”). Numbers are spelled out from the TOC, not read off the heading text.</li>
+    <li><b>Longest book in one night: about 150,000 words</b>That's roughly 16.5 hours of audio and 4.5–6.5 hours of work on this M2, by the bake-off measurements. Longer books still work, because a render that runs past morning picks up where it stopped.</li>
+    <li><b>License: Apache-2.0. Disclosure: metadata only</b>Apache-2.0 matches Kokoro and Qwen3-TTS. GPL components such as espeak-ng are downloaded separately and never bundled. The narrator tag reads “Synthetic voice (Kokoro af_heart)”, and the audio has no spoken credit.</li>
+  </ul>
+  <div class="src">
+    Sources (checked 29 Oct 2026; speeds are third-party, and base-M2 figures for Qwen3-TTS and Parakeet are extrapolated):
+    <a href="https://huggingface.co/hexgrad/Kokoro-82M">Kokoro-82M</a> ·
+    <a href="https://huggingface.co/mattmireles/kokoro-coreml">Kokoro M2 Air benchmark</a> ·
+    <a href="https://github.com/hexgrad/kokoro">kokoro / misaki pipeline</a> ·
+    <a href="https://simonwillison.net/2026/Jan/22/qwen3-tts">Qwen3-TTS release</a> ·
+    <a href="https://soniqo.audio/benchmarks">Apple Silicon TTS/ASR benchmarks</a> ·
+    <a href="https://tinycomputers.io/posts/the-real-cost-of-running-qwen-tts-locally-three-machines-compared.html">Qwen3-TTS on MPS</a> ·
+    <a href="https://huggingface.co/ResembleAI/chatterbox">Chatterbox</a> ·
+    <a href="https://pypi.org/project/chatterbox-mlx/">chatterbox-mlx</a> ·
+    <a href="https://huggingface.co/mistralai/Voxtral-4B-TTS-2603">Voxtral 4B TTS</a> ·
+    <a href="https://huggingface.co/Supertone/supertonic-2">Supertonic</a> ·
+    <a href="https://pypi.org/project/parakeet-mlx/">parakeet-mlx</a> ·
+    <a href="https://github.com/denizsafak/abogen">abogen</a> ·
+    <a href="https://github.com/santinic/audiblez">audiblez</a> ·
+    <a href="https://github.com/DrewThomasson/ebook2audiobook">ebook2audiobook</a> ·
+    <a href="https://trac.ffmpeg.org/wiki/Encode/AAC">FFmpeg AAC guide</a> ·
+    <a href="https://charleswiltgen.github.io/TagLib-Wasm/guide/chapters">M4B chapter formats</a>
+  </div>
+</section>
+
+</div>
+
+<script>
+(function(){
+  function rnd(s){return function(){s=(s*16807)%2147483647;return (s-1)/2147483646}}
+  var w=document.getElementById('wave1');
+  if(w){var r=rnd(7),h='';for(var i=0;i<150;i++){var env=Math.sin(Math.PI*i/150)*.7+.3;var v=Math.max(.08,(r()*.75+.25)*env);if(i%23<2)v=.06;var cls=(i>=60&&i<80)?'bad':(i<34?'hl':'');h+='<b class="'+cls+'" style="height:'+Math.round(v*54)+'px"></b>'}w.innerHTML=h}
+
+  var voices=[
+    ['af_heart','US female · warm, unhurried','A',true],
+    ['af_bella','US female · brighter','A−',false],
+    ['bf_emma','British female · crisp','B−',false],
+    ['am_michael','US male · relaxed','C+',false],
+    ['bm_george','British male · low, steady','C',false],
+    ['bm_fable','British male · lighter','C',false]
+  ];
+  var vg=document.getElementById('voices');
+  if(vg){vg.innerHTML=voices.map(function(v){var top=v[2].charAt(0)==='A';return '<div class="voice'+(v[3]?' on':'')+'"><div class="vn"><span class="play"></span>'+v[0]+'<span class="mtag'+(top?' g':'')+'" style="margin-left:auto">grade '+v[2]+'</span></div><div class="vd">'+v[1]+'</div></div>'}).join('')}
+
+  var ch=[
+    [9,'Powder and Arms',101,'12:31',1],[10,'The Voyage',118,'14:02',1],[11,'What I Heard in the Apple Barrel',112,'13:20',1],
+    [12,'Council of War',109,'12:58',1],[13,'How My Shore Adventure Began',115,'13:41',1],[14,'The First Blow',106,'',0.6],
+    [15,'The Man of the Island',121,'',0],[16,'How the Ship Was Abandoned',104,'',0],[17,'The Jolly-boat’s Last Trip',98,'',0],
+    [18,'End of the First Day’s Fighting',110,'',0],[19,'The Garrison in the Stockade',117,'',0]
+  ];
+  var flags={11:1};
+  var rows='<tr class="dim"><td>1–8 · The Old Sea-dog … At the Sign of the “Spy-glass”</td><td><div class="prog done"><i style="width:100%"></i></div></td><td class="r">874</td><td class="r">1:44:10</td><td class="r">874</td><td class="r">2</td></tr>';
+  rows+=ch.map(function(c){
+    var done=c[4]===1, part=c[4]>0&&c[4]<1, n=Math.round(c[2]*c[4]);
+    var chk=done?(c[0]===13?c[2]-43:c[2]):0;
+    return '<tr'+(part?' class="sel"':'')+'><td>'+c[0]+' · '+c[1]+'</td><td><div class="prog'+(done?' done':'')+'"><i style="width:'+(c[4]*100)+'%"></i></div></td><td class="r">'+(c[4]?n+' / '+c[2]:'— / '+c[2])+'</td><td class="r">'+(c[3]||(part?'7:58':'—'))+'</td><td class="r">'+(c[4]?chk:'—')+'</td><td class="r">'+(flags[c[0]]||(done?'0':'—'))+'</td></tr>';
+  }).join('');
+  var rr=document.getElementById('render-rows'); if(rr) rr.innerHTML=rows;
+})();
+</script>
