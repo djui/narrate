@@ -10,15 +10,20 @@ struct NarrateApp: App {
             RootView(app: AppState.shared)
                 .frame(minWidth: 860, minHeight: 520)
         }
-        // Always open the window at launch. Without this, a launch that macOS treats as a
-        // restore (after a crash or kill, or from a background `open`) can come up with no window.
-        .defaultLaunchBehavior(.presented)
         .restorationBehavior(.disabled)
-        .commands {
-            CommandGroup(replacing: .newItem) {
-                Button("Open EPUB or Project…") { AppState.shared.choose() }
-                    .keyboardShortcut("o")
-            }
+        .commands { FileCommands() }
+    }
+}
+
+struct FileCommands: Commands {
+    @Environment(\.openWindow) private var openWindow
+
+    var body: some Commands {
+        // Commands exist from launch, before any window: the delegate opens the window through this.
+        let _ = AppState.shared.showWindow = { openWindow(id: "main") }
+        CommandGroup(replacing: .newItem) {
+            Button("Open EPUB or Project…") { AppState.shared.choose() }
+                .keyboardShortcut("o")
         }
     }
 }
@@ -28,9 +33,25 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         // Run from `swift run` (no bundle), the process starts as a background tool; make it a normal app.
         NSApp.setActivationPolicy(.regular)
         NSApp.activate()
-        // `NarrateApp path/to/book.epub` (or a .narrate folder) opens it straight away.
-        if let path = CommandLine.arguments.dropFirst().first(where: { !$0.hasPrefix("-") }) {
-            MainActor.assumeIsolated { AppState.shared.open(URL(fileURLWithPath: path)) }
+        // A book to open at launch (`NarrateApp book.epub`, Finder, the Dock icon) arrives through
+        // application(_:open:), and SwiftUI then skips its own window, so make sure there is one.
+        DispatchQueue.main.async {
+            MainActor.assumeIsolated {
+                // AppKit hands file arguments to application(_:open:), but not folders such as BOOK.narrate.
+                let app = AppState.shared
+                if app.book == nil, !app.opening, let path = CommandLine.arguments.dropFirst().first(where: { !$0.hasPrefix("-") }) {
+                    app.open(URL(fileURLWithPath: path))
+                }
+                if !NSApp.windows.contains(where: { $0.isVisible && $0.canBecomeMain }) { AppState.shared.showWindow?() }
+            }
+        }
+    }
+
+    func application(_ application: NSApplication, open urls: [URL]) {
+        guard let url = urls.first else { return }
+        MainActor.assumeIsolated {
+            AppState.shared.open(url)
+            AppState.shared.showWindow?()
         }
     }
 

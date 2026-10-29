@@ -42,6 +42,9 @@ struct WordsView: View {
                         }
                     }
                 }
+            } else if book.isRendering {
+                ContentUnavailableView("Rendering", systemImage: "hourglass",
+                                       description: Text("The word list is made once the render finishes."))
             } else {
                 ProgressView("Listing words…").frame(maxWidth: .infinity, maxHeight: .infinity)
             }
@@ -50,6 +53,7 @@ struct WordsView: View {
             entries.padding(10)
         }
         .onAppear { if book.unknownWords == nil { book.listWords() } }
+        .onChange(of: book.isRendering) { if !book.isRendering, book.unknownWords == nil { book.listWords() } }
     }
 
     private var summary: String {

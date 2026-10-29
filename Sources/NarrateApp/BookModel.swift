@@ -70,6 +70,19 @@ actor ToneEngine: SpeechEngine {
     }
 }
 
+/// One Misaki G2P for the whole app, used by one caller at a time. Misaki's fallback network runs
+/// on MLX, which isn't safe to drive from two threads at once; listing words in the background while
+/// the main thread resolved a lexicon entry could otherwise hang.
+final class SharedPhonemizer: Phonemizer, @unchecked Sendable {
+    private let lock = NSLock()
+    private let base: MisakiPhonemizer
+
+    init(voice: String) { base = MisakiPhonemizer(voice: voice) }
+
+    func phonemes(_ text: String) -> String { lock.withLock { base.phonemes(text) } }
+    func unknownWords(_ text: String) -> [(word: String, guess: String)] { lock.withLock { base.unknownWords(text) } }
+}
+
 /// Lets a render stop between chunks and reports each synthesized chunk.
 struct ObservedEngine: SpeechEngine {
     let base: SpeechEngine
@@ -92,6 +105,8 @@ struct ObservedEngine: SpeechEngine {
 
     var book: BookModel?
     var opening = false
+    /// Opens (or brings back) the main window; set by the app's commands.
+    @ObservationIgnored var showWindow: (() -> Void)?
     var error: String?
     let engine = makeEngine()
 
@@ -148,6 +163,7 @@ struct ObservedEngine: SpeechEngine {
 
     /// Words the G2P has to guess (nil until listed), and the lexicons that set how words sound.
     var unknownWords: [Lexicon.UnknownWord]?
+    var listingWords = false
     var bookLexicon = Lexicon()
     var globalLexicon = Lexicon()
 
@@ -273,11 +289,11 @@ struct ObservedEngine: SpeechEngine {
         lastRefresh = Date()
     }
 
-    /// Misaki's G2P, loaded on first use. Main-actor only; background work makes its own.
-    @ObservationIgnored private var _phonemizer: MisakiPhonemizer?
-    var phonemizer: MisakiPhonemizer {
+    /// Misaki's G2P, loaded on first use and shared with background work.
+    @ObservationIgnored private var _phonemizer: SharedPhonemizer?
+    var phonemizer: SharedPhonemizer {
         if let _phonemizer { return _phonemizer }
-        let made = MisakiPhonemizer(voice: voice)
+        let made = SharedPhonemizer(voice: voice)
         _phonemizer = made
         return made
     }
@@ -298,14 +314,14 @@ struct ObservedEngine: SpeechEngine {
         }.count
         renderStart = Date()
         let engine = ObservedEngine(base: engine) { [weak self] in Task { @MainActor in self?.chunkFinished() } }
-        let (project, voice, speed) = (project, voice, speed)
+        let (project, voice, speed, phonemizer) = (project, voice, speed, phonemizer)
         let log: @Sendable (String) -> Void = { [weak self] line in Task { @MainActor in self?.renderLog.append(line) } }
         renderTask = Task {
             // Keep the Mac awake while rendering; the assertion ends with the task.
             let activity = ProcessInfo.processInfo.beginActivity(options: [.idleSystemSleepDisabled, .userInitiated], reason: "Rendering audiobook")
             defer { ProcessInfo.processInfo.endActivity(activity) }
             do {
-                let stats = try await Self.render(project, engine: engine, voice: voice, speed: speed, sections: sections, log: log)
+                let stats = try await Self.render(project, engine: engine, voice: voice, speed: speed, sections: sections, phonemizer: phonemizer, log: log)
                 renderLog.append(String(format: "Done: %d chunks rendered, %.1f min of audio in %.1f min; %d flagged for Review.",
                                         stats.rendered, stats.audioSeconds / 60, stats.elapsedSeconds / 60, stats.flagged))
             } catch is CancellationError {
@@ -320,9 +336,9 @@ struct ObservedEngine: SpeechEngine {
     }
 
     nonisolated private static func render(_ project: Project, engine: SpeechEngine, voice: String, speed: Double, sections: Set<Int>?,
-                                           log: @escaping @Sendable (String) -> Void) async throws -> Renderer.Stats {
+                                           phonemizer: SharedPhonemizer, log: @escaping @Sendable (String) -> Void) async throws -> Renderer.Stats {
         try await Renderer.render(project, engine: engine, voice: voice, speed: speed, sections: sections,
-                                  phonemizer: MisakiPhonemizer(voice: voice), log: log)
+                                  phonemizer: phonemizer, log: log)
     }
 
     func cancelRender() { renderTask?.cancel() }

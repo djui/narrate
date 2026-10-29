@@ -133,11 +133,15 @@ extension BookModel {
     // MARK: Words
 
     /// List the words Kokoro's G2P has to guess, most frequent first (`narrate words`).
+    /// Waits for a render to finish: Kokoro runs its own copy of Misaki while it renders.
     func listWords() {
-        let (planned, voice) = (planned, voice)
+        guard !isRendering, !listingWords else { return }
+        listingWords = true
+        let (planned, phonemizer) = (planned, phonemizer)
         Task {
+            defer { listingWords = false }
             unknownWords = await Task.detached {
-                Lexicon.unknownWords(planned, phonemizer: MisakiPhonemizer(voice: voice))
+                Lexicon.unknownWords(planned, phonemizer: phonemizer)
             }.value
         }
     }
