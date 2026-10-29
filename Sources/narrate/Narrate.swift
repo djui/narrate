@@ -53,9 +53,9 @@ func render(_ project: Project, voice: VoiceOptions, sections: Set<Int>?, rechec
                                   phonemizer: MisakiPhonemizer(voice: voice.voice), recheck: recheck)
 }
 
-func export(_ project: Project) throws {
+func export(_ project: Project) async throws {
     let out = try Assembler.export(project)
-    let info = try Assembler.probe(out)
+    let info = try await Assembler.probe(out)
     print(String(format: "%.2f h · %d chapters · ", info.duration / 3600, info.chapters.count) + "\(info.audio) · cover: \(info.cover ? "yes" : "no")")
 }
 
@@ -244,11 +244,11 @@ struct Words: ParsableCommand {
     }
 }
 
-struct Export: ParsableCommand {
+struct Export: AsyncParsableCommand {
     static let configuration = CommandConfiguration(abstract: "Build the M4B from rendered audio.")
     @Argument var project: String
 
-    func run() throws { try export(try openProject(project)) }
+    func run() async throws { try await export(try openProject(project)) }
 }
 
 struct Build: AsyncParsableCommand {
@@ -263,6 +263,6 @@ struct Build: AsyncParsableCommand {
         var p = Project(root: root)
         if !p.exists { p = try Project.ingest(epub: epubURL, root: root) }
         try await render(p, voice: voice, sections: nil)
-        try export(p)
+        try await export(p)
     }
 }

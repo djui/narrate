@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Tools
-        run: brew install ffmpeg uv
+        run: brew install ffmpeg uv  # ffmpeg only for the Python reference's export test
       - uses: actions/cache@v4
         with:
           path: .build
