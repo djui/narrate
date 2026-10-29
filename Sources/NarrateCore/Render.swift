@@ -44,7 +44,7 @@ public enum Renderer {
     }
 
     public static func planned(_ project: Project, _ settings: Project.Settings, lexicon: Lexicon? = nil) throws -> [Planned] {
-        let lexicon = try lexicon ?? Lexicon.load(project)
+        let lexicon = try lexicon ?? Lexicon.merged(project)
         return try Chunker.plan(project.loadBook()).map {
             let text = try lexicon.apply($0.text)
             return Planned(chunk: $0, text: text, key: key(engineID: settings.engineID, voice: settings.voice, speed: settings.speed, text: text))
@@ -104,11 +104,13 @@ public enum Renderer {
         }
     }
 
-    /// Fill in phonemes for new lexicon entries, so planning can apply them.
+    /// Fill in phonemes for new entries in the book's and the global lexicon, so planning can apply them.
     public static func resolveLexicon(_ project: Project, phonemizer: Phonemizer) throws -> Lexicon {
-        var lexicon = try Lexicon.load(project)
-        if lexicon.resolve(with: phonemizer) { try lexicon.save(project) }
-        return lexicon
+        for url in [Lexicon.globalURL, project.lexiconURL] {
+            var lexicon = try Lexicon.load(url)
+            if lexicon.resolve(with: phonemizer) { try lexicon.save(url) }
+        }
+        return try Lexicon.merged(project)
     }
 
     /// Render missing chunks. With `recheck`, chunks already in the cache are checked too, and

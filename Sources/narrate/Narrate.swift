@@ -185,40 +185,54 @@ func excerpt(_ text: String, around word: String, width: Int = 90) -> String {
 struct Words: ParsableCommand {
     static let configuration = CommandConfiguration(
         abstract: "List words Kokoro's G2P has to guess, and set how they sound.",
-        discussion: "Entries live in PROJECT/lexicon.json as word → sounds-like spelling (\"Liv-see\") or IPA between slashes (\"/lˈɪvsi/\"). Changing one re-renders only the chunks that contain the word."
+        discussion: """
+            Entries live in PROJECT/lexicon.json, or with --global in \(Lexicon.globalURL.path) for every book, as \
+            word → sounds-like spelling ("Liv-see") or IPA between slashes ("/lˈɪvsi/"). A book's entry wins over a \
+            global one. Changing one re-renders only the chunks that contain the word.
+            """
     )
     @Argument var project: String
     @Option(help: "How many words to list") var limit = 50
     @Option(name: .customLong("set"), help: "WORD=SOUNDS-LIKE, e.g. Livesey=Liv-see (repeatable)") var entries: [String] = []
     @Option(help: "Remove a lexicon entry (repeatable)") var remove: [String] = []
+    @Flag(help: "Edit the global lexicon instead of the book's") var global = false
 
     func run() throws {
         let p = try openProject(project)
         let voice = try p.loadSettings()?.voice ?? EngineDefaults.voice
-        let g2p = MisakiPhonemizer(voice: voice)
-        var lexicon = try Lexicon.load(p)
-        for word in remove { lexicon.entries[word] = nil }
-        for entry in entries {
-            let parts = entry.split(separator: "=", maxSplits: 1).map { $0.trimmingCharacters(in: .whitespaces) }
-            guard parts.count == 2, !parts[0].isEmpty, !parts[1].isEmpty else { throw ValidationError("expected WORD=SOUNDS-LIKE, got \(entry)") }
-            lexicon.entries[parts[0]] = Lexicon.Entry(say: parts[1])
-        }
-        if lexicon.resolve(with: g2p) || !remove.isEmpty || !entries.isEmpty { try lexicon.save(p) }
-        for word in remove + entries.map({ String($0.split(separator: "=")[0]) }) {
-            let one = Lexicon(lexicon.entries.filter { $0.key == word })
-            let affected = try Chunker.plan(p.loadBook()).filter { try one.apply($0.text) != $0.text }.count
-            let phonemes = lexicon.entries[word]?.phonemes.map { "/\($0)/" } ?? "removed"
-            print("\(word) → \(phonemes) · \(affected) chunks to re-render")
-        }
-        if !remove.isEmpty || !entries.isEmpty { return }
-
-        let book = try p.loadBook()
         let settings = try p.loadSettings() ?? Project.Settings(voice: voice, speed: EngineDefaults.speed, engineID: "", sampleRate: 24000)
-        let words = Lexicon.unknownWords(try Renderer.planned(p, settings, lexicon: lexicon), phonemizer: g2p)
+        let g2p = MisakiPhonemizer(voice: voice)
+        let book = try p.loadBook()
+
+        if !remove.isEmpty || !entries.isEmpty {
+            let before = try Renderer.planned(p, settings, lexicon: Renderer.resolveLexicon(p, phonemizer: g2p))
+            let url = global ? Lexicon.globalURL : p.lexiconURL
+            var lexicon = try Lexicon.load(url)
+            for word in remove {
+                guard lexicon.entries.removeValue(forKey: word) != nil else { throw ValidationError("\(word) is not in \(url.path)") }
+            }
+            for entry in entries {
+                let parts = entry.split(separator: "=", maxSplits: 1).map { $0.trimmingCharacters(in: .whitespaces) }
+                guard parts.count == 2, !parts[0].isEmpty, !parts[1].isEmpty else { throw ValidationError("expected WORD=SOUNDS-LIKE, got \(entry)") }
+                lexicon.entries[parts[0]] = Lexicon.Entry(say: parts[1])
+            }
+            lexicon.resolve(with: g2p)
+            try lexicon.save(url)
+            for word in remove { print("\(word) removed") }
+            for entry in entries {
+                let word = String(entry.split(separator: "=")[0]).trimmingCharacters(in: .whitespaces)
+                print("\(word) → /\(lexicon.entries[word]?.phonemes ?? "")/")
+            }
+            let after = try Renderer.planned(p, settings)
+            print("\(zip(before, after).filter { $0.key != $1.key }.count) chunks to re-render in \(book.title)")
+            return
+        }
+
+        let words = Lexicon.unknownWords(try Renderer.planned(p, settings, lexicon: Renderer.resolveLexicon(p, phonemizer: g2p)), phonemizer: g2p)
         for w in words.prefix(limit) {
             print("\(String(format: "%4d", w.count))  \(w.word.padding(toLength: 16, withPad: " ", startingAt: 0)) /\(w.guess)/  § \(w.section): \(excerpt(w.example, around: w.word))")
         }
-        print("\(words.count) words guessed; \(lexicon.entries.count) in lexicon.json")
+        print("\(words.count) words guessed; \(try Lexicon.load(p).entries.count) in the book's lexicon, \(try Lexicon.load(Lexicon.globalURL).entries.count) global")
     }
 }
 

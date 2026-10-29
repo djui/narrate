@@ -26,7 +26,7 @@ public final class MisakiPhonemizer: Phonemizer {
     }
 }
 
-/// Per-book pronunciations in `lexicon.json`: word → "sounds like" respelling (`"Liv-see"`), or
+/// Pronunciations in `lexicon.json`, per book and global (the book's entries win): word → "sounds like" respelling (`"Liv-see"`), or
 /// IPA between slashes (`"/lˈɪvsi/"`). Each entry is spoken through Misaki's
 /// `[word](/phonemes/)` markup, so the chunk text, and with it the cache key, changes only for
 /// chunks that contain the word.
@@ -55,14 +55,31 @@ public struct Lexicon: Equatable, Sendable {
 
     public init(_ entries: [String: Entry] = [:]) { self.entries = entries }
 
-    public static func load(_ project: Project) throws -> Lexicon {
-        guard FileManager.default.fileExists(atPath: project.lexiconURL.path) else { return Lexicon() }
-        return Lexicon(try JSONDecoder().decode([String: Entry].self, from: Data(contentsOf: project.lexiconURL)))
+    /// Entries shared by every book, for names and dialect that recur across them.
+    nonisolated(unsafe) public static var globalURL = FileManager.default.homeDirectoryForCurrentUser
+        .appendingPathComponent("Library/Application Support/narrate/lexicon.json")
+
+    public static func load(_ url: URL) throws -> Lexicon {
+        guard FileManager.default.fileExists(atPath: url.path) else { return Lexicon() }
+        return Lexicon(try JSONDecoder().decode([String: Entry].self, from: Data(contentsOf: url)))
     }
 
-    public func save(_ project: Project) throws {
-        try writeJSON(entries, to: project.lexiconURL)
+    /// The book's own entries.
+    public static func load(_ project: Project) throws -> Lexicon { try load(project.lexiconURL) }
+
+    /// What a book is spoken with: the global entries, overridden by the book's (whatever the case).
+    public static func merged(_ project: Project) throws -> Lexicon {
+        let book = try load(project)
+        let own = Set(book.entries.keys.map { $0.lowercased() })
+        return Lexicon(try load(globalURL).entries.filter { !own.contains($0.key.lowercased()) }.merging(book.entries) { _, b in b })
     }
+
+    public func save(_ url: URL) throws {
+        try FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
+        try writeJSON(entries, to: url)
+    }
+
+    public func save(_ project: Project) throws { try save(project.lexiconURL) }
 
     public enum Failure: Error, CustomStringConvertible {
         case unresolved([String])

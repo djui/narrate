@@ -52,11 +52,14 @@ with a respelling, or IPA between slashes:
 .build/release/narrate words treasure-island.narrate --limit 30
 .build/release/narrate words treasure-island.narrate --set Livesey=Liv-see --set "Gunn=/ɡˈʌn/"
 .build/release/narrate words treasure-island.narrate --remove Gunn
+.build/release/narrate words treasure-island.narrate --global --set Smollett=Smaw-let  # for every book
 .build/release/narrate render treasure-island.narrate          # re-renders only chunks with those words
 ```
 
 Entries are kept in `lexicon.json` (word → respelling, plus the phonemes made from it; a plain
-`"Livesey": "Liv-see"` written by hand is filled in on the next `words` or `render`). They match
+`"Livesey": "Liv-see"` written by hand is filled in on the next `words` or `render`). Entries
+for every book go in `~/Library/Application Support/narrate/lexicon.json` (`--global`); a book's
+own entry for the same word wins. They match
 whole words in any case and are spoken through Misaki's `[word](/phonemes/)` markup, so only
 chunks containing the word get a new cache key.
 

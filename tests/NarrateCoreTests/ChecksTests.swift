@@ -44,7 +44,16 @@ final class FakePhonemizer: Phonemizer {
     }
 }
 
+/// Keep the user's own global lexicon out of every test in the process (suites run in name order,
+/// so this is set before PipelineTests too).
+let testGlobalLexicon: URL = {
+    let url = FileManager.default.temporaryDirectory.appendingPathComponent("narrate-tests-\(UUID().uuidString)/lexicon.json")
+    Lexicon.globalURL = url
+    return url
+}()
+
 final class ChecksTests: XCTestCase {
+    override class func setUp() { _ = testGlobalLexicon }
     let text = "Fifteen men on the dead man's chest, and a bottle of rum for them all."
 
     func reasons(_ audio: [Float], _ text: String? = nil) -> [String] {
@@ -130,6 +139,9 @@ final class ChecksTests: XCTestCase {
 }
 
 final class LexiconTests: XCTestCase {
+    override func setUp() { try? FileManager.default.removeItem(at: testGlobalLexicon) }
+    override func tearDown() { try? FileManager.default.removeItem(at: testGlobalLexicon) }
+
     func resolved(_ entries: [String: String]) -> Lexicon {
         var lexicon = Lexicon(entries.mapValues { Lexicon.Entry(say: $0) })
         lexicon.resolve(with: FakePhonemizer())
@@ -181,6 +193,30 @@ final class LexiconTests: XCTestCase {
         try Data(#"{"Livesey": "Liv-sey"}"#.utf8).write(to: project.lexiconURL)
         let third = try await Renderer.render(project, engine: RateEngine(), voice: "af_heart", speed: 1, phonemizer: g2p, log: { _ in })
         XCTAssertEqual(third.rendered, withWord)
+    }
+
+    func testGlobalEntriesApplyUnlessTheBookHasItsOwn() async throws {
+        let dir = try Fixture.tempDir()
+        let project = try Project.ingest(epub: Fixture.epub(in: dir), root: dir.appendingPathComponent("book.narrate"))
+        try Lexicon(["Livesey": .init(say: "Lie-vsey"), "Captain": .init(say: "Cap-n")]).save(testGlobalLexicon)
+        try Data(#"{"livesey": "Liv-see"}"#.utf8).write(to: project.lexiconURL)
+
+        let g2p = FakePhonemizer()
+        let engine = RateEngine()
+        _ = try await Renderer.render(project, engine: engine, voice: "af_heart", speed: 1, phonemizer: g2p, log: { _ in })
+        // Both files got their phonemes filled in.
+        XCTAssertEqual(try Lexicon.load(testGlobalLexicon).entries["Captain"]?.phonemes, "capn")
+        XCTAssertEqual(try Lexicon.load(project).entries["livesey"]?.phonemes, "liβsee")
+        let text = await engine.texts.joined(separator: " ")
+        XCTAssertTrue(text.contains("[Livesey](/liβsee/)"))
+        XCTAssertFalse(text.contains("lieβsey"))
+        XCTAssertTrue(text.contains("[captain](/capn/)"))
+
+        // A global edit re-renders the chunks that use it, in every book.
+        try Lexicon(["Livesey": .init(say: "Lie-vsey"), "Captain": .init(say: "Cap-tin")]).save(testGlobalLexicon)
+        let captain = Chunker.plan(try project.loadBook()).filter { $0.text.localizedCaseInsensitiveContains("captain") }.count
+        let again = try await Renderer.render(project, engine: RateEngine(), voice: "af_heart", speed: 1, phonemizer: g2p, log: { _ in })
+        XCTAssertEqual(again.rendered, captain)
     }
 
     func testUnknownWordsRankedByFrequencyWithFirstExample() throws {
