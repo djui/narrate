@@ -29,6 +29,8 @@ def test_roman():
         ("rum, gold, etc. Then", "rum, gold, et cetera. Then"),
         ("a--b", "a—b"),
         ("[Illustration: the ship] It sailed.", "It sailed."),
+        ("‘B3056,’ says Steve. ‘Through Lyndhurst, A337, M27, A31.’", "‘B three oh five six,’ says Steve. ‘Through Lyndhurst, A three three seven, M twenty-seven, A thirty-one.’"),
+        ("B12 and C3PO and X-15", "B twelve and C3PO and X-15"),
     ],
 )
 def test_normalize(raw, spoken):

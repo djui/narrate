@@ -25,6 +25,17 @@ public enum Normalizer {
     private static let shouted = Pattern("\\b[A-Z][A-Z’']{3,}\\b")
     private static let numberRange = Pattern("(?<=\\d)\\s*–\\s*(?=\\d)")
     private static let markup = Pattern("[*_#|<>{}\\[\\]]")
+    // Road, vitamin and similar codes: "A337", "M27", "B12". Misaki reads a lone capital by its name.
+    private static let letterCode = Pattern("(?<![\\w-])([A-Z])(\\d{1,4})(?![\\w-])")
+    private static let digitNames = ["oh", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"]
+
+    /// "M27" → "M twenty-seven"; three or more digits, or a leading zero, digit by digit: "B3056" → "B three oh five six".
+    static func letterCode(_ letter: String, _ digits: String) -> String {
+        let spoken = digits.count <= 2 && !digits.hasPrefix("0")
+            ? NumberWords.words(Int(digits)!)
+            : digits.map { digitNames[Int(String($0))!] }.joined(separator: " ")
+        return "\(letter) \(spoken)"
+    }
 
     public static func normalize(_ input: String) -> String {
         var text = editorial.replacing(in: input, with: "")
@@ -32,6 +43,7 @@ public enum Normalizer {
             .replacingOccurrences(of: "...", with: "…")
             .replacingOccurrences(of: "&", with: " and ")
         text = numberRange.replacing(in: text, with: " to ")
+        text = letterCode.replacing(in: text) { letterCode($0[1]!, $0[2]!) }
         text = redactedYear.replacing(in: text) { "\(NumberWords.words(Int($0[1]!)!)) hundred and blank" }
         text = titleRe.replacing(in: text) { titles[$0[1]!]! }
         text = suffixRe.replacing(in: text) { $0[1] == "Jr" ? "Junior" : "Senior" }

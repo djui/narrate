@@ -28,6 +28,17 @@ _LATIN = [
 _REDACTED_YEAR = re.compile(r"\b(1\d)(?:—|_{2,}|-{2,})(?=[\s,.;:!?”’\"]|$)")
 _EDITORIAL = re.compile(r"\[(?:illustration|footnote|sidenote|transcriber)[^\]]*\]|\[\d+\]", re.IGNORECASE)
 _SHOUTED = re.compile(r"\b[A-Z][A-Z’']{3,}\b")
+# Road, vitamin and similar codes: "A337", "M27", "B12". Misaki reads a lone capital by its name.
+_LETTER_CODE = re.compile(r"(?<![\w-])([A-Z])(\d{1,4})(?![\w-])")
+_DIGIT_NAMES = ["oh", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"]
+
+
+def _letter_code(m: re.Match) -> str:
+    """"M27" → "M twenty-seven"; three or more digits, or a leading zero, digit by digit: "B3056" → "B three oh five six"."""
+    letter, digits = m.group(1), m.group(2)
+    if len(digits) <= 2 and not digits.startswith("0"):
+        return f"{letter} {number_to_words(int(digits))}"
+    return f"{letter} " + " ".join(_DIGIT_NAMES[int(d)] for d in digits)
 
 
 def _shouted(m: re.Match) -> str:
@@ -39,6 +50,7 @@ def normalize(text: str) -> str:
     text = _EDITORIAL.sub("", text)
     text = text.replace("--", "—").replace("...", "…").replace("&", " and ")
     text = re.sub(r"(?<=\d)\s*–\s*(?=\d)", " to ", text)
+    text = _LETTER_CODE.sub(_letter_code, text)
     text = _REDACTED_YEAR.sub(lambda m: f"{number_to_words(int(m.group(1)))} hundred and blank", text)
     text = _TITLE_RE.sub(lambda m: _TITLES[m.group(1)], text)
     text = _SUFFIX_RE.sub(lambda m: "Junior" if m.group(1) == "Jr" else "Senior", text)
